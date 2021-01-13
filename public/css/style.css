@@ -7,6 +7,6 @@ form button { width: 9%; background: rgb(70, 70, 70); border: none; padding: 10p
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background: #eee; }
 
-header {border: 1px solid red;padding: 15px;}
-menu {width: 25%; float: left; padding: 15px; border: 1px solid red;}
-main {width: 75%; float: left; padding: 15px; border: 1px solid red;}
+dheader {border: 1px solid red;padding: 15px;}
+dmenu {width: 25%; float: left; padding: 15px; border: 1px solid red;}
+dmain {width: 75%; float: left; padding: 15px; border: 1px solid red;}

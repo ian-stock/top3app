@@ -10,9 +10,15 @@ http.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
+//functions - newgame, joingame, startgame, submitanswer, revealanswer
+
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-    console.log('emit message: ' + msg);
+  socket.on('chat', function(msg){
+    io.emit('chat', msg);
+    console.log('socket emit: ' + msg);
+  });
+  socket.onAny((event, data) => {
+    console.log(`got ${event}`);
   });
 });
+

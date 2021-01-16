@@ -9,16 +9,17 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>    
 
 <script>
+
     $(function () {
       var socket = io();
       $('form').submit(function(e){
         e.preventDefault(); // prevents page reloading
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
+        socket.emit('message', JSON.stringify($('form').serializeArray()));
+        $('#top3').val();
         return false;
       });
-      socket.on('chat message', function(msg){
-        $('#messages').prepend($('<li>').text(msg));
+      socket.on('message', function(msg){
+          $('#divmain').append($('<div class="flip-card"></div>').text(msg)); 
       });
     });
   </script>
@@ -31,18 +32,35 @@
   Welcome to Top3
 </div>
 <div class="dmenu">
+  <h3>Suggested Favourite Topics</h3>
   <ul>
-    <li>The Flight</li>
-    <li>The City</li>
-    <li>The Island</li>
-    <li>The Food</li>
+    <li>Bands/Albums</li>
+    <li>Movies</li>
+    <li>Books</li>
+    <li>Meals</li>
+    <li>Drinks</li>
+    <li>Jobs</li>
+    <li>Games</li>
+    <li>Things to do</li>
+    <li>Holidays</li>
   </ul>
 </div>
-<div class="dmain">
-    <ul id="messages"></ul>
+<div class="dmain" id="divmain">
+  <!-- flip cards get generated in here -->
+</div>
+<div class="dsub">
+  <h3>Sub</h3>
     <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
+        <!-- <input id="m" autocomplete="off" /> -->
+        <input name="user" autocomplete="off" value="Ian" placeholder="Name">
+        <input name="top1" autocomplete="off" value="1" placeholder="Top 1">
+        <input name="top2" autocomplete="off" value="2" placeholder="Top 2">
+        <input name="top3" autocomplete="off" value="3" placeholder="Top 3">
+        <button>Send</button>
     </form>
+  </div>
+  <div class="dfoot">
+    <h3>Footer</h3>
   </div>
 </body>
 

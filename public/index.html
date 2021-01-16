@@ -10,18 +10,61 @@
 
 <script>
 
+    //submit answer
     $(function () {
       var socket = io();
       $('form').submit(function(e){
         e.preventDefault(); // prevents page reloading
-        socket.emit('message', JSON.stringify($('form').serializeArray()));
-        $('#top3').val();
+        //gen answerId on submit
+        var ansId = Math.random();
+        $("<input />").attr("type", "hidden") .attr("name", "answerId") .attr("value", ansId) .appendTo('form');
+        socket.emit('submitanswer', JSON.stringify($('form').serializeArray()));
+        document.getElementById("submitBtn").disabled = true;
         return false;
       });
-      socket.on('message', function(msg){
-          $('#divmain').append($('<div class="flip-card"></div>').text(msg)); 
+      socket.on('submitanswer', function(msg){
+          $('#divmain').append($('<div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front">' + 
+            '<button type="button" class=cardBtn id="showAnswerBtn" onClick="showAnswer()">Show</button></div>' + 
+            '<div class="flip-card-back">' + 
+              '<button type="button" class=cardBtn id="revealAnswerBtn" onClick="revealAnswer()">Reveal</button>' + 
+              msg + '</div></div></div>')); 
+          
+      });
+      socket.on('startgame', function(msg){
+          document.getElementById("submitBtn").disabled = false;
       });
     });
+
+    var gameId;
+
+    function newGame(){
+      gameId = Math.floor(Math.random()*100000);
+      //$('.dmenu').append('<h3>GameId: ' + gameId + '</h3>'); 
+      document.getElementById("gID").value = gameId;
+      var socket = io();
+      socket.emit('newgame');
+    }
+    function startGame(){
+      var socket = io();
+      socket.emit('startgame', gameId);
+    }
+    function joinGame(){
+      gameId = document.getElementById("gID").value;
+      var socket = io();
+      socket.emit('joingame', gameId);
+    }
+    function leaveGame(){
+      var socket = io();
+      socket.emit('leavegame', gameId);
+      document.getElementById("gID").value = "";
+      document.getElementById("submitBtn").disabled = true;
+      //clear grid too...
+    }
+    function revealAnswer(){
+      var socket = io();
+      socket.emit('revealanswer', answerId);
+    }
+
   </script>
 
 <body>
@@ -44,6 +87,11 @@
     <li>Things to do</li>
     <li>Holidays</li>
   </ul>
+  <button type="button" id="newGBtn" onClick = "newGame()">New Game</button>
+  <button type="button" id="startGBtn" onClick = "startGame()">Start Game</button>
+  <h3>GameId: </h3> <input id="gID">
+  <button type="button" id="joinGBtn" onClick = "joinGame()">Join Game</button>
+  <button type="button" id="leaveGBtn" onClick = "leaveGame()">Leave Game</button>
 </div>
 <div class="dmain" id="divmain">
   <!-- flip cards get generated in here -->
@@ -52,11 +100,12 @@
   <h3>Sub</h3>
     <form action="">
         <!-- <input id="m" autocomplete="off" /> -->
-        <input name="user" autocomplete="off" value="Ian" placeholder="Name">
-        <input name="top1" autocomplete="off" value="1" placeholder="Top 1">
-        <input name="top2" autocomplete="off" value="2" placeholder="Top 2">
-        <input name="top3" autocomplete="off" value="3" placeholder="Top 3">
-        <button>Send</button>
+        <!-- <label for="user">User</label> -->
+        <input name="user" id="user" autocomplete="off" value="Ian" placeholder="Name">
+        <input name="top1" id="top1" autocomplete="off" value="1" placeholder="Top 1">
+        <input name="top2" id="top2" autocomplete="off" value="2" placeholder="Top 2">
+        <input name="top3" id="top3" autocomplete="off" value="3" placeholder="Top 3">
+        <button id="submitBtn" disabled>Submit Top3</button>
     </form>
   </div>
   <div class="dfoot">

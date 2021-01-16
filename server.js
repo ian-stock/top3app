@@ -13,12 +13,10 @@ http.listen(port, function(){
 //functions - newgame, joingame, startgame, submitanswer, revealanswer
 
 io.on('connection', function(socket){
-  socket.on('chat', function(msg){
-    io.emit('chat', msg);
-    console.log('socket emit: ' + msg);
-  });
+
   socket.onAny((event, data) => {
-    console.log(`got ${event}`);
+    io.emit(event, data);
+    console.log('emit: ' + event + " | " + data);
   });
 });
 

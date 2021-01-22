@@ -15,8 +15,26 @@ http.listen(port, function(){
 io.on('connection', function(socket){
 
   socket.onAny((event, data) => {
-    io.emit(event, data);
-    console.log('emit: ' + event + " | " + data);
+    switch (event) {
+      case 'joingame': 
+        //socket.join(data);
+        console.log(socket.rooms)
+        console.log('emit: ' + event + " | " + data);
+        break;
+      case 'joingame': 
+        //socket.join(data);
+        console.log(socket.rooms)
+        console.log('emit: ' + event + " | " + data);
+        break;
+      case 'showanswers': 
+        //io.to(data[0]).emit(event, data);
+        io.emit(event, data);
+        console.log('emit: ' + event + " | " + data.toString());
+      default: 
+        //io.to(data[0]).emit(event, data);
+        io.emit(event, data);
+        console.log('emit: ' + event + " | " + data);
+    }
   });
 });
 

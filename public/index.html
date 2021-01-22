@@ -7,7 +7,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>    
-
+<script src="/constants.js"></script>
 <script>
 
     //submit answer
@@ -16,33 +16,53 @@
       $('form').submit(function(e){
         e.preventDefault(); // prevents page reloading
         //gen answerId on submit
-        var ansId = Math.random();
+        var ansId = Math.floor(Math.random()*1000000);
         $("<input />").attr("type", "hidden") .attr("name", "answerId") .attr("value", ansId) .appendTo('form');
-        socket.emit('submitanswer', JSON.stringify($('form').serializeArray()));
-        document.getElementById("submitBtn").disabled = true;
+
+        //serialize form data to json (without name/value keys)
+        var formvalues = {};
+        $.each($("form").serializeArray(), function (i, field) {
+            formvalues[field.name] = field.value;
+        });
+        socket.emit('submitanswer', formvalues);
+        //document.getElementById("submitBtn").disabled = true;
         return false;
       });
+
       socket.on('submitanswer', function(msg){
-          $('#divmain').append($('<div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front">' + 
-            '<button type="button" class=cardBtn id="showAnswerBtn" onClick="showAnswer()">Show</button></div>' + 
-            '<div class="flip-card-back">' + 
-              '<button type="button" class=cardBtn id="revealAnswerBtn" onClick="revealAnswer()">Reveal</button>' + 
-              msg + '</div></div></div>')); 
-          
+          $('#divmain').append($(cardHTML1 + cardHTML2 + cardHTML3 + msg.user + cardHTML4)); 
+          document.getElementById("actable").rows[0].cells[1].innerHTML = msg.top1;
+          document.getElementById("actable").rows[1].cells[1].innerHTML = msg.top2;
+          document.getElementById("actable").rows[2].cells[1].innerHTML = msg.top3;
+          document.getElementById("actable").setAttribute("id", "actable" +msg.answerId);
+          document.getElementById("acname").setAttribute("id", "acname" +msg.answerId);
+          document.getElementById("acshowbtn").setAttribute("id", "acshowbtn" +msg.answerId);
+          document.getElementById("acrevealbtn").setAttribute("id", "acrevealbtn" +msg.answerId);
+          //$('#divmain').append($(flipcardHTML1 + msg.top1 + flipcardHTML2 + flipcardHTML3)); 
       });
       socket.on('startgame', function(msg){
-          document.getElementById("submitBtn").disabled = false;
+        document.getElementById("divmain").innerHTML = '';
+        document.getElementById("submitBtn").disabled = false;
+      });
+      socket.on('showanswers', function(msg){
+        var aId = msg[1].substring(9);
+        document.getElementById("actable"+aId).style.display = 'block';
+      });
+      socket.on('revealuser', function(msg){
+        var nId = msg[1].substring(11);
+        console.log(msg + ' | ' + nId);
+        document.getElementById("acname"+nId).style.display = 'block';
       });
     });
 
     var gameId;
 
     function newGame(){
+      document.getElementById("divmain").innerHTML = '';
       gameId = Math.floor(Math.random()*100000);
-      //$('.dmenu').append('<h3>GameId: ' + gameId + '</h3>'); 
       document.getElementById("gID").value = gameId;
       var socket = io();
-      socket.emit('newgame');
+      socket.emit('newgame', gameId);
     }
     function startGame(){
       var socket = io();
@@ -57,12 +77,19 @@
       var socket = io();
       socket.emit('leavegame', gameId);
       document.getElementById("gID").value = "";
-      document.getElementById("submitBtn").disabled = true;
+      //document.getElementById("submitBtn").disabled = true;
       //clear grid too...
     }
-    function revealAnswer(){
+    function showAnswers(answerId){
+      var gameId = document.getElementById("gID").value;
+      var data = [gameId, answerId];
       var socket = io();
-      socket.emit('revealanswer', answerId);
+      socket.emit('showanswers', data);
+    }
+    function revealUser(answerId){
+      var data = [gameId, answerId];
+      var socket = io();
+      socket.emit('revealuser', data);
     }
 
   </script>
@@ -89,12 +116,13 @@
   </ul>
   <button type="button" id="newGBtn" onClick = "newGame()">New Game</button>
   <button type="button" id="startGBtn" onClick = "startGame()">Start Game</button>
-  <h3>GameId: </h3> <input id="gID">
+  <h3>Game Id: </h3> <input id="gID">
   <button type="button" id="joinGBtn" onClick = "joinGame()">Join Game</button>
   <button type="button" id="leaveGBtn" onClick = "leaveGame()">Leave Game</button>
 </div>
+
 <div class="dmain" id="divmain">
-  <!-- flip cards get generated in here -->
+  <!-- flip/answer cards get generated in here -->
 </div>
 <div class="dsub">
   <h3>Sub</h3>
@@ -105,7 +133,8 @@
         <input name="top1" id="top1" autocomplete="off" value="1" placeholder="Top 1">
         <input name="top2" id="top2" autocomplete="off" value="2" placeholder="Top 2">
         <input name="top3" id="top3" autocomplete="off" value="3" placeholder="Top 3">
-        <button id="submitBtn" disabled>Submit Top3</button>
+        <button id="submitBtn">Submit Top3</button>
+        <!-- <button id="submitBtn" disabled>Submit Top3</button> -->
     </form>
   </div>
   <div class="dfoot">

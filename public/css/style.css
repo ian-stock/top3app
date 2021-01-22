@@ -13,9 +13,12 @@ form button { width: 50%; background: #eee; border: none; padding: 10px; height:
 .dsub {width: 99.2%; float: left; border: 1px solid red;padding: 15px;}
 .dfoot {width: 99.2%; float: left; border: 1px solid red;padding: 15px;}
 .flip-card {background-color: lightblue; width: 200px; height: 200px;, width: 20%; margin: 10px; float: left;}
-.cardBtn {bottom: 1px}
-
-
+.answercard{border: 1px solid red; width: 300px; height: 200px; position: relative; float: left;}
+.ac-answers{border: 1px solid red;}
+.ac-table{display: none;}
+.ac-name{border: 1px solid red; display: none;}
+.ac-showbtn {position: absolute; bottom: 5%; left: 15%;}
+.ac-revealbtn {position: absolute; bottom: 5%; right: 15%;}
 
 /* 
 FLIP CARDS
@@ -24,15 +27,15 @@ The flip card container - set the width and height to whatever you want. We have
     background-color: transparent;
     width: 300px;
     height: 200px;
-    border: 1px solid #f1f1f1;
+    border: 1px solid red;
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
   }
   
   /* This container is needed to position the front and back side */
   .flip-card-inner {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     text-align: center;
     transition: transform 0.8s;
     transform-style: preserve-3d;
@@ -48,8 +51,8 @@ The flip card container - set the width and height to whatever you want. We have
   /* Position the front and back side */
   .flip-card-front, .flip-card-back {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     -webkit-backface-visibility: hidden; /* Safari */
     backface-visibility: hidden;
   }

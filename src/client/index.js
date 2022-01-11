@@ -1,14 +1,11 @@
-function getRoomsByUser(id){
-    let usersRooms = [];
-    let rooms = io.sockets.adapter.rooms;
+import { createElement } from "lwc";
+import App from "ui/app";
+// import { io } from "socket.io-client"; - doesn't work with rollup, leave in html
 
-    for(let room in rooms){
-        if(rooms.hasOwnProperty(room)){
-            let sockets = rooms[room].sockets;
-            if(id in sockets)
-                usersRooms.push(room);          
-        }
-    }
+const elmnt = createElement("ui-app", { is: App });
+document.querySelector('#lwc-main').appendChild(elmnt);
 
-    return usersRooms;
-}
+const socket = io();
+socket.on("connect", () => {
+  console.log("socketid: " + socket.id); 
+});

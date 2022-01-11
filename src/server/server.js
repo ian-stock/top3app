@@ -1,10 +1,12 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const path = require( 'path' ); //util for dealing with file paths
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
 
-app.use(express.static('public'))
+const CLIENT_DIR = path.join(__dirname, '../client');
+app.use(express.static(CLIENT_DIR));
 
 http.listen(port, function(){
     console.log('listening on *:' + port);

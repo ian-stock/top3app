@@ -1,0 +1,24 @@
+<template>
+    <ui-header></ui-header>
+
+    <div class="body">
+        <p>body of app html</p>
+
+        <template if:true={isInLobbyPhase}>
+            <ui-lobby onphase_change = {handlePhaseChange}></ui-lobby>
+        </template>
+
+        <template if:true={isNewGamePhase}>
+            <ui-newgame onphase_change = {handlePhaseChange}></ui-newgame>
+        </template>
+
+        <!-- Errors -->
+        <template if:true={errorMessage}>
+            <h1 class="error">{errorMessage}</h1>
+        </template>
+
+    </div>
+    <!-- End body -->
+
+    <ui-footer></ui-footer>
+</template>

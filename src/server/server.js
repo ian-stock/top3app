@@ -7,12 +7,21 @@ const port = process.env.PORT || 3000;
 
 const CLIENT_DIR = path.join(__dirname, '../client');
 app.use(express.static(CLIENT_DIR));
+app.use(express.json())
 
 http.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
-//functions - newgame, joingame, startgame, submitanswer, showanswers, revealuser
+//routes
+app.post('/api/game', (request, response) => {
+  gameId = Math.floor(Math.random()*100000).toString();
+  request.body.GameId = gameId;
+  response.send(request.body);
+});
+
+
+//socket functions - newgame, joingame, startgame, submitanswer, showanswers, revealuser
 
 io.on('connection', function(socket){
 
@@ -29,20 +38,6 @@ io.on('connection', function(socket){
         socket.join(data);
         console.log(socket.rooms);
         console.log('emit: joingame | ' + data);
-        break;
-      case 'submitanswer': 
-        console.log(socket.rooms);
-        console.log("emit: submitanswer, room: " + data[0] + " | " + socket.id);
-        io.to(data[0]).emit('submitanswer', data);
-        //io.emit('submitanswer', data);
-        break;
-      case 'showanswers': 
-        io.to(data[0]).emit('showanswers', data);
-        console.log("emit: showanswers, room: " + data[0] + " | " + socket.id);
-        break;
-      case 'revealuser': 
-        io.to(data[0]).emit('revealuser', data);
-        console.log("emit: revealuser, room: " + data[0] + " | " + socket.id);
         break;
       case 'leavegame': 
         socket.leave(data);

@@ -7721,13 +7721,54 @@ var _tmpl$3 = registerTemplate(tmpl$3);
 tmpl$3.stylesheets = [];
 tmpl$3.stylesheetToken = "ui-lobby_lobby";
 
+const PHASES = Object.freeze({
+  IN_LOBBY: 'InLobby',
+  NEW_GAME: 'NewGame',
+  JOIN_GAME: 'JoinGame',
+  ENTER_TOP3: 'EnterTop3',
+  SUBMIT_VOTE: 'SubmitVote',
+  REVEAL_ANSWER: 'RevealAnswer',
+  GAME_RESULTS: 'GameResults'
+});
+function createSession() {
+  const phase = PHASES.IN_LOBBY; //default phase
+
+  return {
+    phase
+  };
+}
+function createNewGame(userid) {
+  const gameInfo = {
+    userid
+  };
+  return fetch('/api/game', {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(gameInfo)
+  }).then(function (response) {
+    return response.json();
+  });
+}
+
 class Lobby extends LightningElement {
   startNewGame(e) {
-    this.dispatchEvent(new CustomEvent('phase_change', {
-      detail: {
-        name: 'NewGameStarted'
-      }
-    }));
+    //client lwc to client lwc
+    // this.dispatchEvent(new CustomEvent('phase_change', {
+    //     detail: {
+    //         name: 'NewGameStarted'
+    //     }
+    // }));
+    //client lwc to node server
+    //pass in userid, return game object with host:userid and gameid
+    createNewGame('ianS1').then(response => {
+      console.log('back in createNewGame');
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
+    }); //set user/session object as host?
   }
 
 }
@@ -7835,23 +7876,6 @@ function tmpl($api, $cmp, $slotset, $ctx) {
 var _tmpl = registerTemplate(tmpl);
 tmpl.stylesheets = [];
 tmpl.stylesheetToken = "ui-app_app";
-
-const PHASES = Object.freeze({
-  IN_LOBBY: 'InLobby',
-  NEW_GAME: 'NewGame',
-  JOIN_GAME: 'JoinGame',
-  ENTER_TOP3: 'EnterTop3',
-  SUBMIT_VOTE: 'SubmitVote',
-  REVEAL_ANSWER: 'RevealAnswer',
-  GAME_RESULTS: 'GameResults'
-});
-function createSession() {
-  const phase = PHASES.IN_LOBBY; //default phase
-
-  return {
-    phase
-  };
-}
 
 class App extends LightningElement {
   constructor(...args) {

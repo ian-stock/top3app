@@ -9,7 +9,6 @@ export default class App extends LightningElement {
         this.session = createSession();
       }
     
-
     handlePhaseChange(evt) {
         if(evt.detail.name === 'NewGameStarted'){
             this.session.phase = PHASES.NEW_GAME;

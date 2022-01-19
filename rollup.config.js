@@ -1,5 +1,7 @@
 import lwc from "@lwc/rollup-plugin";
 import replace from "@rollup/plugin-replace";
+// import run from "@rollup/plugin-run";
+
 //import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 
@@ -15,7 +17,8 @@ export default {
         replace({
             "process.env.NODE_ENV": JSON.stringify("development"),
         }),
-        lwc()
+        lwc() 
+        // ,run()
         // ,nodeResolve({
         //     browser: true,
         //   }),

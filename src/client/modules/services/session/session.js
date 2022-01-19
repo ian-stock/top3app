@@ -15,6 +15,22 @@ export function createSession(){
     }
 }
 
+
+export function createNewGame(userid) {
+    const gameInfo = { userid };
+    return fetch('/api/game', {
+        method: 'post',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(gameInfo)
+    })
+        .then(function(response) {
+            return response.json();
+        })
+}   
+
 export function getCurrentSession() {
     //return this.sessionPhase;
 }

@@ -2,8 +2,8 @@ const { Pool } = require('pg');
 const pool = new Pool({ 
   connectionString: 
     process.env.DATABASE_URL || "postgres://istock@localhost:5432/top3-local",
-    ssl: process.env.DATABASE_URL ? true : false, 
-      rejectUnauthorized: false
+    //ssl: process.env.DATABASE_URL ? true : false //local
+    ssl: {rejectUnauthorized: false} //heroku
 });
 
 //get, create, update, delete

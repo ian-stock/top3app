@@ -1,31 +1,39 @@
 import { LightningElement, track } from 'lwc';
-import { PHASES, getCurrentSession, createSession } from 'services/session';
+import { STATES, getCurrentSession, createSession } from 'services/session';
+//import { io } from "socket.io-client"; // doesn't work with rollup, leave in html
+// const { io } = require("socket.io-client");
+// const socket = io();
+
 
 export default class App extends LightningElement {
     @track session;
 
     connectedCallback(){
-        this.addEventListener('phase_change', this.handlePhaseChange);
+        this.addEventListener('state_change', this.handleStateChange);
         this.session = createSession();
       }
     
-    handlePhaseChange(evt) {
+    handleStateChange(evt) {
         if(evt.detail.name === 'NewGameStarted'){
-            this.session.phase = PHASES.NEW_GAME;
+            this.session.state = STATES.NEW_GAME;
         }
         if(evt.detail.name === 'GameEnded'){
-            this.session.phase = PHASES.IN_LOBBY;
+            this.session.state = STATES.IN_LOBBY;
         }
     }
 
     // UI expressions to dynamically render templates (return true or false)
 
-    get isInLobbyPhase() {
-        return this.session.phase === PHASES.IN_LOBBY;
+    get isInLobbyState() {
+        return this.session.state === STATES.IN_LOBBY;
+    }
+    
+    get isLoginRegState() {
+        return this.session.state === STATES.IN_LOGIN;
     }
 
-    get isNewGamePhase() {
-        return this.session.phase === PHASES.NEW_GAME;
+    get isNewGameState() {
+        return this.session.state === STATES.NEW_GAME;
     }
 
 }

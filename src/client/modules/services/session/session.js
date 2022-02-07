@@ -1,5 +1,6 @@
-export const PHASES = Object.freeze({
+export const STATES = Object.freeze({
     IN_LOBBY: 'InLobby',
+    IN_LOGIN: 'InLogin',
     NEW_GAME: 'NewGame',
     JOIN_GAME: 'JoinGame',
     ENTER_TOP3: 'EnterTop3',
@@ -9,15 +10,15 @@ export const PHASES = Object.freeze({
 });
 
 export function createSession(){
-    const phase = PHASES.IN_LOBBY; //default phase
+    const state = STATES.IN_LOBBY; //default state
     return{
-        phase
+        state
     }
 }
 
 
-export function createNewGame(userid) {
-    const gameInfo = { userid };
+export function createNewGame(userid, username) {
+    const gameInfo = { userid, username };
     return fetch('/api/game', {
         method: 'post',
         headers: {
@@ -32,10 +33,10 @@ export function createNewGame(userid) {
 }   
 
 export function getCurrentSession() {
-    //return this.sessionPhase;
+    //return this.sessionState;
 }
 
-export function setSessionPhase(phaseToSet) {
+export function setSessionState(stateToSet) {
 
-    // return this.PHASES.IN_LOBBY;
+    // return this.STATES.IN_LOBBY;
 }

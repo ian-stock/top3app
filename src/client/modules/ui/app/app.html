@@ -4,12 +4,16 @@
     <div class="body">
         <p>body of app html</p>
 
-        <template if:true={isInLobbyPhase}>
-            <ui-lobby onphase_change = {handlePhaseChange}></ui-lobby>
+        <template if:true={isInLobbyState}>
+            <ui-lobby onstate_change = {handleStateChange}></ui-lobby>
         </template>
 
-        <template if:true={isNewGamePhase}>
-            <ui-newgame onphase_change = {handlePhaseChange}></ui-newgame>
+        <template if:true={isLoginRegState}>
+            <ui-newgame onstate_change = {handleStateChange}></ui-newgame>
+        </template>
+
+        <template if:true={isNewGameState}>
+            <ui-newgame onstate_change = {handleStateChange}></ui-newgame>
         </template>
 
         <!-- Errors -->

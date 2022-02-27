@@ -7704,8 +7704,8 @@ var _uiHeader = registerComponent(Header, {
 });
 
 function tmpl$3($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, b: api_bind, d: api_dynamic_text} = $api;
-  const {_m0, _m1} = $ctx;
+  const {t: api_text, h: api_element, b: api_bind, d: api_dynamic_text, gid: api_scoped_id} = $api;
+  const {_m0, _m1, _m2} = $ctx;
   return [api_element("lobby", {
     key: 0
   }, [api_element("h2", {
@@ -7713,7 +7713,7 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
   }, [api_text("lobby html")]), api_element("button", {
     key: 2,
     on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.startNewGame))
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.newGame))
     }
   }, [api_text("New Game")]), api_element("br", {
     key: 3
@@ -7725,9 +7725,37 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
   }, [api_text("GameID: " + api_dynamic_text($cmp.gameId))]), api_element("br", {
     key: 5
   }, []), api_element("button", {
+    attrs: {
+      "data-id": "joinGameBtn"
+    },
     key: 6,
     on: {
-      "click": _m1 || ($ctx._m1 = api_bind($cmp.loginRegister))
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.joinGame))
+    }
+  }, [api_text("Join Game")]), api_element("br", {
+    key: 7
+  }, []), api_element("label", {
+    attrs: {
+      "for": api_scoped_id("gameIdInput")
+    },
+    key: 8
+  }, [api_text("GameID: ")]), api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "gameIdInput",
+      "id": api_scoped_id("gameIdInput")
+    },
+    key: 9
+  }, []), api_element("br", {
+    key: 10
+  }, []), api_element("br", {
+    key: 11
+  }, []), api_element("br", {
+    key: 12
+  }, []), api_element("button", {
+    key: 13,
+    on: {
+      "click": _m2 || ($ctx._m2 = api_bind($cmp.loginRegister))
     }
   }, [api_text("Login/Register")])])];
 }
@@ -7752,10 +7780,9 @@ function createSession() {
     state
   };
 }
-function createNewGame(userid, username) {
+function createNewGame(userid) {
   const gameInfo = {
-    userid,
-    username
+    userid
   };
   return fetch('/api/game', {
     method: 'post',
@@ -7768,38 +7795,92 @@ function createNewGame(userid, username) {
     return response.json();
   });
 }
+function playerJoinGame(userid, gameid, host) {
+  let gameid36;
+  let gameResp; // need to get game by 6 digit id first...
+
+  return fetch(`/api/game/${gameid}`, {
+    method: 'get',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }).then(response => response.json()).then(data => {
+    gameid36 = data.rows[0].id; //id(36)
+
+    gameResp = data.rows[0];
+  }) // insert player record
+  .then(() => {
+    const playerInfo = {
+      userid,
+      gameid,
+      gameid36,
+      host
+    };
+    return fetch('/api/game/join', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(playerInfo)
+    }).then(function (response) {
+      return gameResp;
+    });
+  });
+}
 
 class Lobby extends LightningElement {
   constructor(...args) {
     super(...args);
     this.game = void 0;
     this.gameId = void 0;
+    this.host = false;
+    this.userId = 'anonymous-' + Math.floor(Math.random() * 10000);
   }
 
-  loginRegister(e) {}
+  loginRegister(e) {
+    console.log(this.game.id);
+  }
 
-  startNewGame(e) {
+  newGame(e) {
     //pass in username, return game object with host:userid and gameid
-    createNewGame('ianS1').then(response => {
-      // console.log('back in createNewGame');
-      // console.log(response);
+    createNewGame(this.userId).then(response => {
       this.game = response;
       this.gameId = response.gameid;
-    }).catch(error => {
-      console.log(error);
-    }); //still need the below to 
-    //client lwc to client lwc
-    // this.dispatchEvent(new CustomEvent('state_change', {
-    //     detail: {
-    //         name: 'NewGameStarted'
-    //     }
-    // }));
+    }).then(() => {
+      this.joinGame();
+    }).catch(e => console.error('lobby createNewGame', e.stack));
+  }
+
+  joinGame(event) {
+    //if join game get the game id, if not it's create game and set host = true
+    if (event != null) {
+      if (event.target.dataset.id = 'joinGameBtn') {
+        this.gameId = this.template.querySelector('[data-id="gameIdInput"]').value;
+      }
+    } else {
+      this.host = true;
+    }
+
+    playerJoinGame(this.userId, this.gameId, this.host).then(response => {
+      this.game = response;
+    }).catch(e => console.error('lobby createNewGame', e.stack)).then(() => {
+      // lwc event - handled by app.js
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'JoinGame',
+          gameid5: this.gameId,
+          userid: this.userId
+        }
+      }));
+    });
   }
 
 }
 
 registerDecorators(Lobby, {
-  fields: ["game", "gameId"]
+  fields: ["game", "gameId", "host", "userId"]
 });
 
 var _uiLobby = registerComponent(Lobby, {
@@ -7910,55 +7991,6 @@ function tmpl($api, $cmp, $slotset, $ctx) {
 var _tmpl = registerTemplate(tmpl);
 tmpl.stylesheets = [];
 tmpl.stylesheetToken = "ui-app_app";
-
-// const { io } = require("socket.io-client");
-// const socket = io();
-
-class App extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.session = void 0;
-  }
-
-  connectedCallback() {
-    this.addEventListener('state_change', this.handleStateChange);
-    this.session = createSession();
-  }
-
-  handleStateChange(evt) {
-    if (evt.detail.name === 'NewGameStarted') {
-      this.session.state = STATES.NEW_GAME;
-    }
-
-    if (evt.detail.name === 'GameEnded') {
-      this.session.state = STATES.IN_LOBBY;
-    }
-  } // UI expressions to dynamically render templates (return true or false)
-
-
-  get isInLobbyState() {
-    return this.session.state === STATES.IN_LOBBY;
-  }
-
-  get isLoginRegState() {
-    return this.session.state === STATES.IN_LOGIN;
-  }
-
-  get isNewGameState() {
-    return this.session.state === STATES.NEW_GAME;
-  }
-
-}
-
-registerDecorators(App, {
-  track: {
-    session: 1
-  }
-});
-
-var App$1 = registerComponent(App, {
-  tmpl: _tmpl
-});
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -12217,11 +12249,68 @@ var socket_io = {exports: {}};
 });
 }(socket_io));
 
+const socket = socket_io.exports.io();
+socket.on("connect", () => {
+  console.log("app.socketid: " + socket.id);
+});
+socket.onAny((event, data) => {
+  console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
+});
+
+class App extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.session = void 0;
+  }
+
+  connectedCallback() {
+    this.addEventListener('state_change', this.handleStateChange);
+    this.session = createSession();
+  }
+
+  handleStateChange(evt) {
+    if (evt.detail.name === 'NewGame') {
+      this.session.state = STATES.NEW_GAME;
+    }
+
+    if (evt.detail.name === 'JoinGame') {
+      socket.emit('joingame', {
+        'gameid5': evt.detail.gameid5,
+        'userid': evt.detail.userid
+      });
+    }
+
+    if (evt.detail.name === 'GameEnded') {
+      this.session.state = STATES.IN_LOBBY;
+    }
+  } // UI expressions to dynamically render templates (return true or false)
+
+
+  get isInLobbyState() {
+    return this.session.state === STATES.IN_LOBBY;
+  }
+
+  get isLoginRegState() {
+    return this.session.state === STATES.IN_LOGIN;
+  }
+
+  get isNewGameState() {
+    return this.session.state === STATES.NEW_GAME;
+  }
+
+}
+
+registerDecorators(App, {
+  track: {
+    session: 1
+  }
+});
+
+var App$1 = registerComponent(App, {
+  tmpl: _tmpl
+});
+
 const elmnt = createElement("ui-app", {
   is: App$1
 });
 document.querySelector('#lwc-main').appendChild(elmnt);
-const socket = socket_io.exports.io();
-socket.on("connect", () => {
-  console.log("socketid: " + socket.id);
-});

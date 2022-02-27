@@ -16,7 +16,11 @@ const pool = new Pool({
 async function dbQuery(statement, params) {
   try{
     qryRes = await pool.query(statement, params);  
-     return qryRes.rows; 
+    // console.log(`dbquery statement: ${statement}`) 
+    // console.log(`dbquery params: ${params}`) 
+    // console.log(`dbquery rows length: ${qryRes.rows.length}`) 
+    // console.log(`dbquery row0: ${JSON.stringify(qryRes.rows[0])}`) 
+    return qryRes; 
   }catch(e){
     console.error('dbQuery error', e.stack);
   }

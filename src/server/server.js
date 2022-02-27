@@ -15,58 +15,11 @@ const port = process.env.PORT || 3000;
 app.use(express.static(CLIENT_DIR));
 app.use(express.json())
 
-// routes / apis - and attach socket.io to it first, to use in routes
-app.set("io", io);
+// routes / apis
 routes(app);
 
 http.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
-//set up ws server
-//socket functions - newgame, joingame, startgame, submitanswer, showanswers, revealuser
-//move to separate module
-
-
-
-
-// io.on('connection', function(socket){
-
-//   console.log("user connected: socketid: " + socket.id);
-
-//     //catch all listener
-//     socket.onAny((event, data) => {
-//       ws.listener(socket, event, data);
-//     }
-
-//     //
-
-  
-//   // socket.onAny((event, data) => {
-//   //   switch (event) {
-//   //     case 'newgame': 
-//   //       socket.join(data);
-//   //       console.log(socket.rooms);
-//   //       console.log('emit: newgame | ' + data);
-//   //       break;
-//   //     case 'joingame': 
-//   //       socket.join(data);
-//   //       console.log(socket.rooms);
-//   //       console.log('emit: joingame | ' + data);
-//   //       break;
-//   //     case 'leavegame': 
-//   //       socket.leave(data);
-//   //       console.log(socket.rooms);
-//   //       console.log('emit: leavegame | ' + data);
-//   //       break;
-//   //     case 'disconnect': 
-//   //       console.log("user disconnected: socketid: " + socket.id);
-//   //       break;
-//   //     default: 
-//   //       io.to(data[0]).emit(event, data);
-//   //       console.log('emit: ' + event + " | " + data);
-//   //   }
-//   // });
-
-// });
 

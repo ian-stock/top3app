@@ -1,31 +1,21 @@
-//for handling updates back to clients
+//for handling game/session state updates back to clients
 
-//web socket server
-//import { io } from '../server'
-
-// module.exports = function wsEmitter(event, data) {
-//     //emits, joins - used by apis/controllers
-//     io.emit(event, data);
-// }
-
-module.exports = function wsListener(io) {
-    //listener - handles game/session state updates back to client
+module.exports = function (io) {
+    
     io.on('connection', function(socket){
 
-        console.log("user connected: socketid: " + socket.id);
+        console.log('sockets.userConnected: ' + socket.id);
       
         //catch all listener
         socket.onAny((event, data) => {
             switch (event) {
             case 'newgame': 
-                socket.join(data); //data: gameid
-                console.log(socket.rooms);
-                console.log('emit: newgame | ' + data);
+                console.log('ws emit: newgame | ' + data);
                 break;
             case 'joingame': 
-                socket.join(data); //data: gameid
+                socket.join(data.gameid5); //data: gameid, userid
                 console.log(socket.rooms);
-                console.log('emit: joingame | ' + data);
+                io.to(data.gameid5).emit('player-joined', data)
                 break;
             case 'leavegame': 
                 socket.leave(data); //data: gameid

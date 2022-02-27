@@ -23,3 +23,14 @@ CREATE TABLE IF NOT EXISTS "user"(
     password VARCHAR(64),
     currentgame VARCHAR(36) 
 );
+
+
+--schema - id(36), created (timestamp), createdby(36), userid(36), gameid(36), host(boolean)
+CREATE TABLE IF NOT EXISTS "player"(
+    id VARCHAR(36) PRIMARY KEY,
+    created TIMESTAMP DEFAULT NOW(), 
+    createdby VARCHAR(36), 
+    userid VARCHAR(36),
+    gameid VARCHAR(36), 
+    host BOOLEAN
+);

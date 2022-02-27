@@ -1,9 +1,14 @@
 import { LightningElement, track } from 'lwc';
-import { STATES, getCurrentSession, createSession } from 'services/session';
-//import { io } from "socket.io-client"; // doesn't work with rollup, leave in html
-// const { io } = require("socket.io-client");
-// const socket = io();
+import { STATES, getCurrentSession, createSession } from '../../services/session';
+import { io } from "../../../../../node_modules/socket.io-client/dist/socket.io.js"; // whole path for client side
 
+const socket = io();
+socket.on("connect", () => {
+  console.log("app.socketid: " + socket.id); 
+});
+socket.onAny((event, data) => {
+    console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
+  });
 
 export default class App extends LightningElement {
     @track session;
@@ -14,8 +19,11 @@ export default class App extends LightningElement {
       }
     
     handleStateChange(evt) {
-        if(evt.detail.name === 'NewGameStarted'){
+        if(evt.detail.name === 'NewGame'){
             this.session.state = STATES.NEW_GAME;
+        }
+        if(evt.detail.name === 'JoinGame'){
+            socket.emit('joingame', {'gameid5': evt.detail.gameid5, 'userid': evt.detail.userid});
         }
         if(evt.detail.name === 'GameEnded'){
             this.session.state = STATES.IN_LOBBY;

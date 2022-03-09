@@ -1,5 +1,5 @@
 <template>
-    <ui-header></ui-header>
+    <ui-header sessiongameid={sessionGameId} sessionuserid={sessionUserId}></ui-header>
 
     <div class="body">
         <p>body of app html</p>
@@ -14,6 +14,10 @@
 
         <template if:true={isNewGameState}>
             <ui-newgame onstate_change = {handleStateChange}></ui-newgame>
+        </template>
+
+        <template if:true={isJoinedGameState}>
+            <ui-waitinggame onstate_change = {handleStateChange}></ui-waitinggame>
         </template>
 
         <!-- Errors -->

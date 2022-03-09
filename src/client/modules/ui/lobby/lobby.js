@@ -1,52 +1,62 @@
 import { LightningElement, api } from 'lwc';
-import { createNewGame, playerJoinGame } from '../../services/session';
+import { createNewGame, playerJoinGame } from '../../services/game';
+import { SESSION } from '../../services/session';
 
 export default class Lobby extends LightningElement {
-    game;
-    gameId;
-    host = false;
-    userId = 'anonymous-' + Math.floor(Math.random()*10000);
+    gameId; //for ui update
 
     loginRegister(e){
-        console.log(this.game.id);
+        // console.log(JSON.stringify(SESSION));
+        console.log(SESSION);
     }
 
     newGame(e){
 
         //pass in username, return game object with host:userid and gameid
-        createNewGame(this.userId)
+        createNewGame(SESSION.userId)
             .then((response) => {
-                this.game = response;
-                this.gameId = response.gameid;
+                SESSION.gameId = response.gameid;
+                SESSION.gameState = response.gamestate;
             })
+            .catch(e => console.error('lobby createNewGame', e.stack))
             .then(() => {
                 this.joinGame()
             })
-            .catch(e => console.error('lobby createNewGame', e.stack))
+            .then(() => {
+                // lwc event - handled by app.js
+                this.dispatchEvent(new CustomEvent('state_change', {
+                    detail: {
+                        name: 'NewGame',
+                        gameid5: SESSION.gameId, 
+                        userid: SESSION.userId
+                    }
+                }));    
+            })
     }
 
     joinGame(event){
         //if join game get the game id, if not it's create game and set host = true
         if (event != null){
             if(event.target.dataset.id='joinGameBtn'){
-                this.gameId = this.template.querySelector('[data-id="gameIdInput"]').value;
+                SESSION.gameId = this.template.querySelector('[data-id="gameIdInput"]').value;
             }
         } else {
-            this.host = true;
+            SESSION.host = true;
         }
 
-        playerJoinGame(this.userId, this.gameId, this.host)
+        playerJoinGame(SESSION.userId, SESSION.gameId, SESSION.host)
             .then((response) => {
-                this.game = response;
+                SESSION.gameState = response.gamestate;
+                this.gameId = response.gameid; //update ui
             })
             .catch(e => console.error('lobby createNewGame', e.stack))
             .then(() => {
                 // lwc event - handled by app.js
                 this.dispatchEvent(new CustomEvent('state_change', {
                     detail: {
-                        name: 'JoinGame',
-                        gameid5: this.gameId, 
-                        userid: this.userId
+                        name: 'JoinedGame',
+                        gameid5: SESSION.gameId, 
+                        userid: SESSION.userId
                     }
                 }));    
             })

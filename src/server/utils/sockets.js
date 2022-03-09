@@ -12,7 +12,7 @@ module.exports = function (io) {
             case 'newgame': 
                 console.log('ws emit: newgame | ' + data);
                 break;
-            case 'joingame': 
+            case 'joinedgame': 
                 socket.join(data.gameid5); //data: gameid, userid
                 console.log(socket.rooms);
                 io.to(data.gameid5).emit('player-joined', data)

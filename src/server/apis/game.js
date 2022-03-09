@@ -3,6 +3,12 @@ module.exports = router;
 const db = require('../utils/database.js')
 const { v4: uuidv4 } = require('uuid');
 
+const GAMESTATES = Object.freeze({
+    NEW_GAME: 'NewGame',
+    ENTER_TOP3: 'EnterTop3',
+    ANSWERING: 'Answering',
+    GAME_OVER: 'GameOver'
+});
 
 //crud - post, get, patch, delete, query
 //game schema - id(36), created (timestamp), createdby(36), gameid(10), hostid(36), hostname(30), gamestate(20)
@@ -19,7 +25,7 @@ router.post('/', async (req, res) => {
     const uuid = uuidv4();
     const userId = req.body.userid;
     const gameId = Math.floor(10000 + Math.random() * 90000).toString(); //random 6 digit number
-    const gameState = 'New'; //???
+    const gameState = GAMESTATES.NEW_GAME; 
     const insertSQL = 
         'INSERT INTO game(id, createdby, gameid, hostid, gamestate) VALUES ($1, $2, $3, $4, $5) RETURNING *';
     const insertValues = [uuid, userId, gameId, userId, gameState];

@@ -1,71 +1,36 @@
-export const STATES = Object.freeze({
+export const SESSIONSTATES = Object.freeze({
     IN_LOBBY: 'InLobby',
     IN_LOGIN: 'InLogin',
-    NEW_GAME: 'NewGame',
-    JOIN_GAME: 'JoinGame',
+    IN_NEWGAME: 'InNewGame',
+    IN_JOIN_GAME: 'InJoinGame',
+    IN_WAITING_GAME_START: 'InWaitingGameStart',
     ENTER_TOP3: 'EnterTop3',
     SUBMIT_VOTE: 'SubmitVote',
     REVEAL_ANSWER: 'RevealAnswer',
     GAME_RESULTS: 'GameResults'
 });
 
-export function createSession(){
-    const state = STATES.IN_LOBBY; //default state
-    return{
-        state
-    }
+//session is single-user, game is multi-user
+const initUserId = 'anonymous-' + Math.floor(Math.random()*10000);
+
+export const SESSION = {
+    "userId": initUserId,
+    "sessionState": SESSIONSTATES.IN_LOBBY, 
+    "gameId": "notset",
+    "gameState": "notset", 
+    "host": false,
+    "authenticated": false,
+    "question1": "notset",
+    "question2": "notset",
+    "question3": "notset",
+    "gameScore": 0
 }
 
-
-export function createNewGame(userid) {
-    const gameInfo = { userid };
-    return fetch('/api/game', {
-        method: 'post',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(gameInfo)
-    })
-    .then(function(response) {
-        return response.json();
-    })
-}   
-
-export function playerJoinGame(userid, gameid, host) {
-    
-    let gameid36;
-    let gameResp;
-    // need to get game by 6 digit id first...
-    return fetch(`/api/game/${gameid}`, {
-        method: 'get',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-    })
-    .then(response=>response.json())
-    .then(data=>{ 
-        gameid36 = data.rows[0].id //id(36)
-        gameResp = data.rows[0]
-    })
-
-    // insert player record
-    .then(() => {
-        const playerInfo = { userid, gameid, gameid36, host };
-        return fetch('/api/game/join', {
-            method: 'post',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(playerInfo)
-        })
-        .then(function(response) {
-            return gameResp;
-        })
-    })
-}   
+export function createSession(){
+    return{
+        SESSION
+    }
+}
 
 export function getCurrentSession() {
     //return this.sessionState;

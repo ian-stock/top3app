@@ -14,9 +14,11 @@ export const SESSIONSTATES = Object.freeze({
 const initUserId = 'anonymous-' + Math.floor(Math.random()*10000);
 
 export const SESSION = {
-    "userId": initUserId,
+    "userId": "notset",
+    "userName": initUserId,
     "sessionState": SESSIONSTATES.IN_LOBBY, 
     "gameId": "notset",
+    "gameNum": "notset",
     "gameState": "notset", 
     "host": false,
     "authenticated": false,

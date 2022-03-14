@@ -1,15 +1,17 @@
 <template>
     <lobby>
         <h2>lobby html</h2>
+        </br>
+        <button onclick={loginRegister}>Login/Register</button>
+        </br>
         <button onclick={newGame}>New Game</button>
         </br>
-            <div class="label">GameID: {gameId}</div>
+            <div class="label">GameID: {gameNum}</div>
         </br>
         <button data-id="joinGameBtn" onclick={joinGame}>Join Game</button>
         </br>
-            <label for="gameIdInput">GameID: </label>
-            <input type="text" data-id="gameIdInput" id="gameIdInput"><br><br>
-        </br>
-        <button onclick={loginRegister}>Login/Register</button>
+            <label for="gameNumInput">GameID: </label>
+            <input type="text" data-id="gameNumInput" id="gameNumInput"><br><br>
+        
     </lobby>
 </template>

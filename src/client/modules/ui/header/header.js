@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
 
 export default class Header extends LightningElement {
-    @api sessiongameid;
-    @api sessionuserid;
+    @api sessiongamenum;
+    @api sessionusername;
     hostOrPlayer = 'Player';
 
     @api 

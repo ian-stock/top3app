@@ -1,4 +1,3 @@
-
 export function createNewGame(userid) {
     const gameInfo = { userid };
     return fetch('/api/game', {
@@ -14,12 +13,12 @@ export function createNewGame(userid) {
     })
 }   
 
-export function playerJoinGame(userid, gameid, host) {
+export function playerJoinGame(userid, gamenum, host) {
     
     let gameid36;
     let gameResp;
     // need to get game by 6 digit id first...
-    return fetch(`/api/game/${gameid}`, {
+    return fetch(`/api/game/${gamenum}`, {
         method: 'get',
         headers: {
             Accept: 'application/json',
@@ -34,7 +33,7 @@ export function playerJoinGame(userid, gameid, host) {
 
     // insert player record
     .then(() => {
-        const playerInfo = { userid, gameid, gameid36, host };
+        const playerInfo = { userid, gamenum, gameid36, host };
         return fetch('/api/game/join', {
             method: 'post',
             headers: {

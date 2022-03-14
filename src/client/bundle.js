@@ -7663,7 +7663,7 @@ freeze(LightningElement);
 seal(LightningElement.prototype);
 /* version: 2.7.0 */
 
-function tmpl$5($api, $cmp, $slotset, $ctx) {
+function tmpl$7($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text} = $api;
   return [api_element("header", {
     key: 0
@@ -7677,22 +7677,22 @@ function tmpl$5($api, $cmp, $slotset, $ctx) {
       "userid": true
     },
     key: 2
-  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionuserid))]), api_element("h3", {
+  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))]), api_element("h3", {
     classMap: {
-      "gameid": true
+      "gamenum": true
     },
     key: 3
-  }, [api_text("GameID: " + api_dynamic_text($cmp.sessiongameid))])])];
+  }, [api_text("GameID: " + api_dynamic_text($cmp.sessiongamenum))])])];
 }
-var _tmpl$5 = registerTemplate(tmpl$5);
-tmpl$5.stylesheets = [];
-tmpl$5.stylesheetToken = "ui-header_header";
+var _tmpl$7 = registerTemplate(tmpl$7);
+tmpl$7.stylesheets = [];
+tmpl$7.stylesheetToken = "ui-header_header";
 
 class Header extends LightningElement {
   constructor(...args) {
     super(...args);
-    this.sessiongameid = void 0;
-    this.sessionuserid = void 0;
+    this.sessiongamenum = void 0;
+    this.sessionusername = void 0;
     this.hostOrPlayer = 'Player';
   }
 
@@ -7704,10 +7704,10 @@ class Header extends LightningElement {
 
 registerDecorators(Header, {
   publicProps: {
-    sessiongameid: {
+    sessiongamenum: {
       config: 0
     },
-    sessionuserid: {
+    sessionusername: {
       config: 0
     }
   },
@@ -7716,68 +7716,70 @@ registerDecorators(Header, {
 });
 
 var _uiHeader = registerComponent(Header, {
-  tmpl: _tmpl$5
+  tmpl: _tmpl$7
 });
 
-function tmpl$4($api, $cmp, $slotset, $ctx) {
+function tmpl$6($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, b: api_bind, d: api_dynamic_text, gid: api_scoped_id} = $api;
   const {_m0, _m1, _m2} = $ctx;
   return [api_element("lobby", {
     key: 0
   }, [api_element("h2", {
     key: 1
-  }, [api_text("lobby html")]), api_element("button", {
-    key: 2,
+  }, [api_text("lobby html")]), api_element("br", {
+    key: 2
+  }, []), api_element("button", {
+    key: 3,
     on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.newGame))
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.loginRegister))
+    }
+  }, [api_text("Login/Register")]), api_element("br", {
+    key: 4
+  }, []), api_element("button", {
+    key: 5,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.newGame))
     }
   }, [api_text("New Game")]), api_element("br", {
-    key: 3
+    key: 6
   }, []), api_element("div", {
     classMap: {
       "label": true
     },
-    key: 4
-  }, [api_text("GameID: " + api_dynamic_text($cmp.gameId))]), api_element("br", {
-    key: 5
+    key: 7
+  }, [api_text("GameID: " + api_dynamic_text($cmp.gameNum))]), api_element("br", {
+    key: 8
   }, []), api_element("button", {
     attrs: {
       "data-id": "joinGameBtn"
     },
-    key: 6,
+    key: 9,
     on: {
-      "click": _m1 || ($ctx._m1 = api_bind($cmp.joinGame))
+      "click": _m2 || ($ctx._m2 = api_bind($cmp.joinGame))
     }
   }, [api_text("Join Game")]), api_element("br", {
-    key: 7
+    key: 10
   }, []), api_element("label", {
     attrs: {
-      "for": api_scoped_id("gameIdInput")
+      "for": api_scoped_id("gameNumInput")
     },
-    key: 8
+    key: 11
   }, [api_text("GameID: ")]), api_element("input", {
     attrs: {
       "type": "text",
-      "data-id": "gameIdInput",
-      "id": api_scoped_id("gameIdInput")
+      "data-id": "gameNumInput",
+      "id": api_scoped_id("gameNumInput")
     },
-    key: 9
-  }, []), api_element("br", {
-    key: 10
-  }, []), api_element("br", {
-    key: 11
-  }, []), api_element("br", {
     key: 12
-  }, []), api_element("button", {
-    key: 13,
-    on: {
-      "click": _m2 || ($ctx._m2 = api_bind($cmp.loginRegister))
-    }
-  }, [api_text("Login/Register")])])];
+  }, []), api_element("br", {
+    key: 13
+  }, []), api_element("br", {
+    key: 14
+  }, [])])];
 }
-var _tmpl$4 = registerTemplate(tmpl$4);
-tmpl$4.stylesheets = [];
-tmpl$4.stylesheetToken = "ui-lobby_lobby";
+var _tmpl$6 = registerTemplate(tmpl$6);
+tmpl$6.stylesheets = [];
+tmpl$6.stylesheetToken = "ui-lobby_lobby";
 
 function createNewGame(userid) {
   const gameInfo = {
@@ -7794,11 +7796,11 @@ function createNewGame(userid) {
     return response.json();
   });
 }
-function playerJoinGame(userid, gameid, host) {
+function playerJoinGame(userid, gamenum, host) {
   let gameid36;
   let gameResp; // need to get game by 6 digit id first...
 
-  return fetch(`/api/game/${gameid}`, {
+  return fetch(`/api/game/${gamenum}`, {
     method: 'get',
     headers: {
       Accept: 'application/json',
@@ -7812,7 +7814,7 @@ function playerJoinGame(userid, gameid, host) {
   .then(() => {
     const playerInfo = {
       userid,
-      gameid,
+      gamenum,
       gameid36,
       host
     };
@@ -7843,9 +7845,11 @@ const SESSIONSTATES = Object.freeze({
 
 const initUserId = 'anonymous-' + Math.floor(Math.random() * 10000);
 const SESSION = {
-  "userId": initUserId,
+  "userId": "notset",
+  "userName": initUserId,
   "sessionState": SESSIONSTATES.IN_LOBBY,
   "gameId": "notset",
+  "gameNum": "notset",
   "gameState": "notset",
   "host": false,
   "authenticated": false,
@@ -7858,19 +7862,23 @@ const SESSION = {
 class Lobby extends LightningElement {
   constructor(...args) {
     super(...args);
-    this.gameId = void 0;
+    this.gameNum = void 0;
   }
 
   //for ui update
-  loginRegister(e) {
-    // console.log(JSON.stringify(SESSION));
-    console.log(SESSION);
+  loginRegister() {
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'LoginRegister'
+      }
+    }));
   }
 
-  newGame(e) {
-    //pass in username, return game object with host:userid and gameid
+  newGame() {
+    //pass in username, return game object with host:userid and gamenum
     createNewGame(SESSION.userId).then(response => {
-      SESSION.gameId = response.gameid;
+      SESSION.gameNum = response.gamenum;
+      SESSION.gameId = response.id;
       SESSION.gameState = response.gamestate;
     }).catch(e => console.error('lobby createNewGame', e.stack)).then(() => {
       this.joinGame();
@@ -7879,7 +7887,7 @@ class Lobby extends LightningElement {
       this.dispatchEvent(new CustomEvent('state_change', {
         detail: {
           name: 'NewGame',
-          gameid5: SESSION.gameId,
+          gamenum: SESSION.gameNum,
           userid: SESSION.userId
         }
       }));
@@ -7890,21 +7898,21 @@ class Lobby extends LightningElement {
     //if join game get the game id, if not it's create game and set host = true
     if (event != null) {
       if (event.target.dataset.id = 'joinGameBtn') {
-        SESSION.gameId = this.template.querySelector('[data-id="gameIdInput"]').value;
+        SESSION.gameNum = this.template.querySelector('[data-id="gameNumInput"]').value;
       }
     } else {
       SESSION.host = true;
     }
 
-    playerJoinGame(SESSION.userId, SESSION.gameId, SESSION.host).then(response => {
+    playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.host).then(response => {
       SESSION.gameState = response.gamestate;
-      this.gameId = response.gameid; //update ui
-    }).catch(e => console.error('lobby createNewGame', e.stack)).then(() => {
+      this.gameNum = response.gamenum; //update ui
+    }).catch(e => console.error('lobby.createNewGame', e.stack)).then(() => {
       // lwc event - handled by app.js
       this.dispatchEvent(new CustomEvent('state_change', {
         detail: {
           name: 'JoinedGame',
-          gameid5: SESSION.gameId,
+          gamenum: SESSION.gameNum,
           userid: SESSION.userId
         }
       }));
@@ -7914,14 +7922,169 @@ class Lobby extends LightningElement {
 }
 
 registerDecorators(Lobby, {
-  fields: ["gameId"]
+  fields: ["gameNum"]
 });
 
 var _uiLobby = registerComponent(Lobby, {
-  tmpl: _tmpl$4
+  tmpl: _tmpl$6
 });
 
-function tmpl$3($api, $cmp, $slotset, $ctx) {
+function tmpl$5($api, $cmp, $slotset, $ctx) {
+  const {t: api_text, h: api_element, b: api_bind, gid: api_scoped_id} = $api;
+  const {_m0, _m1} = $ctx;
+  return [api_element("login", {
+    key: 0
+  }, [api_element("h2", {
+    key: 1
+  }, [api_text("login html")]), api_element("button", {
+    key: 2,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.login))
+    }
+  }, [api_text("Login")]), api_element("button", {
+    key: 3,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.register))
+    }
+  }, [api_text("Register")]), api_element("br", {
+    key: 4
+  }, []), api_element("label", {
+    attrs: {
+      "for": api_scoped_id("userIdInput")
+    },
+    key: 5
+  }, [api_text("UserID: ")]), api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "userIdInput",
+      "id": api_scoped_id("userIdInput")
+    },
+    key: 6
+  }, []), api_element("br", {
+    key: 7
+  }, []), api_element("br", {
+    key: 8
+  }, []), api_element("label", {
+    attrs: {
+      "for": api_scoped_id("pwdInput")
+    },
+    key: 9
+  }, [api_text("Pwd: ")]), api_element("input", {
+    attrs: {
+      "type": "password",
+      "data-id": "pwdInput",
+      "id": api_scoped_id("pwdInput")
+    },
+    key: 10
+  }, []), api_element("br", {
+    key: 11
+  }, []), api_element("br", {
+    key: 12
+  }, [])])];
+}
+var _tmpl$5 = registerTemplate(tmpl$5);
+tmpl$5.stylesheets = [];
+tmpl$5.stylesheetToken = "ui-login_login";
+
+function userRegistration(username, pwd) {
+  const userInfo = {
+    username,
+    pwd
+  };
+  return fetch('/api/user/register', {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(userInfo)
+  }).then(function (response) {
+    return response.json();
+  });
+}
+function userLogin(username, pwd) {
+  const userInfo = {
+    username,
+    pwd
+  };
+  return fetch('/api/user/login', {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(userInfo)
+  }).then(response => response.json()).then(data => {
+    return data;
+  });
+}
+
+class Login extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.inputUserName = void 0;
+    this.inputPwd = void 0;
+    this.eventType = void 0;
+    this.eventDetail = void 0;
+  }
+
+  register() {
+    this.inputUserName = this.template.querySelector('[data-id="userIdInput"]').value;
+    this.inputPwd = this.template.querySelector('[data-id="pwdInput"]').value;
+    userRegistration(this.inputUserName, this.inputPwd).then(response => {
+      SESSION.userId = response.id;
+      SESSION.userName = response.username;
+      SESSION.authenticated = true;
+    }).catch(e => console.error('login.userRegistration', e.stack)).then(() => {
+      // lwc event - handled by app.js
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'LoggedIn',
+          userid: SESSION.userName
+        }
+      }));
+    });
+  }
+
+  login() {
+    this.inputUserName = this.template.querySelector('[data-id="userIdInput"]').value;
+    this.inputPwd = this.template.querySelector('[data-id="pwdInput"]').value;
+    userLogin(this.inputUserName, this.inputPwd).then(response => {
+      if (response.rowCount == 1) {
+        SESSION.userId = response.rows[0].id;
+        SESSION.userName = response.rows[0].username;
+        SESSION.authenticated = true;
+        this.eventType = 'state_change';
+        this.eventDetail = {
+          name: 'LoggedIn',
+          userid: SESSION.userName
+        };
+      } else {
+        this.eventType = 'error_message';
+        this.eventDetail = {
+          name: 'raiseUIError',
+          errormsg: 'Incorrect username and password'
+        }; // alert('Incorrect username and password');
+      }
+    }).catch(e => console.error('login.userLogin', e.stack)).then(() => {
+      // lwc event - handled by app.js
+      this.dispatchEvent(new CustomEvent(this.eventType, {
+        detail: this.eventDetail
+      }));
+    });
+  }
+
+}
+
+registerDecorators(Login, {
+  fields: ["inputUserName", "inputPwd", "eventType", "eventDetail"]
+});
+
+var _uiLogin = registerComponent(Login, {
+  tmpl: _tmpl$5
+});
+
+function tmpl$4($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, b: api_bind} = $api;
   const {_m0} = $ctx;
   return [api_element("newgame", {
@@ -7935,13 +8098,13 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
     }
   }, [api_text("End Game")])])];
 }
-var _tmpl$3 = registerTemplate(tmpl$3);
-tmpl$3.stylesheets = [];
-tmpl$3.stylesheetToken = "ui-newgame_newgame";
+var _tmpl$4 = registerTemplate(tmpl$4);
+tmpl$4.stylesheets = [];
+tmpl$4.stylesheetToken = "ui-newgame_newgame";
 
 class NewGame$1 extends LightningElement {
   endGame(e) {
-    this.dispatchEvent(new CustomEvent('phase_change', {
+    this.dispatchEvent(new CustomEvent('state_change', {
       detail: {
         name: 'GameEnded'
       }
@@ -7951,10 +8114,10 @@ class NewGame$1 extends LightningElement {
 }
 
 var _uiNewgame = registerComponent(NewGame$1, {
-  tmpl: _tmpl$3
+  tmpl: _tmpl$4
 });
 
-function tmpl$2($api, $cmp, $slotset, $ctx) {
+function tmpl$3($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element} = $api;
   return [api_element("waitinggame", {
     key: 0
@@ -7962,55 +8125,89 @@ function tmpl$2($api, $cmp, $slotset, $ctx) {
     key: 1
   }, [api_text("waitinggame html")])])];
 }
-var _tmpl$2 = registerTemplate(tmpl$2);
-tmpl$2.stylesheets = [];
-tmpl$2.stylesheetToken = "ui-waitinggame_waitinggame";
+var _tmpl$3 = registerTemplate(tmpl$3);
+tmpl$3.stylesheets = [];
+tmpl$3.stylesheetToken = "ui-waitinggame_waitinggame";
 
 class NewGame extends LightningElement {}
 
 var _uiWaitinggame = registerComponent(NewGame, {
+  tmpl: _tmpl$3
+});
+
+function tmpl$2($api, $cmp, $slotset, $ctx) {
+  const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
+  return [api_element("errormsg", {
+    key: 0
+  }, [api_element("h3", {
+    classMap: {
+      "error": true
+    },
+    key: 1
+  }, [api_text("Error: " + api_dynamic_text($cmp.errormsg))])])];
+}
+var _tmpl$2 = registerTemplate(tmpl$2);
+tmpl$2.stylesheets = [];
+tmpl$2.stylesheetToken = "ui-errormsg_errormsg";
+
+class ErrogMsg extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.errormsg = void 0;
+  }
+
+}
+
+registerDecorators(ErrogMsg, {
+  publicProps: {
+    errormsg: {
+      config: 0
+    }
+  }
+});
+
+var _uiErrormsg = registerComponent(ErrogMsg, {
   tmpl: _tmpl$2
 });
 
 function tmpl$1($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element} = $api;
+  const {t: api_text, h: api_element, b: api_bind} = $api;
+  const {_m0} = $ctx;
   return [api_element("footer", {
     key: 0
   }, [api_element("p", {
     key: 1
-  }, [api_text("footer template")])])];
+  }, [api_text("footer template")]), api_element("button", {
+    key: 2,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
+    }
+  }, [api_text("session")])])];
 }
 var _tmpl$1 = registerTemplate(tmpl$1);
 tmpl$1.stylesheets = [];
 tmpl$1.stylesheetToken = "ui-footer_footer";
 
 class Footer extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.gamestatus = void 0;
+  //@api gamestatus;
+  printSession(e) {
+    // console.log(JSON.stringify(SESSION));
+    console.log(SESSION);
   }
 
 }
-
-registerDecorators(Footer, {
-  publicProps: {
-    gamestatus: {
-      config: 0
-    }
-  }
-});
 
 var _uiFooter = registerComponent(Footer, {
   tmpl: _tmpl$1
 });
 
 function tmpl($api, $cmp, $slotset, $ctx) {
-  const {c: api_custom_element, t: api_text, h: api_element, b: api_bind, d: api_dynamic_text} = $api;
-  const {_m0, _m1, _m2, _m3} = $ctx;
+  const {c: api_custom_element, t: api_text, h: api_element, b: api_bind} = $api;
+  const {_m0, _m1, _m2, _m3, _m4} = $ctx;
   return [api_custom_element("ui-header", _uiHeader, {
     props: {
-      "sessiongameid": $cmp.sessionGameId,
-      "sessionuserid": $cmp.sessionUserId
+      "sessiongamenum": $cmp.sessionGameNum,
+      "sessionusername": $cmp.sessionUserName
     },
     key: 0
   }, []), api_element("div", {
@@ -8025,27 +8222,28 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     on: {
       "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
     }
-  }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-newgame", _uiNewgame, {
+  }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
     key: 4,
     on: {
-      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange))
+      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
+      "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
     }
   }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
     key: 5,
     on: {
-      "state_change": _m2 || ($ctx._m2 = api_bind($cmp.handleStateChange))
+      "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isJoinedGameState ? api_custom_element("ui-waitinggame", _uiWaitinggame, {
     key: 6,
     on: {
-      "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
+      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
     }
-  }, []) : null, $cmp.errorMessage ? api_element("h1", {
-    classMap: {
-      "error": true
+  }, []) : null, $cmp.isErrorMessage ? api_custom_element("ui-errormsg", _uiErrormsg, {
+    props: {
+      "errormsg": $cmp.errorMessage
     },
     key: 7
-  }, [api_text(api_dynamic_text($cmp.errorMessage))]) : null]), api_custom_element("ui-footer", _uiFooter, {
+  }, []) : null]), api_custom_element("ui-footer", _uiFooter, {
     key: 8
   }, [])];
 }
@@ -12321,40 +12519,60 @@ socket.onAny((event, data) => {
 class App extends LightningElement {
   constructor(...args) {
     super(...args);
-    this.sessionGameId = void 0;
+    this.sessionGameNum = void 0;
     this.sessionState = void 0;
-    this.sessionUserId = void 0;
+    this.sessionUserName = void 0;
+    this.errorState = false;
+    this.errorMessage = void 0;
   }
 
   connectedCallback() {
     this.addEventListener('state_change', this.handleStateChange);
+    this.addEventListener('error_message', this.handleErrorMessage);
     this.sessionState = SESSION.sessionState;
   }
 
   handleStateChange(evt) {
+    console.log('app.handleStateChange: ' + evt.detail.name);
+    console.log(evt);
+
+    if (evt.detail.name === 'LoginRegister') {
+      SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOGIN;
+    }
+
+    if (evt.detail.name === 'LoggedIn') {
+      this.errorState = false; //if previous login error
+
+      SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
+      this.sessionUserName = SESSION.userName;
+    }
+
     if (evt.detail.name === 'NewGame') {
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_NEWGAME;
-      this.sessionGameId = SESSION.gameId;
-      this.sessionUserId = SESSION.userId;
+      this.sessionGameNum = SESSION.gameNum;
+      this.sessionUserName = SESSION.userName;
       this.template.querySelector('ui-header').updateHost();
     }
 
     if (evt.detail.name === 'JoinedGame') {
+      // socket.emit('joinedgame', {'gameid5': evt.detail.gameid5, 'userid': evt.detail.userid});
       socket.emit('joinedgame', {
-        'gameid5': evt.detail.gameid5,
-        'userid': evt.detail.userid
+        SESSION
       });
 
       if (!SESSION.host) {
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
-        this.sessionGameId = SESSION.gameId;
-        this.sessionUserId = SESSION.userId;
+        this.sessionGameNum = SESSION.gameNum;
+        this.sessionUserName = SESSION.userName;
       } // console.log({'event':'joinedgame','gameid5': evt.detail.gameid5, 'userid': evt.detail.userid});
 
     }
 
     if (evt.detail.name === 'GameEnded') {
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
+      SESSION.gameId = SESSION.gameNum = SESSION.gameState = 'notset';
+      SESSION.host = false;
+      this.sessionUserName = this.sessionGameNum = '';
     }
   } // UI expressions to dynamically render templates (return true or false)
 
@@ -12375,10 +12593,21 @@ class App extends LightningElement {
     return this.sessionState === SESSIONSTATES.IN_WAITING_GAME_START;
   }
 
+  get isErrorMessage() {
+    return this.errorState;
+  } //error handling
+
+
+  handleErrorMessage(evt) {
+    // console.log('app.handleErrorMessage: ' + evt.detail.errormsg);
+    this.errorMessage = evt.detail.errormsg;
+    this.errorState = true;
+  }
+
 }
 
 registerDecorators(App, {
-  fields: ["sessionGameId", "sessionState", "sessionUserId"]
+  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage"]
 });
 
 var App$1 = registerComponent(App, {

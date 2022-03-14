@@ -1,5 +1,5 @@
 <template>
-    <ui-header sessiongameid={sessionGameId} sessionuserid={sessionUserId}></ui-header>
+    <ui-header sessiongamenum={sessionGameNum} sessionusername={sessionUserName}></ui-header>
 
     <div class="body">
         <p>body of app html</p>
@@ -9,7 +9,7 @@
         </template>
 
         <template if:true={isLoginRegState}>
-            <ui-newgame onstate_change = {handleStateChange}></ui-newgame>
+            <ui-login onstate_change = {handleStateChange} onerror_message = {handleErrorMessage}></ui-login>
         </template>
 
         <template if:true={isNewGameState}>
@@ -21,8 +21,8 @@
         </template>
 
         <!-- Errors -->
-        <template if:true={errorMessage}>
-            <h1 class="error">{errorMessage}</h1>
+        <template if:true={isErrorMessage}>
+            <ui-errormsg errormsg={errorMessage}></ui-errormsg>
         </template>
 
     </div>

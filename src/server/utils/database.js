@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const { Pool } = require('pg');
 const config = {};
 
@@ -24,7 +25,6 @@ async function dbQuery(statement, params) {
   }catch(e){
     console.error('dbQuery error', e.stack);
   }
-
 }
 
 async function dbInsert(statement, params) {
@@ -55,8 +55,3 @@ exports.dbQuery = dbQuery;
 exports.dbInsert = dbInsert;
 exports.dbUpdate = dbUpdate;
 exports.dbDelete = dbDelete;
-
-
-//module.exports = {
-//     query: (text, params) => pool.query(text, params),
-//}

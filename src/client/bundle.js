@@ -8171,14 +8171,18 @@ var _uiErrormsg = registerComponent(ErrogMsg, {
 });
 
 function tmpl$1($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, b: api_bind} = $api;
+  const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind} = $api;
   const {_m0} = $ctx;
   return [api_element("footer", {
     key: 0
   }, [api_element("p", {
     key: 1
-  }, [api_text("footer template")]), api_element("button", {
-    key: 2,
+  }, [api_text("footer template")]), api_element("div", {
+    key: 2
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))]), api_element("div", {
+    key: 3
+  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("button", {
+    key: 4,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
     }
@@ -8189,13 +8193,29 @@ tmpl$1.stylesheets = [];
 tmpl$1.stylesheetToken = "ui-footer_footer";
 
 class Footer extends LightningElement {
-  //@api gamestatus;
+  constructor(...args) {
+    super(...args);
+    this.playercount = void 0;
+    this.playerscore = void 0;
+  }
+
   printSession(e) {
     // console.log(JSON.stringify(SESSION));
     console.log(SESSION);
   }
 
 }
+
+registerDecorators(Footer, {
+  publicProps: {
+    playercount: {
+      config: 0
+    },
+    playerscore: {
+      config: 0
+    }
+  }
+});
 
 var _uiFooter = registerComponent(Footer, {
   tmpl: _tmpl$1
@@ -8244,6 +8264,10 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     },
     key: 7
   }, []) : null]), api_custom_element("ui-footer", _uiFooter, {
+    props: {
+      "playerscore": $cmp.gamePlayerScore,
+      "playercount": $cmp.gamePlayerCount
+    },
     key: 8
   }, [])];
 }
@@ -12508,13 +12532,9 @@ var socket_io = {exports: {}};
 });
 }(socket_io));
 
+//import { handleSocketEvent } from '../../utils/socketclient';
+
 const socket = socket_io.exports.io();
-socket.on("connect", () => {
-  console.log("app.socketid: " + socket.id);
-});
-socket.onAny((event, data) => {
-  console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
-});
 
 class App extends LightningElement {
   constructor(...args) {
@@ -12524,18 +12544,27 @@ class App extends LightningElement {
     this.sessionUserName = void 0;
     this.errorState = false;
     this.errorMessage = void 0;
+    this.gamePlayerCount = 0;
+    this.gamePlayerScore = 0;
   }
 
   connectedCallback() {
     this.addEventListener('state_change', this.handleStateChange);
     this.addEventListener('error_message', this.handleErrorMessage);
     this.sessionState = SESSION.sessionState;
-  }
+    socket.on("connect", () => {
+      console.log("app.socketid: " + socket.id);
+    });
+    socket.onAny((event, data) => {
+      console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
+      this.handleSocketEvent(event, data);
+    });
+  } //lwc events
+
 
   handleStateChange(evt) {
-    console.log('app.handleStateChange: ' + evt.detail.name);
-    console.log(evt);
-
+    // console.log('app.handleStateChange: ' + evt.detail.name);
+    // console.log(evt);
     if (evt.detail.name === 'LoginRegister') {
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOGIN;
     }
@@ -12556,9 +12585,7 @@ class App extends LightningElement {
 
     if (evt.detail.name === 'JoinedGame') {
       // socket.emit('joinedgame', {'gameid5': evt.detail.gameid5, 'userid': evt.detail.userid});
-      socket.emit('joinedgame', {
-        SESSION
-      });
+      socket.emit('joinedgame', SESSION);
 
       if (!SESSION.host) {
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
@@ -12595,6 +12622,18 @@ class App extends LightningElement {
 
   get isErrorMessage() {
     return this.errorState;
+  } //handle socket events
+
+
+  handleSocketEvent(event, data) {
+    switch (event) {
+      case 'player-joined':
+        //increment player count 
+        console.log('player.joined: ' + event);
+        console.log('data.length: ' + data.length);
+        console.log(data);
+        this.gamePlayerCount = data.length;
+    }
   } //error handling
 
 
@@ -12607,7 +12646,7 @@ class App extends LightningElement {
 }
 
 registerDecorators(App, {
-  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage"]
+  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage", "gamePlayerCount", "gamePlayerScore"]
 });
 
 var App$1 = registerComponent(App, {

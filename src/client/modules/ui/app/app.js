@@ -1,14 +1,9 @@
 import { LightningElement } from 'lwc';
 import { SESSIONSTATES, SESSION } from '../../services/session';
 import { io } from "../../../../../node_modules/socket.io-client/dist/socket.io.js"; // whole path for client side
+//import { handleSocketEvent } from '../../utils/socketclient';
 
 const socket = io();
-socket.on("connect", () => {
-  console.log("app.socketid: " + socket.id); 
-});
-socket.onAny((event, data) => {
-    console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
-});
 
 export default class App extends LightningElement {
     sessionGameNum;
@@ -16,16 +11,29 @@ export default class App extends LightningElement {
     sessionUserName;
     errorState = false;
     errorMessage;
+    gamePlayerCount = 0;
+    gamePlayerScore = 0;
 
     connectedCallback(){
         this.addEventListener('state_change', this.handleStateChange);
         this.addEventListener('error_message', this.handleErrorMessage);
         this.sessionState = SESSION.sessionState;
+
+
+        socket.on("connect", () => {
+          console.log("app.socketid: " + socket.id); 
+        });
+        socket.onAny((event, data) => {
+            console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
+            this.handleSocketEvent(event, data);
+        });
+
     }
     
+    //lwc events
     handleStateChange(evt) {
-        console.log('app.handleStateChange: ' + evt.detail.name);
-        console.log(evt);
+        // console.log('app.handleStateChange: ' + evt.detail.name);
+        // console.log(evt);
 
         if(evt.detail.name === 'LoginRegister'){
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOGIN;
@@ -43,7 +51,7 @@ export default class App extends LightningElement {
         }
         if(evt.detail.name === 'JoinedGame'){
             // socket.emit('joinedgame', {'gameid5': evt.detail.gameid5, 'userid': evt.detail.userid});
-            socket.emit('joinedgame', {SESSION});
+            socket.emit('joinedgame', SESSION);
             if(!SESSION.host){
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
                 this.sessionGameNum = SESSION.gameNum;
@@ -61,7 +69,6 @@ export default class App extends LightningElement {
 
 
     // UI expressions to dynamically render templates (return true or false)
-
     get isInLobbyState() {
         return this.sessionState === SESSIONSTATES.IN_LOBBY;
     }
@@ -76,6 +83,22 @@ export default class App extends LightningElement {
     }
     get isErrorMessage(){
         return this.errorState
+    }
+
+    //handle socket events
+    handleSocketEvent(event, data){
+
+        switch (event) {
+            case 'player-joined': 
+                //increment player count 
+                console.log('player.joined: ' + event)
+                console.log('data.length: ' + data.length)
+                console.log(data)
+                this.gamePlayerCount = data.length;
+            case 'asdf': 
+                //console.log('ws emit: newgame | ' + data);
+                break;
+        }
     }
 
     //error handling

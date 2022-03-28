@@ -1,11 +1,13 @@
 --DROP TABLE IF EXISTS game;
+--DROP TABLE IF EXISTS public.user;
+--DROP TABLE IF EXISTS player;
 
 --schema - id(36), created (timestamp), createdby(36), gameid(10), hostid(36), gamestate(20)
 CREATE TABLE IF NOT EXISTS game(
     id VARCHAR(36) PRIMARY KEY,
     created TIMESTAMP DEFAULT NOW(), 
     createdby VARCHAR(36), 
-    gameid VARCHAR(10),
+    gamenum VARCHAR(10),
     hostid VARCHAR(36),
     gamestate VARCHAR(20) 
 );

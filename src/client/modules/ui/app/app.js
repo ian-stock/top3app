@@ -12,6 +12,7 @@ export default class App extends LightningElement {
     errorState = false;
     errorMessage;
     gamePlayerCount = 0;
+    gamePlayerList;
     gamePlayerScore = 0;
 
     connectedCallback(){
@@ -91,10 +92,13 @@ export default class App extends LightningElement {
         switch (event) {
             case 'player-joined': 
                 //increment player count 
-                console.log('player.joined: ' + event)
-                console.log('data.length: ' + data.length)
-                console.log(data)
                 this.gamePlayerCount = data.length;
+                //this.gamePlayerList = JSON.stringify(data);
+                this.gamePlayerList = "";
+                for (let i in data) {
+                    this.gamePlayerList += data[i].username + '  '
+                }
+
             case 'asdf': 
                 //console.log('ws emit: newgame | ' + data);
                 break;

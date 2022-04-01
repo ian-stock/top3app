@@ -8085,16 +8085,25 @@ var _uiLogin = registerComponent(Login, {
 });
 
 function tmpl$4($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, b: api_bind} = $api;
-  const {_m0} = $ctx;
+  const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind} = $api;
+  const {_m0, _m1} = $ctx;
   return [api_element("newgame", {
     key: 0
   }, [api_element("h2", {
     key: 1
-  }, [api_text("newgame html")]), api_element("button", {
-    key: 2,
+  }, [api_text("newgame html")]), api_element("div", {
+    key: 2
+  }, [api_text("Player List: ")]), api_element("div", {
+    key: 3
+  }, [api_text(api_dynamic_text($cmp.playerlist))]), api_element("button", {
+    key: 4,
     on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.endGame))
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.startGame))
+    }
+  }, [api_text("Start Game")]), api_element("button", {
+    key: 5,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.endGame))
     }
   }, [api_text("End Game")])])];
 }
@@ -8103,6 +8112,20 @@ tmpl$4.stylesheets = [];
 tmpl$4.stylesheetToken = "ui-newgame_newgame";
 
 class NewGame$1 extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.playerlist = void 0;
+  }
+
+  //for ui update
+  startGame(e) {
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'GameStarted'
+      }
+    }));
+  }
+
   endGame(e) {
     this.dispatchEvent(new CustomEvent('state_change', {
       detail: {
@@ -8112,6 +8135,14 @@ class NewGame$1 extends LightningElement {
   }
 
 }
+
+registerDecorators(NewGame$1, {
+  publicProps: {
+    playerlist: {
+      config: 0
+    }
+  }
+});
 
 var _uiNewgame = registerComponent(NewGame$1, {
   tmpl: _tmpl$4
@@ -8123,7 +8154,9 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
     key: 0
   }, [api_element("h2", {
     key: 1
-  }, [api_text("waitinggame html")])])];
+  }, [api_text("waitinggame html")]), api_element("div", {
+    key: 2
+  }, [api_text("Waiting for game to start...")])])];
 }
 var _tmpl$3 = registerTemplate(tmpl$3);
 tmpl$3.stylesheets = [];
@@ -8249,6 +8282,9 @@ function tmpl($api, $cmp, $slotset, $ctx) {
       "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
     }
   }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
+    props: {
+      "playerlist": $cmp.gamePlayerList
+    },
     key: 5,
     on: {
       "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
@@ -12545,6 +12581,7 @@ class App extends LightningElement {
     this.errorState = false;
     this.errorMessage = void 0;
     this.gamePlayerCount = 0;
+    this.gamePlayerList = void 0;
     this.gamePlayerScore = 0;
   }
 
@@ -12629,10 +12666,13 @@ class App extends LightningElement {
     switch (event) {
       case 'player-joined':
         //increment player count 
-        console.log('player.joined: ' + event);
-        console.log('data.length: ' + data.length);
-        console.log(data);
-        this.gamePlayerCount = data.length;
+        this.gamePlayerCount = data.length; //this.gamePlayerList = JSON.stringify(data);
+
+        this.gamePlayerList = "";
+
+        for (let i in data) {
+          this.gamePlayerList += data[i].username + ', ';
+        }
     }
   } //error handling
 
@@ -12646,7 +12686,7 @@ class App extends LightningElement {
 }
 
 registerDecorators(App, {
-  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage", "gamePlayerCount", "gamePlayerScore"]
+  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage", "gamePlayerCount", "gamePlayerList", "gamePlayerScore"]
 });
 
 var App$1 = registerComponent(App, {

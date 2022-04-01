@@ -13,7 +13,7 @@
         </template>
 
         <template if:true={isNewGameState}>
-            <ui-newgame onstate_change = {handleStateChange}></ui-newgame>
+            <ui-newgame playerlist={gamePlayerList} onstate_change = {handleStateChange}></ui-newgame>
         </template>
 
         <template if:true={isJoinedGameState}>

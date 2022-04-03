@@ -7663,29 +7663,46 @@ freeze(LightningElement);
 seal(LightningElement.prototype);
 /* version: 2.7.0 */
 
+function stylesheet$7(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return [".body", shadowSelector, " {flex-grow: 1;width: 100%;display: flex;flex-direction: column;}"].join('');
+}
+var _implicitStylesheets$7 = [stylesheet$7];
+
+function stylesheet$6(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["header", shadowSelector, " {padding: 1rem;display: flex;justify-content: space-between;background: #bf9b30;}htitle", shadowSelector, " {font-size: 4vw;}div", shadowSelector, " {font-size: 5vw;}"].join('');
+}
+var _implicitStylesheets$6 = [stylesheet$6];
+
 function tmpl$7($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text} = $api;
   return [api_element("header", {
     key: 0
-  }, [api_element("h2", {
+  }, [api_element("htitle", {
     classMap: {
       "app-name": true
     },
     key: 1
-  }, [api_text("Top3 Header")]), api_element("h3", {
-    classMap: {
-      "userid": true
-    },
-    key: 2
-  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))]), api_element("h3", {
+  }, [api_text("Top3 Header")]), api_element("div", {
     classMap: {
       "gamenum": true
     },
+    key: 2
+  }, [api_text("GameID: " + api_dynamic_text($cmp.sessiongamenum))]), api_element("div", {
+    classMap: {
+      "userid": true
+    },
     key: 3
-  }, [api_text("GameID: " + api_dynamic_text($cmp.sessiongamenum))])])];
+  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))])])];
 }
 var _tmpl$7 = registerTemplate(tmpl$7);
 tmpl$7.stylesheets = [];
+
+
+if (_implicitStylesheets$6) {
+  tmpl$7.stylesheets.push.apply(tmpl$7.stylesheets, _implicitStylesheets$6);
+}
 tmpl$7.stylesheetToken = "ui-header_header";
 
 class Header extends LightningElement {
@@ -7719,66 +7736,75 @@ var _uiHeader = registerComponent(Header, {
   tmpl: _tmpl$7
 });
 
+function stylesheet$5(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["lobby", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
+}
+var _implicitStylesheets$5 = [stylesheet$5];
+
 function tmpl$6($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, b: api_bind, d: api_dynamic_text, gid: api_scoped_id} = $api;
+  const {h: api_element, b: api_bind, t: api_text, d: api_dynamic_text, gid: api_scoped_id} = $api;
   const {_m0, _m1, _m2} = $ctx;
   return [api_element("lobby", {
     key: 0
-  }, [api_element("h2", {
+  }, [api_element("br", {
     key: 1
-  }, [api_text("lobby html")]), api_element("br", {
-    key: 2
   }, []), api_element("button", {
-    key: 3,
+    key: 2,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.loginRegister))
     }
   }, [api_text("Login/Register")]), api_element("br", {
-    key: 4
+    key: 3
   }, []), api_element("button", {
-    key: 5,
+    key: 4,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.newGame))
     }
   }, [api_text("New Game")]), api_element("br", {
-    key: 6
+    key: 5
   }, []), api_element("div", {
     classMap: {
       "label": true
     },
-    key: 7
+    key: 6
   }, [api_text("GameID: " + api_dynamic_text($cmp.gameNum))]), api_element("br", {
-    key: 8
+    key: 7
   }, []), api_element("button", {
     attrs: {
       "data-id": "joinGameBtn"
     },
-    key: 9,
+    key: 8,
     on: {
       "click": _m2 || ($ctx._m2 = api_bind($cmp.joinGame))
     }
   }, [api_text("Join Game")]), api_element("br", {
-    key: 10
+    key: 9
   }, []), api_element("label", {
     attrs: {
       "for": api_scoped_id("gameNumInput")
     },
-    key: 11
+    key: 10
   }, [api_text("GameID: ")]), api_element("input", {
     attrs: {
       "type": "text",
       "data-id": "gameNumInput",
       "id": api_scoped_id("gameNumInput")
     },
+    key: 11
+  }, []), api_element("br", {
     key: 12
   }, []), api_element("br", {
     key: 13
-  }, []), api_element("br", {
-    key: 14
   }, [])])];
 }
 var _tmpl$6 = registerTemplate(tmpl$6);
 tmpl$6.stylesheets = [];
+
+
+if (_implicitStylesheets$5) {
+  tmpl$6.stylesheets.push.apply(tmpl$6.stylesheets, _implicitStylesheets$5);
+}
 tmpl$6.stylesheetToken = "ui-lobby_lobby";
 
 function createNewGame(userid) {
@@ -7929,61 +7955,70 @@ var _uiLobby = registerComponent(Lobby, {
   tmpl: _tmpl$6
 });
 
+function stylesheet$4(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["login", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
+}
+var _implicitStylesheets$4 = [stylesheet$4];
+
 function tmpl$5($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, b: api_bind, gid: api_scoped_id} = $api;
+  const {b: api_bind, t: api_text, h: api_element, gid: api_scoped_id} = $api;
   const {_m0, _m1} = $ctx;
   return [api_element("login", {
     key: 0
-  }, [api_element("h2", {
-    key: 1
-  }, [api_text("login html")]), api_element("button", {
-    key: 2,
+  }, [api_element("button", {
+    key: 1,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.login))
     }
   }, [api_text("Login")]), api_element("button", {
-    key: 3,
+    key: 2,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.register))
     }
   }, [api_text("Register")]), api_element("br", {
-    key: 4
+    key: 3
   }, []), api_element("label", {
     attrs: {
       "for": api_scoped_id("userIdInput")
     },
-    key: 5
+    key: 4
   }, [api_text("UserID: ")]), api_element("input", {
     attrs: {
       "type": "text",
       "data-id": "userIdInput",
       "id": api_scoped_id("userIdInput")
     },
+    key: 5
+  }, []), api_element("br", {
     key: 6
   }, []), api_element("br", {
     key: 7
-  }, []), api_element("br", {
-    key: 8
   }, []), api_element("label", {
     attrs: {
       "for": api_scoped_id("pwdInput")
     },
-    key: 9
+    key: 8
   }, [api_text("Pwd: ")]), api_element("input", {
     attrs: {
       "type": "password",
       "data-id": "pwdInput",
       "id": api_scoped_id("pwdInput")
     },
+    key: 9
+  }, []), api_element("br", {
     key: 10
   }, []), api_element("br", {
     key: 11
-  }, []), api_element("br", {
-    key: 12
   }, [])])];
 }
 var _tmpl$5 = registerTemplate(tmpl$5);
 tmpl$5.stylesheets = [];
+
+
+if (_implicitStylesheets$4) {
+  tmpl$5.stylesheets.push.apply(tmpl$5.stylesheets, _implicitStylesheets$4);
+}
 tmpl$5.stylesheetToken = "ui-login_login";
 
 function userRegistration(username, pwd) {
@@ -8084,6 +8119,12 @@ var _uiLogin = registerComponent(Login, {
   tmpl: _tmpl$5
 });
 
+function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["newgame", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
+}
+var _implicitStylesheets$3 = [stylesheet$3];
+
 function tmpl$4($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind} = $api;
   const {_m0, _m1} = $ctx;
@@ -8109,6 +8150,11 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
 }
 var _tmpl$4 = registerTemplate(tmpl$4);
 tmpl$4.stylesheets = [];
+
+
+if (_implicitStylesheets$3) {
+  tmpl$4.stylesheets.push.apply(tmpl$4.stylesheets, _implicitStylesheets$3);
+}
 tmpl$4.stylesheetToken = "ui-newgame_newgame";
 
 class NewGame$1 extends LightningElement {
@@ -8148,6 +8194,12 @@ var _uiNewgame = registerComponent(NewGame$1, {
   tmpl: _tmpl$4
 });
 
+function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["waitinggame", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
+}
+var _implicitStylesheets$2 = [stylesheet$2];
+
 function tmpl$3($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element} = $api;
   return [api_element("waitinggame", {
@@ -8160,6 +8212,11 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
 }
 var _tmpl$3 = registerTemplate(tmpl$3);
 tmpl$3.stylesheets = [];
+
+
+if (_implicitStylesheets$2) {
+  tmpl$3.stylesheets.push.apply(tmpl$3.stylesheets, _implicitStylesheets$2);
+}
 tmpl$3.stylesheetToken = "ui-waitinggame_waitinggame";
 
 class NewGame extends LightningElement {}
@@ -8167,6 +8224,12 @@ class NewGame extends LightningElement {}
 var _uiWaitinggame = registerComponent(NewGame, {
   tmpl: _tmpl$3
 });
+
+function stylesheet$1(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["errormsg", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
+}
+var _implicitStylesheets$1 = [stylesheet$1];
 
 function tmpl$2($api, $cmp, $slotset, $ctx) {
   const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
@@ -8181,6 +8244,11 @@ function tmpl$2($api, $cmp, $slotset, $ctx) {
 }
 var _tmpl$2 = registerTemplate(tmpl$2);
 tmpl$2.stylesheets = [];
+
+
+if (_implicitStylesheets$1) {
+  tmpl$2.stylesheets.push.apply(tmpl$2.stylesheets, _implicitStylesheets$1);
+}
 tmpl$2.stylesheetToken = "ui-errormsg_errormsg";
 
 class ErrogMsg extends LightningElement {
@@ -8203,19 +8271,23 @@ var _uiErrormsg = registerComponent(ErrogMsg, {
   tmpl: _tmpl$2
 });
 
+function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["footer", shadowSelector, " {padding: 1rem;display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;}div", shadowSelector, " {font-size: 5vw;}button", shadowSelector, " {font-size: 3vw;}"].join('');
+}
+var _implicitStylesheets = [stylesheet];
+
 function tmpl$1($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind} = $api;
+  const {d: api_dynamic_text, t: api_text, h: api_element, b: api_bind} = $api;
   const {_m0} = $ctx;
   return [api_element("footer", {
     key: 0
-  }, [api_element("p", {
+  }, [api_element("div", {
     key: 1
-  }, [api_text("footer template")]), api_element("div", {
+  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
     key: 2
-  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))]), api_element("div", {
-    key: 3
-  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("button", {
-    key: 4,
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))]), api_element("button", {
+    key: 3,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
     }
@@ -8223,6 +8295,11 @@ function tmpl$1($api, $cmp, $slotset, $ctx) {
 }
 var _tmpl$1 = registerTemplate(tmpl$1);
 tmpl$1.stylesheets = [];
+
+
+if (_implicitStylesheets) {
+  tmpl$1.stylesheets.push.apply(tmpl$1.stylesheets, _implicitStylesheets);
+}
 tmpl$1.stylesheetToken = "ui-footer_footer";
 
 class Footer extends LightningElement {
@@ -8255,7 +8332,7 @@ var _uiFooter = registerComponent(Footer, {
 });
 
 function tmpl($api, $cmp, $slotset, $ctx) {
-  const {c: api_custom_element, t: api_text, h: api_element, b: api_bind} = $api;
+  const {c: api_custom_element, b: api_bind, h: api_element} = $api;
   const {_m0, _m1, _m2, _m3, _m4} = $ctx;
   return [api_custom_element("ui-header", _uiHeader, {
     props: {
@@ -8268,15 +8345,13 @@ function tmpl($api, $cmp, $slotset, $ctx) {
       "body": true
     },
     key: 1
-  }, [api_element("p", {
-    key: 2
-  }, [api_text("body of app html")]), $cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
-    key: 3,
+  }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
+    key: 2,
     on: {
       "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
-    key: 4,
+    key: 3,
     on: {
       "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
       "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
@@ -8285,12 +8360,12 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     props: {
       "playerlist": $cmp.gamePlayerList
     },
-    key: 5,
+    key: 4,
     on: {
       "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isJoinedGameState ? api_custom_element("ui-waitinggame", _uiWaitinggame, {
-    key: 6,
+    key: 5,
     on: {
       "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
     }
@@ -8298,17 +8373,22 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     props: {
       "errormsg": $cmp.errorMessage
     },
-    key: 7
+    key: 6
   }, []) : null]), api_custom_element("ui-footer", _uiFooter, {
     props: {
       "playerscore": $cmp.gamePlayerScore,
       "playercount": $cmp.gamePlayerCount
     },
-    key: 8
+    key: 7
   }, [])];
 }
 var _tmpl = registerTemplate(tmpl);
 tmpl.stylesheets = [];
+
+
+if (_implicitStylesheets$7) {
+  tmpl.stylesheets.push.apply(tmpl.stylesheets, _implicitStylesheets$7);
+}
 tmpl.stylesheetToken = "ui-app_app";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -12671,7 +12751,7 @@ class App extends LightningElement {
         this.gamePlayerList = "";
 
         for (let i in data) {
-          this.gamePlayerList += data[i].username + ', ';
+          this.gamePlayerList += data[i].username + '  ';
         }
     }
   } //error handling

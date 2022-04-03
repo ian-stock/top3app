@@ -1,32 +1,26 @@
 <template>
     <ui-header sessiongamenum={sessionGameNum} sessionusername={sessionUserName}></ui-header>
+        <div class="body">
+            <template if:true={isInLobbyState}>
+                <ui-lobby onstate_change = {handleStateChange}></ui-lobby>
+            </template>
 
-    <div class="body">
-        <p>body of app html</p>
+            <template if:true={isLoginRegState}>
+                <ui-login onstate_change = {handleStateChange} onerror_message = {handleErrorMessage}></ui-login>
+            </template>
 
-        <template if:true={isInLobbyState}>
-            <ui-lobby onstate_change = {handleStateChange}></ui-lobby>
-        </template>
+            <template if:true={isNewGameState}>
+                <ui-newgame playerlist={gamePlayerList} onstate_change = {handleStateChange}></ui-newgame>
+            </template>
 
-        <template if:true={isLoginRegState}>
-            <ui-login onstate_change = {handleStateChange} onerror_message = {handleErrorMessage}></ui-login>
-        </template>
+            <template if:true={isJoinedGameState}>
+                <ui-waitinggame onstate_change = {handleStateChange}></ui-waitinggame>
+            </template>
 
-        <template if:true={isNewGameState}>
-            <ui-newgame playerlist={gamePlayerList} onstate_change = {handleStateChange}></ui-newgame>
-        </template>
-
-        <template if:true={isJoinedGameState}>
-            <ui-waitinggame onstate_change = {handleStateChange}></ui-waitinggame>
-        </template>
-
-        <!-- Errors -->
-        <template if:true={isErrorMessage}>
-            <ui-errormsg errormsg={errorMessage}></ui-errormsg>
-        </template>
-
-    </div>
-    <!-- End body -->
-
+            <!-- Errors -->
+            <template if:true={isErrorMessage}>
+                <ui-errormsg errormsg={errorMessage}></ui-errormsg>
+            </template>
+        </div> <!-- End body -->
     <ui-footer playerscore={gamePlayerScore} playercount={gamePlayerCount} ></ui-footer>
 </template>

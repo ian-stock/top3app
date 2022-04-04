@@ -7665,36 +7665,42 @@ seal(LightningElement.prototype);
 
 function stylesheet$7(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return [".body", shadowSelector, " {flex-grow: 1;width: 100%;display: flex;flex-direction: column;}"].join('');
+  return [".body", shadowSelector, " {height: 80vh;border-color: red;border-style:solid;border-width: 2px;}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;height: 80vh;margin: 0 auto;border-color: red;border-style:solid;border-width: 2px;}@media only screen and (max-width: 600px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
 }
 var _implicitStylesheets$7 = [stylesheet$7];
 
 function stylesheet$6(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {padding: 1rem;display: flex;justify-content: space-between;background: #bf9b30;}htitle", shadowSelector, " {font-size: 4vw;}div", shadowSelector, " {font-size: 5vw;}"].join('');
+  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background: #bf9b30;border-color: red;border-style:solid;border-width: 2px;}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;margin: 0 auto;border-color: red;border-style:solid;border-width: 2px;}@media only screen and (max-width: 600px) {.innerContainer", shadowSelector, "{width: 100%;}}img", shadowSelector, "{width: 75px}htitle", shadowSelector, " {font-size: 4vw;}div", shadowSelector, " {font-size: 5vw;}"].join('');
 }
 var _implicitStylesheets$6 = [stylesheet$6];
 
 function tmpl$7($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, d: api_dynamic_text} = $api;
+  const {h: api_element, d: api_dynamic_text, t: api_text} = $api;
   return [api_element("header", {
     key: 0
-  }, [api_element("htitle", {
+  }, [api_element("div", {
     classMap: {
-      "app-name": true
+      "innerContainer": true
     },
     key: 1
-  }, [api_text("Top3 Header")]), api_element("div", {
+  }, [api_element("img", {
+    attrs: {
+      "src": "../../../resources/img/top3.jpeg",
+      "alt": "top3"
+    },
+    key: 2
+  }, []), api_element("div", {
     classMap: {
       "gamenum": true
     },
-    key: 2
+    key: 3
   }, [api_text("GameID: " + api_dynamic_text($cmp.sessiongamenum))]), api_element("div", {
     classMap: {
       "userid": true
     },
-    key: 3
-  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))])])];
+    key: 4
+  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))])])])];
 }
 var _tmpl$7 = registerTemplate(tmpl$7);
 tmpl$7.stylesheets = [];
@@ -8273,7 +8279,7 @@ var _uiErrormsg = registerComponent(ErrogMsg, {
 
 function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["footer", shadowSelector, " {padding: 1rem;display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;}div", shadowSelector, " {font-size: 5vw;}button", shadowSelector, " {font-size: 3vw;}"].join('');
+  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;border-color: red;border-style:solid;border-width: 2px;}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;margin: 0 auto;border-color: red;border-style:solid;border-width: 2px;}@media only screen and (max-width: 600px) {.innerContainer", shadowSelector, "{width: 100%;}}div", shadowSelector, " {font-size: 5vw;}button", shadowSelector, " {font-size: 1vw;}"].join('');
 }
 var _implicitStylesheets = [stylesheet];
 
@@ -8283,11 +8289,16 @@ function tmpl$1($api, $cmp, $slotset, $ctx) {
   return [api_element("footer", {
     key: 0
   }, [api_element("div", {
+    classMap: {
+      "innerContainer": true
+    },
     key: 1
-  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
+  }, [api_element("div", {
     key: 2
-  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))]), api_element("button", {
-    key: 3,
+  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
+    key: 3
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]), api_element("button", {
+    key: 4,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
     }
@@ -8345,13 +8356,18 @@ function tmpl($api, $cmp, $slotset, $ctx) {
       "body": true
     },
     key: 1
+  }, [api_element("div", {
+    classMap: {
+      "innerContainer": true
+    },
+    key: 2
   }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
-    key: 2,
+    key: 3,
     on: {
       "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
-    key: 3,
+    key: 4,
     on: {
       "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
       "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
@@ -8360,12 +8376,12 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     props: {
       "playerlist": $cmp.gamePlayerList
     },
-    key: 4,
+    key: 5,
     on: {
       "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isJoinedGameState ? api_custom_element("ui-waitinggame", _uiWaitinggame, {
-    key: 5,
+    key: 6,
     on: {
       "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
     }
@@ -8373,13 +8389,13 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     props: {
       "errormsg": $cmp.errorMessage
     },
-    key: 6
-  }, []) : null]), api_custom_element("ui-footer", _uiFooter, {
+    key: 7
+  }, []) : null])]), api_custom_element("ui-footer", _uiFooter, {
     props: {
       "playerscore": $cmp.gamePlayerScore,
       "playercount": $cmp.gamePlayerCount
     },
-    key: 7
+    key: 8
   }, [])];
 }
 var _tmpl = registerTemplate(tmpl);

@@ -1,3 +1,30 @@
-html, body, div{
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+}
+
+button{
+  font-size: 2vw;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: rgb(180, 180, 180);
+}
+.innerContainer{
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
   height: 100%;
+  min-height: 100%;
+  margin: auto auto;
+}
+
+@media only screen and (max-width: 700px) {
+  .innerContainer{ 
+      width: 100%;
+  }
 }

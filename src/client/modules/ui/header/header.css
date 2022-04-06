@@ -1,41 +1,14 @@
+@import '../../../resources/css/style.css';
+
 header {
-    /* padding: 1rem; */
     display: flex;
     /* align-items: stretch; */
     justify-content: space-between;
-    /* color: #ffffff; */
-    background: #bf9b30;
-    border-color: red;
-    border-style:solid;
-    border-width: 2px;
-
-}
-
-.innerContainer{
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-    margin: 0 auto;
-    border-color: red;
-    border-style:solid;
-    border-width: 2px;
-}
-
-@media only screen and (max-width: 600px) {
-    .innerContainer{ 
-        width: 100%;
-    }
+    background: #ED5314 ;
+    height: 50px;
+    box-shadow: 0 6px 8px rgb(0 0 0 / 20%);
 }
 
 img{
-    width: 75px
-}
-
-/* replace title with logo everntually */
-htitle {
-    font-size: 4vw;
-}
-
-div {
-    font-size: 5vw;
+    height: 50px;
 }

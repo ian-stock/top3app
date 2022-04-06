@@ -7663,17 +7663,23 @@ freeze(LightningElement);
 seal(LightningElement.prototype);
 /* version: 2.7.0 */
 
+function stylesheet$8(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}button", shadowSelector, "{font-size: 2vw;border-radius: 5px;padding: 5px;cursor: pointer;}button:hover", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
+}
+var stylesheet0 = [stylesheet$8];
+
 function stylesheet$7(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return [".body", shadowSelector, " {height: 80vh;border-color: red;border-style:solid;border-width: 2px;}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;height: 80vh;margin: 0 auto;border-color: red;border-style:solid;border-width: 2px;}@media only screen and (max-width: 600px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
+  return [".body", shadowSelector, " {background-color: #3ABBC9 ;top: 50px;height: calc(100vh - 100px);}"].join('');
 }
-var _implicitStylesheets$7 = [stylesheet$7];
+var _implicitStylesheets$7 = [stylesheet0, stylesheet$7];
 
 function stylesheet$6(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background: #bf9b30;border-color: red;border-style:solid;border-width: 2px;}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;margin: 0 auto;border-color: red;border-style:solid;border-width: 2px;}@media only screen and (max-width: 600px) {.innerContainer", shadowSelector, "{width: 100%;}}img", shadowSelector, "{width: 75px}htitle", shadowSelector, " {font-size: 4vw;}div", shadowSelector, " {font-size: 5vw;}"].join('');
+  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background: #ED5314 ;height: 50px;box-shadow: 0 6px 8px rgb(0 0 0 / 20%);}img", shadowSelector, "{height: 50px;}"].join('');
 }
-var _implicitStylesheets$6 = [stylesheet$6];
+var _implicitStylesheets$6 = [stylesheet0, stylesheet$6];
 
 function tmpl$7($api, $cmp, $slotset, $ctx) {
   const {h: api_element, d: api_dynamic_text, t: api_text} = $api;
@@ -7746,7 +7752,7 @@ function stylesheet$5(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["lobby", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
 }
-var _implicitStylesheets$5 = [stylesheet$5];
+var _implicitStylesheets$5 = [stylesheet0, stylesheet$5];
 
 function tmpl$6($api, $cmp, $slotset, $ctx) {
   const {h: api_element, b: api_bind, t: api_text, d: api_dynamic_text, gid: api_scoped_id} = $api;
@@ -7965,7 +7971,7 @@ function stylesheet$4(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["login", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
 }
-var _implicitStylesheets$4 = [stylesheet$4];
+var _implicitStylesheets$4 = [stylesheet0, stylesheet$4];
 
 function tmpl$5($api, $cmp, $slotset, $ctx) {
   const {b: api_bind, t: api_text, h: api_element, gid: api_scoped_id} = $api;
@@ -8129,7 +8135,7 @@ function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["newgame", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
 }
-var _implicitStylesheets$3 = [stylesheet$3];
+var _implicitStylesheets$3 = [stylesheet0, stylesheet$3];
 
 function tmpl$4($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind} = $api;
@@ -8204,7 +8210,7 @@ function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["waitinggame", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
 }
-var _implicitStylesheets$2 = [stylesheet$2];
+var _implicitStylesheets$2 = [stylesheet0, stylesheet$2];
 
 function tmpl$3($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element} = $api;
@@ -8235,7 +8241,7 @@ function stylesheet$1(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["errormsg", shadowSelector, " {padding: 1rem;}div", shadowSelector, ", button", shadowSelector, ", label", shadowSelector, ", input", shadowSelector, " {font-size: 3vh;}"].join('');
 }
-var _implicitStylesheets$1 = [stylesheet$1];
+var _implicitStylesheets$1 = [stylesheet0, stylesheet$1];
 
 function tmpl$2($api, $cmp, $slotset, $ctx) {
   const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
@@ -8279,13 +8285,12 @@ var _uiErrormsg = registerComponent(ErrogMsg, {
 
 function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;border-color: red;border-style:solid;border-width: 2px;}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;margin: 0 auto;border-color: red;border-style:solid;border-width: 2px;}@media only screen and (max-width: 600px) {.innerContainer", shadowSelector, "{width: 100%;}}div", shadowSelector, " {font-size: 5vw;}button", shadowSelector, " {font-size: 1vw;}"].join('');
+  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;height: 50px;}"].join('');
 }
-var _implicitStylesheets = [stylesheet];
+var _implicitStylesheets = [stylesheet0, stylesheet];
 
 function tmpl$1($api, $cmp, $slotset, $ctx) {
-  const {d: api_dynamic_text, t: api_text, h: api_element, b: api_bind} = $api;
-  const {_m0} = $ctx;
+  const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
   return [api_element("footer", {
     key: 0
   }, [api_element("div", {
@@ -8297,12 +8302,7 @@ function tmpl$1($api, $cmp, $slotset, $ctx) {
     key: 2
   }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
     key: 3
-  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]), api_element("button", {
-    key: 4,
-    on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
-    }
-  }, [api_text("session")])])];
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])])])];
 }
 var _tmpl$1 = registerTemplate(tmpl$1);
 tmpl$1.stylesheets = [];

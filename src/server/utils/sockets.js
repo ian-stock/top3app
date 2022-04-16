@@ -24,6 +24,9 @@ module.exports = function (io) {
                         io.to(data.gameNum).emit('player-joined', players.rows)
                     })
                 break;
+            case 'startedgame': 
+                io.to(data.gameNum).emit('game-started')
+                break;
             case 'leavegame': 
                 socket.leave(data); //data: gameid
                 break;

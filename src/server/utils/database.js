@@ -42,8 +42,19 @@ async function dbInsert(statement, params) {
   }
 }
 
-function dbUpdate() {
-  //include update statement logic
+async function dbUpdate(statement, params) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN')
+    updateRes = await client.query(statement, params)
+    await client.query('COMMIT')
+    return updateRes.rows[0]
+  }catch(e){
+    await client.query('ROLLBACK')
+    console.error('dbUpdate error', e.stack);
+  } finally {
+    client.release()
+  }
 }
 
 function dbDelete() {

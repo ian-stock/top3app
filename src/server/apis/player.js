@@ -21,11 +21,20 @@ router.get('/:gamenum', async (req, res) => {
     res.send(result)
 })
 
+//update player / submit top 3
+router.patch('/:playerid', async (req, res) => {
+    const params = [req.params]
+    const result = await db.dbUpdate(playerListQry, params)
+    //add handling for update errors
+    res.send(result)
+})
+
 //for server-side db call (not express api)
 async function getPlayerList(gamenum){
     const params = [gamenum]
     const result = await db.dbQuery(playerListQry, params);
     return result;
 }
+
 
 module.exports = getPlayerList;

@@ -18,6 +18,10 @@
                     <ui-waitinggame onstate_change = {handleStateChange}></ui-waitinggame>
                 </template>
 
+                <template if:true={isGameStartedState}>
+                    <ui-entertop3 onstate_change = {handleStateChange}></ui-entertop3>
+                </template>
+
                 <!-- Errors -->
                 <template if:true={isErrorMessage}>
                     <ui-errormsg errormsg={errorMessage}></ui-errormsg>

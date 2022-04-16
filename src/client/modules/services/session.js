@@ -4,7 +4,7 @@ export const SESSIONSTATES = Object.freeze({
     IN_NEWGAME: 'InNewGame',
     IN_JOIN_GAME: 'InJoinGame',
     IN_WAITING_GAME_START: 'InWaitingGameStart',
-    ENTER_TOP3: 'EnterTop3',
+    IN_ENTER_TOP3: 'InEnterTop3',
     SUBMIT_VOTE: 'SubmitVote',
     REVEAL_ANSWER: 'RevealAnswer',
     GAME_RESULTS: 'GameResults'
@@ -20,11 +20,9 @@ export const SESSION = {
     "gameId": "notset",
     "gameNum": "notset",
     "gameState": "notset", 
+    "playerId": "notset",
     "host": false,
     "authenticated": false,
-    "question1": "notset",
-    "question2": "notset",
-    "question3": "notset",
     "gameScore": 0
 }
 

@@ -51,14 +51,15 @@ export default class App extends LightningElement {
             this.template.querySelector('ui-header').updateHost();
         }
         if(evt.detail.name === 'JoinedGame'){
-            // socket.emit('joinedgame', {'gameid5': evt.detail.gameid5, 'userid': evt.detail.userid});
             socket.emit('joinedgame', SESSION);
             if(!SESSION.host){
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
                 this.sessionGameNum = SESSION.gameNum;
                 this.sessionUserName = SESSION.userName;
             }
-            // console.log({'event':'joinedgame','gameid5': evt.detail.gameid5, 'userid': evt.detail.userid});
+        }
+        if(evt.detail.name === 'GameStarted'){
+            socket.emit('startedgame', SESSION);
         }
         if(evt.detail.name === 'GameEnded'){
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
@@ -82,6 +83,9 @@ export default class App extends LightningElement {
     get isJoinedGameState() {
         return this.sessionState === SESSIONSTATES.IN_WAITING_GAME_START;
     }
+    get isGameStartedState() {
+        return this.sessionState === SESSIONSTATES.IN_ENTER_TOP3;
+    }
     get isErrorMessage(){
         return this.errorState
     }
@@ -98,9 +102,9 @@ export default class App extends LightningElement {
                 for (let i in data) {
                     this.gamePlayerList += data[i].username + '  '
                 }
-
-            case 'asdf': 
-                //console.log('ws emit: newgame | ' + data);
+                break;
+            case 'game-started': 
+                SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
                 break;
         }
     }

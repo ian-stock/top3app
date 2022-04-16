@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 
 //player schema - id(36), created (timestamp), createdby(36), userid(36) gameid(36), host(boolean)
 
-// join game - create a PLAYER record
+// join game - create a PLAYER record - SHOULD MOVE TO PLAYER.JS
 router.post('/join', async (req, res) => {
     const uuid = uuidv4();
     const userId = req.body.userid;

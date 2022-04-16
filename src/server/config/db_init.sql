@@ -30,12 +30,15 @@ CREATE TABLE IF NOT EXISTS "user"(
 );
 
 
---schema - id(36), created (timestamp), createdby(36), userid(36), gameid(36), host(boolean)
+--schema - id(36), created (timestamp), createdby(36), userid(36), gameid(36), host(boolean), topone, toptwo, topthree
 CREATE TABLE IF NOT EXISTS player(
     id VARCHAR(36) PRIMARY KEY,
     created TIMESTAMP DEFAULT NOW(), 
     createdby VARCHAR(36), 
     userid VARCHAR(36),
     gameid VARCHAR(36), 
-    host BOOLEAN
+    host BOOLEAN, 
+    topone VARCHAR(100), 
+    toptwo VARCHAR(100), 
+    topthree VARCHAR(100)
 );

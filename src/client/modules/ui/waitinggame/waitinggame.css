@@ -1,9 +1,1 @@
 @import '../../../resources/css/style.css';
-
-waitinggame {
-    padding: 1rem;
-}
-
-div, button, label, input {
-    font-size: 3vh;
-}

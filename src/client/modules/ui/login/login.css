@@ -1,9 +1,1 @@
 @import '../../../resources/css/style.css';
-
-login {
-    padding: 1rem;
-}
-
-div, button, label, input {
-    font-size: 3vh;
-}

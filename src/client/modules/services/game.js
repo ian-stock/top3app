@@ -13,10 +13,8 @@ export function createNewGame(userid) {
     })
 }   
 
-export function playerJoinGame(userid, gamenum, host) {
+export function getGame(gamenum) {
     
-    let gameid36;
-    let gameResp;
     // need to get game by 6 digit id first...
     return fetch(`/api/game/${gamenum}`, {
         method: 'get',
@@ -27,23 +25,8 @@ export function playerJoinGame(userid, gamenum, host) {
     })
     .then(response=>response.json())
     .then(data=>{ 
-        gameid36 = data.rows[0].id //id(36)
-        gameResp = data.rows[0]
+        console.log('game.getgamenum');
+        console.log(JSON.stringify(data.rows));
+        return data.rows[0];
     })
-
-    // insert player record
-    .then(() => {
-        const playerInfo = { userid, gamenum, gameid36, host };
-        return fetch('/api/game/join', {
-            method: 'post',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(playerInfo)
-        })
-        .then(function(response) {
-            return gameResp;
-        })
-    })
-}   
+}

@@ -1,5 +1,6 @@
 import { LightningElement } from 'lwc';
-import { createNewGame, playerJoinGame } from '../../services/game';
+import { createNewGame, getGame } from '../../services/game';
+import { playerJoinGame } from '../../services/player';
 import { SESSION } from '../../services/session';
 
 export default class Lobby extends LightningElement {
@@ -48,23 +49,32 @@ export default class Lobby extends LightningElement {
         } else {
             SESSION.host = true;
         }
-
-        playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.host)
-            .then((response) => {
-                SESSION.gameState = response.gamestate;
-                this.gameNum = response.gamenum; //update ui
-            })
-            .catch(e => console.error('lobby.createNewGame', e.stack))
-            .then(() => {
-                // lwc event - handled by app.js
-                this.dispatchEvent(new CustomEvent('state_change', {
-                    detail: {
-                        name: 'JoinedGame',
-                        gamenum: SESSION.gameNum, 
-                        userid: SESSION.userId
-                    }
-                }));    
-            })
+        getGame(SESSION.gameNum)
+        .then((response) => {
+            SESSION.gameId = response.id;
+            SESSION.gameState = response.gamestate;
+        })
+        .then(() => {
+            // userid, gamenum, gameid36, host
+            playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host)
+                .then((response) => {
+                    console.log('lobby.playerJoinGame');
+                    console.log(JSON.stringify(response));
+                    SESSION.playerId = response.id;
+                    this.gameNum = SESSION.gameNum; //update ui
+                })
+                .catch(e => console.error('lobby.createNewGame', e.stack))
+        })
+        .then(() => {
+            // lwc event - handled by app.js
+            this.dispatchEvent(new CustomEvent('state_change', {
+                detail: {
+                    name: 'JoinedGame',
+                    gamenum: SESSION.gameNum, 
+                    userid: SESSION.userId
+                }
+            }));    
+        })
     }
 
 }

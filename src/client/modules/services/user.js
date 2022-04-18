@@ -1,7 +1,7 @@
 export function userRegistration(username, pwd) {
     const userInfo = { username, pwd };
     return fetch('/api/user/register', {
-        method: 'post',
+        method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
@@ -16,7 +16,7 @@ export function userRegistration(username, pwd) {
 export function userLogin(username, pwd) {
     const userInfo = { username, pwd };
     return fetch('/api/user/login', {
-        method: 'post',
+        method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'

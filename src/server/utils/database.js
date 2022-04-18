@@ -1,4 +1,3 @@
-const res = require('express/lib/response');
 const { Pool } = require('pg');
 const config = {};
 
@@ -61,8 +60,26 @@ function dbDelete() {
   //include delete statement logic
 }
 
+//for server-side db call (not express api)
+const playerListQry = 
+    `SELECT player.id, public.user.username, player.host
+    FROM game
+    INNER JOIN public.player ON game.id = player.gameid
+    INNER JOIN public.user ON player.userid = public.user.id
+    where game.gamenum = $1
+    ORDER BY player.created asc`;
+    
+async function getPlayerList(gamenum){
+  const params = [gamenum];
+  const result = await dbQuery(playerListQry, params);
+  return result;
+}
+
 
 exports.dbQuery = dbQuery;
 exports.dbInsert = dbInsert;
 exports.dbUpdate = dbUpdate;
 exports.dbDelete = dbDelete;
+
+// module.exports = getPlayerList;
+exports.getPlayerList = getPlayerList;

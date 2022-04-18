@@ -58,8 +58,6 @@ export default class Lobby extends LightningElement {
             // userid, gamenum, gameid36, host
             playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host)
                 .then((response) => {
-                    console.log('lobby.playerJoinGame');
-                    console.log(JSON.stringify(response));
                     SESSION.playerId = response.id;
                     this.gameNum = SESSION.gameNum; //update ui
                 })

@@ -7805,7 +7805,7 @@ function createNewGame(userid) {
     userid
   };
   return fetch('/api/game', {
-    method: 'post',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
@@ -7816,16 +7816,15 @@ function createNewGame(userid) {
   });
 }
 function getGame(gamenum) {
-  // need to get game by 6 digit id first...
+  console.log('client.game.getGame'); // need to get game by 6 digit id first...
+
   return fetch(`/api/game/${gamenum}`, {
-    method: 'get',
+    method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     }
   }).then(response => response.json()).then(data => {
-    console.log('game.getgamenum');
-    console.log(JSON.stringify(data.rows));
     return data.rows[0];
   });
 }
@@ -7837,16 +7836,34 @@ function playerJoinGame(userid, gamenum, gameid36, host) {
     gameid36,
     host
   };
+  console.log('client.player.playerJoinGame');
   return fetch('/api/game/join', {
-    method: 'post',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(playerInfo)
   }).then(response => response.json()).then(data => {
-    console.log('game.insertPlayer');
-    console.log(JSON.stringify(data.rows));
+    return data;
+  });
+}
+function submitPlayerTop3(playerid, top1, top2, top3) {
+  const top3Info = {
+    top1,
+    top2,
+    top3
+  };
+  return fetch(`/api/player/update/${playerid}`, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(top3Info)
+  }).then(response => response.json()).then(data => {
+    console.log('player.updateTop3 response');
+    console.log(JSON.stringify(data));
     return data;
   });
 }
@@ -7928,8 +7945,6 @@ class Lobby extends LightningElement {
     }).then(() => {
       // userid, gamenum, gameid36, host
       playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host).then(response => {
-        console.log('lobby.playerJoinGame');
-        console.log(JSON.stringify(response));
         SESSION.playerId = response.id;
         this.gameNum = SESSION.gameNum; //update ui
       }).catch(e => console.error('lobby.createNewGame', e.stack));
@@ -8019,7 +8034,7 @@ function userRegistration(username, pwd) {
     pwd
   };
   return fetch('/api/user/register', {
-    method: 'post',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
@@ -8035,7 +8050,7 @@ function userLogin(username, pwd) {
     pwd
   };
   return fetch('/api/user/login', {
-    method: 'post',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
@@ -8280,7 +8295,18 @@ if (_implicitStylesheets$2) {
 }
 tmpl$3.stylesheetToken = "ui-entertop3_entertop3";
 
-class EnterTop3 extends LightningElement {}
+class EnterTop3 extends LightningElement {
+  submitTop3() {
+    const top1 = this.template.querySelector('[data-id="oneInput"]').value;
+    const top2 = this.template.querySelector('[data-id="twoInput"]').value;
+    const top3 = this.template.querySelector('[data-id="threeInput"]').value;
+    submitPlayerTop3(SESSION.playerId, top1, top2, top3).then(response => {
+      console.log('enterTop3.submitTop3.response');
+      console.log(JSON.stringify(response));
+    }).catch(e => console.error('enterTop3 submitPlayerTop3', e.stack));
+  }
+
+}
 
 var _uiEntertop3 = registerComponent(EnterTop3, {
   tmpl: _tmpl$3

@@ -55,8 +55,6 @@ router.post('/join', async (req, res) => {
     const insertSQL = 
         'INSERT INTO player(id, createdby, userid, gameid, host) VALUES ($1, $2, $3, $4, $5) RETURNING *';
     const insertValues = [uuid, userId, userId, gameId36, host];
-    //const io = req.app.get('io');
-
     //db call    
     db.dbInsert(insertSQL, insertValues)
         .then(insertRes => res.send(insertRes))

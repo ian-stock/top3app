@@ -1,5 +1,6 @@
 //for handling game/session state updates back to clients
-const getPlayerList = require('../apis/player.js');
+// const getPlayerList = require('../apis/player.js');
+const db = require('./database.js');
 
 module.exports = function (io) {
     
@@ -19,7 +20,7 @@ module.exports = function (io) {
                 socket.join(data.gameNum); //data: gameid, userid
                 console.log(socket.rooms);
 
-                getPlayerList(data.gameNum)
+                db.getPlayerList(data.gameNum)
                     .then((players) => {
                         io.to(data.gameNum).emit('player-joined', players.rows)
                     })

@@ -1,0 +1,14 @@
+<template>
+    <waitingvote>
+        <h2>waiting vote html</h2>
+        <div>Waiting for voting to start...</div>
+
+        <template if:true={isHost}>
+            <div>
+                <button onclick={startVoting}>Start Voting</button>
+            </div>
+        </template>
+
+    </waitingvote>
+</template>
+

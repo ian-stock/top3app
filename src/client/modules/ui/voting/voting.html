@@ -1,0 +1,17 @@
+<template>
+    <voting>
+        <h2>time for voting</h2>
+        <div>cards of each players top3.</div>
+        <div>
+            <input type="select">
+            <button onclick={vote}>Vote</button>
+        </div>
+        <template if:true={isHost}>
+            <div>
+                <button onclick={nextVote}>Next</button>
+            </div>
+        </template>
+
+    </voting>
+</template>
+

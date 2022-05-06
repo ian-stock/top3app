@@ -1,7 +1,8 @@
 @import '../../../resources/css/style.css';
 
 .body {
-    background-color: #3ABBC9 ;
+    /* background-color: #3ABBC9 ; - light blue*/
+    background: #FFF7A2;
     top: 50px;
     height: calc(100vh - 100px);
 }

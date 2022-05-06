@@ -4,6 +4,7 @@ footer {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    background: #ffcf40;
+    /* background: #ffcf40; - yellow */ 
+    background: #88CEFB;
     height: 50px;
 }

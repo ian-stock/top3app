@@ -7671,17 +7671,17 @@ var stylesheet0 = [stylesheet$3];
 
 function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return [".body", shadowSelector, " {background-color: #3ABBC9 ;top: 50px;height: calc(100vh - 100px);}"].join('');
+  return [".body", shadowSelector, " {background: #FFF7A2;top: 50px;height: calc(100vh - 100px);}"].join('');
 }
-var _implicitStylesheets$8 = [stylesheet0, stylesheet$2];
+var _implicitStylesheets$9 = [stylesheet0, stylesheet$2];
 
 function stylesheet$1(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background: #ED5314 ;height: 50px;box-shadow: 0 6px 8px rgb(0 0 0 / 20%);}img", shadowSelector, "{height: 50px;}"].join('');
+  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background: #ff9100;height: 50px;box-shadow: 0 6px 8px rgb(0 0 0 / 20%);}img", shadowSelector, "{height: 50px;}"].join('');
 }
-var _implicitStylesheets$7 = [stylesheet0, stylesheet$1];
+var _implicitStylesheets$8 = [stylesheet0, stylesheet$1];
 
-function tmpl$8($api, $cmp, $slotset, $ctx) {
+function tmpl$9($api, $cmp, $slotset, $ctx) {
   const {h: api_element, d: api_dynamic_text, t: api_text} = $api;
   return [api_element("header", {
     key: 0
@@ -7708,14 +7708,14 @@ function tmpl$8($api, $cmp, $slotset, $ctx) {
     key: 4
   }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))])])])];
 }
-var _tmpl$8 = registerTemplate(tmpl$8);
-tmpl$8.stylesheets = [];
+var _tmpl$9 = registerTemplate(tmpl$9);
+tmpl$9.stylesheets = [];
 
 
-if (_implicitStylesheets$7) {
-  tmpl$8.stylesheets.push.apply(tmpl$8.stylesheets, _implicitStylesheets$7);
+if (_implicitStylesheets$8) {
+  tmpl$9.stylesheets.push.apply(tmpl$9.stylesheets, _implicitStylesheets$8);
 }
-tmpl$8.stylesheetToken = "ui-header_header";
+tmpl$9.stylesheetToken = "ui-header_header";
 
 class Header extends LightningElement {
   constructor(...args) {
@@ -7745,12 +7745,12 @@ registerDecorators(Header, {
 });
 
 var _uiHeader = registerComponent(Header, {
-  tmpl: _tmpl$8
+  tmpl: _tmpl$9
 });
 
-var _implicitStylesheets$6 = [stylesheet0];
+var _implicitStylesheets$7 = [stylesheet0];
 
-function tmpl$7($api, $cmp, $slotset, $ctx) {
+function tmpl$8($api, $cmp, $slotset, $ctx) {
   const {b: api_bind, t: api_text, h: api_element, gid: api_scoped_id} = $api;
   const {_m0, _m1, _m2} = $ctx;
   return [api_element("lobby", {
@@ -7791,14 +7791,14 @@ function tmpl$7($api, $cmp, $slotset, $ctx) {
     key: 8
   }, [])])])];
 }
-var _tmpl$7 = registerTemplate(tmpl$7);
-tmpl$7.stylesheets = [];
+var _tmpl$8 = registerTemplate(tmpl$8);
+tmpl$8.stylesheets = [];
 
 
-if (_implicitStylesheets$6) {
-  tmpl$7.stylesheets.push.apply(tmpl$7.stylesheets, _implicitStylesheets$6);
+if (_implicitStylesheets$7) {
+  tmpl$8.stylesheets.push.apply(tmpl$8.stylesheets, _implicitStylesheets$7);
 }
-tmpl$7.stylesheetToken = "ui-lobby_lobby";
+tmpl$8.stylesheetToken = "ui-lobby_lobby";
 
 function log(source, desc) {
   const filterOut = [// "client.app",
@@ -7902,9 +7902,9 @@ const SESSIONSTATES = Object.freeze({
   IN_LOGIN: 'InLogin',
   IN_NEWGAME: 'InNewGame',
   IN_JOIN_GAME: 'InJoinGame',
-  IN_WAITING_GAME_START: 'InWaitingGameStart',
   IN_ENTER_TOP3: 'InEnterTop3',
-  SUBMIT_VOTE: 'SubmitVote',
+  IN_WAITING_VOTE_START: 'InWaitingVoteStart',
+  IN_VOTING: 'InVoting',
   REVEAL_ANSWER: 'RevealAnswer',
   GAME_RESULTS: 'GameResults'
 }); //session is single-user, game is multi-user
@@ -7998,12 +7998,12 @@ registerDecorators(Lobby, {
 });
 
 var _uiLobby = registerComponent(Lobby, {
-  tmpl: _tmpl$7
+  tmpl: _tmpl$8
 });
 
-var _implicitStylesheets$5 = [stylesheet0];
+var _implicitStylesheets$6 = [stylesheet0];
 
-function tmpl$6($api, $cmp, $slotset, $ctx) {
+function tmpl$7($api, $cmp, $slotset, $ctx) {
   const {gid: api_scoped_id, h: api_element, b: api_bind, t: api_text} = $api;
   const {_m0, _m1} = $ctx;
   return [api_element("login", {
@@ -8050,14 +8050,14 @@ function tmpl$6($api, $cmp, $slotset, $ctx) {
     }
   }, [api_text("Register")])])])];
 }
-var _tmpl$6 = registerTemplate(tmpl$6);
-tmpl$6.stylesheets = [];
+var _tmpl$7 = registerTemplate(tmpl$7);
+tmpl$7.stylesheets = [];
 
 
-if (_implicitStylesheets$5) {
-  tmpl$6.stylesheets.push.apply(tmpl$6.stylesheets, _implicitStylesheets$5);
+if (_implicitStylesheets$6) {
+  tmpl$7.stylesheets.push.apply(tmpl$7.stylesheets, _implicitStylesheets$6);
 }
-tmpl$6.stylesheetToken = "ui-login_login";
+tmpl$7.stylesheetToken = "ui-login_login";
 
 function userRegistration(username, pwd) {
   const userInfo = {
@@ -8154,14 +8154,14 @@ registerDecorators(Login, {
 });
 
 var _uiLogin = registerComponent(Login, {
-  tmpl: _tmpl$6
+  tmpl: _tmpl$7
 });
 
-var _implicitStylesheets$4 = [stylesheet0];
+var _implicitStylesheets$5 = [stylesheet0];
 
-function tmpl$5($api, $cmp, $slotset, $ctx) {
+function tmpl$6($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, gid: api_scoped_id, b: api_bind, d: api_dynamic_text} = $api;
-  const {_m0, _m1, _m2} = $ctx;
+  const {_m0, _m1} = $ctx;
   return [api_element("newgame", {
     key: 0
   }, [api_element("h2", {
@@ -8223,14 +8223,121 @@ function tmpl$5($api, $cmp, $slotset, $ctx) {
   }, [api_text(api_dynamic_text($cmp.playerlist))]), api_element("button", {
     key: 14,
     on: {
-      "click": _m1 || ($ctx._m1 = api_bind($cmp.startGame))
-    }
-  }, [api_text("Start Game")]), api_element("button", {
-    key: 15,
-    on: {
-      "click": _m2 || ($ctx._m2 = api_bind($cmp.endGame))
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.endGame))
     }
   }, [api_text("End Game")])])];
+}
+var _tmpl$6 = registerTemplate(tmpl$6);
+tmpl$6.stylesheets = [];
+
+
+if (_implicitStylesheets$5) {
+  tmpl$6.stylesheets.push.apply(tmpl$6.stylesheets, _implicitStylesheets$5);
+}
+tmpl$6.stylesheetToken = "ui-newgame_newgame";
+
+class NewGame extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.playerlist = void 0;
+  }
+
+  //for ui update
+  top3Topic(e) {
+    SESSION.gameTopic = this.template.querySelector('[data-id="topic"]').value;
+    updateGameTopic(SESSION.gameNum, SESSION.gameTopic).then(response => {
+      // lwc event - handled by app.js - change host screen to next one
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'TopicSelected'
+        }
+      }));
+    }).catch(e => console.error('newgame.updateGameTopic', e.stack));
+  }
+
+  endGame(e) {
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'GameEnded'
+      }
+    }));
+  }
+
+}
+
+registerDecorators(NewGame, {
+  publicProps: {
+    playerlist: {
+      config: 0
+    }
+  }
+});
+
+var _uiNewgame = registerComponent(NewGame, {
+  tmpl: _tmpl$6
+});
+
+var _implicitStylesheets$4 = [stylesheet0];
+
+function tmpl$5($api, $cmp, $slotset, $ctx) {
+  const {t: api_text, h: api_element, gid: api_scoped_id, b: api_bind} = $api;
+  const {_m0} = $ctx;
+  return [api_element("entertop3", {
+    key: 0
+  }, [api_element("h2", {
+    key: 1
+  }, [api_text("Enter your Top3")]), api_element("div", {
+    classMap: {
+      "formPanel": true
+    },
+    key: 2
+  }, [api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "oneInput",
+      "id": api_scoped_id("oneInput"),
+      "placeholder": "One"
+    },
+    key: 3
+  }, []), api_element("br", {
+    key: 4
+  }, []), api_element("br", {
+    key: 5
+  }, []), api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "twoInput",
+      "id": api_scoped_id("twoInput"),
+      "placeholder": "Two"
+    },
+    key: 6
+  }, []), api_element("br", {
+    key: 7
+  }, []), api_element("br", {
+    key: 8
+  }, []), api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "threeInput",
+      "id": api_scoped_id("threeInput"),
+      "placeholder": "Three"
+    },
+    key: 9
+  }, []), api_element("br", {
+    key: 10
+  }, []), api_element("br", {
+    key: 11
+  }, [])]), api_element("div", {
+    classMap: {
+      "buttonPanel": true
+    },
+    key: 12
+  }, [api_element("button", {
+    key: 13,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.submitTop3))
+    }
+  }, [api_text("Submit")])])])];
 }
 var _tmpl$5 = registerTemplate(tmpl$5);
 tmpl$5.stylesheets = [];
@@ -8239,7 +8346,336 @@ tmpl$5.stylesheets = [];
 if (_implicitStylesheets$4) {
   tmpl$5.stylesheets.push.apply(tmpl$5.stylesheets, _implicitStylesheets$4);
 }
-tmpl$5.stylesheetToken = "ui-newgame_newgame";
+tmpl$5.stylesheetToken = "ui-entertop3_entertop3";
+
+class EnterTop3 extends LightningElement {
+  submitTop3() {
+    const top1 = this.template.querySelector('[data-id="oneInput"]').value;
+    const top2 = this.template.querySelector('[data-id="twoInput"]').value;
+    const top3 = this.template.querySelector('[data-id="threeInput"]').value;
+    submitPlayerTop3(SESSION.playerId, top1, top2, top3).then(response => {
+      log('client.enterTop3.submitTop3.response', JSON.stringify(response)); // lwc event - handled by app.js 
+
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'Top3Submitted'
+        }
+      }));
+    }).catch(e => console.error('client.enterTop3.submitPlayerTop3', e.stack));
+  }
+
+}
+
+var _uiEntertop3 = registerComponent(EnterTop3, {
+  tmpl: _tmpl$5
+});
+
+var _implicitStylesheets$3 = [stylesheet0];
+
+function tmpl$4($api, $cmp, $slotset, $ctx) {
+  const {t: api_text, h: api_element, b: api_bind} = $api;
+  const {_m0} = $ctx;
+  return [api_element("waitingvote", {
+    key: 0
+  }, [api_element("h2", {
+    key: 1
+  }, [api_text("waiting vote html")]), api_element("div", {
+    key: 2
+  }, [api_text("Waiting for voting to start...")]), $cmp.isHost ? api_element("div", {
+    key: 3
+  }, [api_element("button", {
+    key: 4,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.startVoting))
+    }
+  }, [api_text("Start Voting")])]) : null])];
+}
+var _tmpl$4 = registerTemplate(tmpl$4);
+tmpl$4.stylesheets = [];
+
+
+if (_implicitStylesheets$3) {
+  tmpl$4.stylesheets.push.apply(tmpl$4.stylesheets, _implicitStylesheets$3);
+}
+tmpl$4.stylesheetToken = "ui-waitingvote_waitingvote";
+
+class WaitingVote extends LightningElement {
+  startVoting(e) {
+    //change game state, new lwc to load all players as cards and allow voting
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'StartVoting'
+      }
+    }));
+  } // UI expressions to dynamically render templates (return true or false)
+
+
+  get isHost() {
+    return SESSION.host;
+  }
+
+}
+
+var _uiWaitingvote = registerComponent(WaitingVote, {
+  tmpl: _tmpl$4
+});
+
+var _implicitStylesheets$2 = [stylesheet0];
+
+function tmpl$3($api, $cmp, $slotset, $ctx) {
+  const {t: api_text, h: api_element, b: api_bind} = $api;
+  const {_m0, _m1} = $ctx;
+  return [api_element("voting", {
+    key: 0
+  }, [api_element("h2", {
+    key: 1
+  }, [api_text("time for voting")]), api_element("div", {
+    key: 2
+  }, [api_text("cards of each players top3.")]), api_element("div", {
+    key: 3
+  }, [api_element("input", {
+    attrs: {
+      "type": "select"
+    },
+    key: 4
+  }, []), api_element("button", {
+    key: 5,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.vote))
+    }
+  }, [api_text("Vote")])]), $cmp.isHost ? api_element("div", {
+    key: 6
+  }, [api_element("button", {
+    key: 7,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.nextVote))
+    }
+  }, [api_text("Next")])]) : null])];
+}
+var _tmpl$3 = registerTemplate(tmpl$3);
+tmpl$3.stylesheets = [];
+
+
+if (_implicitStylesheets$2) {
+  tmpl$3.stylesheets.push.apply(tmpl$3.stylesheets, _implicitStylesheets$2);
+}
+tmpl$3.stylesheetToken = "ui-voting_voting";
+
+class Voting extends LightningElement {
+  vote(e) {//load all players as cards and allow voting
+  }
+
+  nextVote(e) {//load next player
+  } // UI expressions to dynamically render templates (return true or false)
+
+
+  get isHost() {
+    return SESSION.host;
+  }
+
+}
+
+var _uiVoting = registerComponent(Voting, {
+  tmpl: _tmpl$3
+});
+
+var _implicitStylesheets$1 = [stylesheet0];
+
+function tmpl$2($api, $cmp, $slotset, $ctx) {
+  const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
+  return [api_element("errormsg", {
+    key: 0
+  }, [api_element("h3", {
+    classMap: {
+      "error": true
+    },
+    key: 1
+  }, [api_text("Error: " + api_dynamic_text($cmp.errormsg))])])];
+}
+var _tmpl$2 = registerTemplate(tmpl$2);
+tmpl$2.stylesheets = [];
+
+
+if (_implicitStylesheets$1) {
+  tmpl$2.stylesheets.push.apply(tmpl$2.stylesheets, _implicitStylesheets$1);
+}
+tmpl$2.stylesheetToken = "ui-errormsg_errormsg";
+
+class ErrogMsg extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.errormsg = void 0;
+  }
+
+}
+
+registerDecorators(ErrogMsg, {
+  publicProps: {
+    errormsg: {
+      config: 0
+    }
+  }
+});
+
+var _uiErrormsg = registerComponent(ErrogMsg, {
+  tmpl: _tmpl$2
+});
+
+function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background: #88CEFB;height: 50px;}"].join('');
+}
+var _implicitStylesheets = [stylesheet0, stylesheet];
+
+function tmpl$1($api, $cmp, $slotset, $ctx) {
+  const {d: api_dynamic_text, t: api_text, h: api_element, b: api_bind} = $api;
+  const {_m0} = $ctx;
+  return [api_element("footer", {
+    key: 0
+  }, [api_element("div", {
+    classMap: {
+      "innerContainer": true
+    },
+    key: 1
+  }, [api_element("div", {
+    key: 2
+  }, [api_text("Players/Submitted: " + api_dynamic_text($cmp.playercount) + "/" + api_dynamic_text($cmp.playerssubmitted))]), api_element("div", {
+    key: 3
+  }, [api_text("Topic: " + api_dynamic_text($cmp.gametopic))]), api_element("div", {
+    key: 4
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]), api_element("button", {
+    key: 5,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
+    }
+  }, [api_text("session")])])];
+}
+var _tmpl$1 = registerTemplate(tmpl$1);
+tmpl$1.stylesheets = [];
+
+
+if (_implicitStylesheets) {
+  tmpl$1.stylesheets.push.apply(tmpl$1.stylesheets, _implicitStylesheets);
+}
+tmpl$1.stylesheetToken = "ui-footer_footer";
+
+class Footer extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.playercount = void 0;
+    this.playerscore = void 0;
+    this.playerssubmitted = void 0;
+    this.gametopic = void 0;
+  }
+
+  printSession(e) {
+    console.log(SESSION);
+  } // UI expressions to dynamically render templates (return true or false)
+
+
+  get isHost() {
+    return SESSION.host;
+  }
+
+}
+
+registerDecorators(Footer, {
+  publicProps: {
+    playercount: {
+      config: 0
+    },
+    playerscore: {
+      config: 0
+    },
+    playerssubmitted: {
+      config: 0
+    },
+    gametopic: {
+      config: 0
+    }
+  }
+});
+
+var _uiFooter = registerComponent(Footer, {
+  tmpl: _tmpl$1
+});
+
+function tmpl($api, $cmp, $slotset, $ctx) {
+  const {c: api_custom_element, b: api_bind, h: api_element} = $api;
+  const {_m0, _m1, _m2, _m3, _m4, _m5, _m6} = $ctx;
+  return [api_custom_element("ui-header", _uiHeader, {
+    props: {
+      "sessiongamenum": $cmp.sessionGameNum,
+      "sessionusername": $cmp.sessionUserName
+    },
+    key: 0
+  }, []), api_element("div", {
+    classMap: {
+      "body": true
+    },
+    key: 1
+  }, [api_element("div", {
+    classMap: {
+      "innerContainer": true
+    },
+    key: 2
+  }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
+    key: 3,
+    on: {
+      "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
+    key: 4,
+    on: {
+      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
+      "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
+    }
+  }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
+    props: {
+      "playerlist": $cmp.gamePlayerList
+    },
+    key: 5,
+    on: {
+      "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isGameStartedState ? api_custom_element("ui-entertop3", _uiEntertop3, {
+    key: 6,
+    on: {
+      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isTop3SubmittedState ? api_custom_element("ui-waitingvote", _uiWaitingvote, {
+    key: 7,
+    on: {
+      "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isVotingStartedState ? api_custom_element("ui-voting", _uiVoting, {
+    key: 8,
+    on: {
+      "state_change": _m6 || ($ctx._m6 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isErrorMessage ? api_custom_element("ui-errormsg", _uiErrormsg, {
+    props: {
+      "errormsg": $cmp.errorMessage
+    },
+    key: 9
+  }, []) : null])]), api_custom_element("ui-footer", _uiFooter, {
+    props: {
+      "playerscore": $cmp.gamePlayerScore,
+      "playercount": $cmp.gamePlayerCount,
+      "playerssubmitted": $cmp.gamePlayersSubmitted,
+      "gametopic": $cmp.gameTopic
+    },
+    key: 10
+  }, [])];
+}
+var _tmpl = registerTemplate(tmpl);
+tmpl.stylesheets = [];
+
+
+if (_implicitStylesheets$9) {
+  tmpl.stylesheets.push.apply(tmpl.stylesheets, _implicitStylesheets$9);
+}
+tmpl.stylesheetToken = "ui-app_app";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -12498,385 +12934,6 @@ var socket_io = {exports: {}};
 });
 }(socket_io));
 
-const socket$2 = socket_io.exports.io();
-
-class NewGame$1 extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.playerlist = void 0;
-  }
-
-  //for ui update
-  top3Topic(e) {
-    SESSION.gameTopic = this.template.querySelector('[data-id="topic"]').value;
-    updateGameTopic(SESSION.gameNum, SESSION.gameTopic).then(response => {
-      socket$2.emit('top3topic', SESSION);
-    }).catch(e => console.error('newgame.updateGameTopic', e.stack));
-  }
-
-  startGame(e) {
-    this.dispatchEvent(new CustomEvent('state_change', {
-      detail: {
-        name: 'GameStarted'
-      }
-    }));
-  }
-
-  endGame(e) {
-    this.dispatchEvent(new CustomEvent('state_change', {
-      detail: {
-        name: 'GameEnded'
-      }
-    }));
-  }
-
-}
-
-registerDecorators(NewGame$1, {
-  publicProps: {
-    playerlist: {
-      config: 0
-    }
-  }
-});
-
-var _uiNewgame = registerComponent(NewGame$1, {
-  tmpl: _tmpl$5
-});
-
-var _implicitStylesheets$3 = [stylesheet0];
-
-function tmpl$4($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element} = $api;
-  return [api_element("waitinggame", {
-    key: 0
-  }, [api_element("h2", {
-    key: 1
-  }, [api_text("waitinggame html")]), api_element("div", {
-    key: 2
-  }, [api_text("Waiting for game to start...")])])];
-}
-var _tmpl$4 = registerTemplate(tmpl$4);
-tmpl$4.stylesheets = [];
-
-
-if (_implicitStylesheets$3) {
-  tmpl$4.stylesheets.push.apply(tmpl$4.stylesheets, _implicitStylesheets$3);
-}
-tmpl$4.stylesheetToken = "ui-waitinggame_waitinggame";
-
-class NewGame extends LightningElement {}
-
-var _uiWaitinggame = registerComponent(NewGame, {
-  tmpl: _tmpl$4
-});
-
-var _implicitStylesheets$2 = [stylesheet0];
-
-function tmpl$3($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, gid: api_scoped_id, b: api_bind} = $api;
-  const {_m0, _m1} = $ctx;
-  return [api_element("entertop3", {
-    key: 0
-  }, [api_element("h2", {
-    key: 1
-  }, [api_text("Enter your Top3")]), api_element("div", {
-    classMap: {
-      "formPanel": true
-    },
-    key: 2
-  }, [api_element("input", {
-    attrs: {
-      "type": "text",
-      "data-id": "oneInput",
-      "id": api_scoped_id("oneInput"),
-      "placeholder": "One"
-    },
-    key: 3
-  }, []), api_element("br", {
-    key: 4
-  }, []), api_element("br", {
-    key: 5
-  }, []), api_element("input", {
-    attrs: {
-      "type": "text",
-      "data-id": "twoInput",
-      "id": api_scoped_id("twoInput"),
-      "placeholder": "Two"
-    },
-    key: 6
-  }, []), api_element("br", {
-    key: 7
-  }, []), api_element("br", {
-    key: 8
-  }, []), api_element("input", {
-    attrs: {
-      "type": "text",
-      "data-id": "threeInput",
-      "id": api_scoped_id("threeInput"),
-      "placeholder": "Three"
-    },
-    key: 9
-  }, []), api_element("br", {
-    key: 10
-  }, []), api_element("br", {
-    key: 11
-  }, [])]), api_element("div", {
-    classMap: {
-      "buttonPanel": true
-    },
-    key: 12
-  }, [api_element("button", {
-    key: 13,
-    on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.submitTop3))
-    }
-  }, [api_text("Submit")])]), $cmp.isHost ? api_element("div", {
-    key: 14
-  }, [api_element("button", {
-    key: 15,
-    on: {
-      "click": _m1 || ($ctx._m1 = api_bind($cmp.startVoting))
-    }
-  }, [api_text("Start Voting")])]) : null])];
-}
-var _tmpl$3 = registerTemplate(tmpl$3);
-tmpl$3.stylesheets = [];
-
-
-if (_implicitStylesheets$2) {
-  tmpl$3.stylesheets.push.apply(tmpl$3.stylesheets, _implicitStylesheets$2);
-}
-tmpl$3.stylesheetToken = "ui-entertop3_entertop3";
-
-const socket$1 = socket_io.exports.io();
-
-class EnterTop3 extends LightningElement {
-  submitTop3() {
-    const top1 = this.template.querySelector('[data-id="oneInput"]').value;
-    const top2 = this.template.querySelector('[data-id="twoInput"]').value;
-    const top3 = this.template.querySelector('[data-id="threeInput"]').value;
-    submitPlayerTop3(SESSION.playerId, top1, top2, top3).then(response => {
-      log('client.enterTop3.submitTop3.response', JSON.stringify(response));
-      socket$1.emit('submittedtop3', SESSION);
-    }).catch(e => console.error('client.enterTop3.submitPlayerTop3', e.stack));
-  } // UI expressions to dynamically render templates (return true or false)
-
-
-  get isHost() {
-    return SESSION.host;
-  }
-
-}
-
-var _uiEntertop3 = registerComponent(EnterTop3, {
-  tmpl: _tmpl$3
-});
-
-var _implicitStylesheets$1 = [stylesheet0];
-
-function tmpl$2($api, $cmp, $slotset, $ctx) {
-  const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
-  return [api_element("errormsg", {
-    key: 0
-  }, [api_element("h3", {
-    classMap: {
-      "error": true
-    },
-    key: 1
-  }, [api_text("Error: " + api_dynamic_text($cmp.errormsg))])])];
-}
-var _tmpl$2 = registerTemplate(tmpl$2);
-tmpl$2.stylesheets = [];
-
-
-if (_implicitStylesheets$1) {
-  tmpl$2.stylesheets.push.apply(tmpl$2.stylesheets, _implicitStylesheets$1);
-}
-tmpl$2.stylesheetToken = "ui-errormsg_errormsg";
-
-class ErrogMsg extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.errormsg = void 0;
-  }
-
-}
-
-registerDecorators(ErrogMsg, {
-  publicProps: {
-    errormsg: {
-      config: 0
-    }
-  }
-});
-
-var _uiErrormsg = registerComponent(ErrogMsg, {
-  tmpl: _tmpl$2
-});
-
-function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
-  var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;height: 50px;}"].join('');
-}
-var _implicitStylesheets = [stylesheet0, stylesheet];
-
-function tmpl$1($api, $cmp, $slotset, $ctx) {
-  const {d: api_dynamic_text, t: api_text, h: api_element, b: api_bind} = $api;
-  const {_m0} = $ctx;
-  return [api_element("footer", {
-    key: 0
-  }, [$cmp.isHost ? api_element("div", {
-    classMap: {
-      "innerContainer": true
-    },
-    key: 1
-  }, [api_element("div", {
-    key: 2
-  }, [api_text("Players/Submitted: " + api_dynamic_text($cmp.playercount) + "/" + api_dynamic_text($cmp.playerssubmitted))]), api_element("div", {
-    key: 3
-  }, [api_text("Topic: " + api_dynamic_text($cmp.gametopic))]), api_element("div", {
-    key: 4
-  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]) : null, $cmp.isHost ? api_element("button", {
-    key: 5,
-    on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
-    }
-  }, [api_text("session")]) : null, !$cmp.isHost ? api_element("div", {
-    classMap: {
-      "innerContainer": true
-    },
-    key: 6
-  }, [api_element("div", {
-    key: 7
-  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
-    key: 8
-  }, [api_text("Topic: " + api_dynamic_text($cmp.gametopic))]), api_element("div", {
-    key: 9
-  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]) : null])];
-}
-var _tmpl$1 = registerTemplate(tmpl$1);
-tmpl$1.stylesheets = [];
-
-
-if (_implicitStylesheets) {
-  tmpl$1.stylesheets.push.apply(tmpl$1.stylesheets, _implicitStylesheets);
-}
-tmpl$1.stylesheetToken = "ui-footer_footer";
-
-class Footer extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.playercount = void 0;
-    this.playerscore = void 0;
-    this.playerssubmitted = void 0;
-    this.gametopic = void 0;
-  }
-
-  printSession(e) {
-    console.log(SESSION);
-  } // UI expressions to dynamically render templates (return true or false)
-
-
-  get isHost() {
-    return SESSION.host;
-  }
-
-}
-
-registerDecorators(Footer, {
-  publicProps: {
-    playercount: {
-      config: 0
-    },
-    playerscore: {
-      config: 0
-    },
-    playerssubmitted: {
-      config: 0
-    },
-    gametopic: {
-      config: 0
-    }
-  }
-});
-
-var _uiFooter = registerComponent(Footer, {
-  tmpl: _tmpl$1
-});
-
-function tmpl($api, $cmp, $slotset, $ctx) {
-  const {c: api_custom_element, b: api_bind, h: api_element} = $api;
-  const {_m0, _m1, _m2, _m3, _m4, _m5} = $ctx;
-  return [api_custom_element("ui-header", _uiHeader, {
-    props: {
-      "sessiongamenum": $cmp.sessionGameNum,
-      "sessionusername": $cmp.sessionUserName
-    },
-    key: 0
-  }, []), api_element("div", {
-    classMap: {
-      "body": true
-    },
-    key: 1
-  }, [api_element("div", {
-    classMap: {
-      "innerContainer": true
-    },
-    key: 2
-  }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
-    key: 3,
-    on: {
-      "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
-    key: 4,
-    on: {
-      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
-      "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
-    }
-  }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
-    props: {
-      "playerlist": $cmp.gamePlayerList
-    },
-    key: 5,
-    on: {
-      "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isJoinedGameState ? api_custom_element("ui-waitinggame", _uiWaitinggame, {
-    key: 6,
-    on: {
-      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isGameStartedState ? api_custom_element("ui-entertop3", _uiEntertop3, {
-    key: 7,
-    on: {
-      "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isErrorMessage ? api_custom_element("ui-errormsg", _uiErrormsg, {
-    props: {
-      "errormsg": $cmp.errorMessage
-    },
-    key: 8
-  }, []) : null])]), api_custom_element("ui-footer", _uiFooter, {
-    props: {
-      "playerscore": $cmp.gamePlayerScore,
-      "playercount": $cmp.gamePlayerCount,
-      "playerssubmitted": $cmp.gamePlayersSubmitted,
-      "gametopic": $cmp.gameTopic
-    },
-    key: 9
-  }, [])];
-}
-var _tmpl = registerTemplate(tmpl);
-tmpl.stylesheets = [];
-
-
-if (_implicitStylesheets$8) {
-  tmpl.stylesheets.push.apply(tmpl.stylesheets, _implicitStylesheets$8);
-}
-tmpl.stylesheetToken = "ui-app_app";
-
 const socket = socket_io.exports.io();
 
 class App extends LightningElement {
@@ -12933,16 +12990,26 @@ class App extends LightningElement {
       socket.emit('joinedgame', SESSION);
 
       if (!SESSION.host) {
-        // bypassing waiting game page
-        // SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
         this.sessionGameNum = SESSION.gameNum;
         this.sessionUserName = SESSION.userName;
       }
     }
 
-    if (evt.detail.name === 'GameStarted') {
-      socket.emit('startedgame', SESSION);
+    if (evt.detail.name === 'TopicSelected') {
+      //update topic to all clients in footer
+      socket.emit('top3topic', SESSION); //update session state and ui
+
+      SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
+    }
+
+    if (evt.detail.name === 'Top3Submitted') {
+      socket.emit('submittedtop3', SESSION);
+      SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_VOTE_START;
+    }
+
+    if (evt.detail.name === 'StartVoting') {
+      socket.emit('startvoting', SESSION);
     }
 
     if (evt.detail.name === 'GameEnded') {
@@ -12966,12 +13033,16 @@ class App extends LightningElement {
     return this.sessionState === SESSIONSTATES.IN_NEWGAME;
   }
 
-  get isJoinedGameState() {
-    return this.sessionState === SESSIONSTATES.IN_WAITING_GAME_START;
+  get isTop3SubmittedState() {
+    return this.sessionState === SESSIONSTATES.IN_WAITING_VOTE_START;
   }
 
   get isGameStartedState() {
     return this.sessionState === SESSIONSTATES.IN_ENTER_TOP3;
+  }
+
+  get isVotingStartedState() {
+    return this.sessionState === SESSIONSTATES.IN_VOTING;
   }
 
   get isErrorMessage() {
@@ -12992,10 +13063,6 @@ class App extends LightningElement {
 
         break;
 
-      case 'game-started':
-        SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
-        break;
-
       case 'top3-topic':
         this.gameTopic = SESSION.gameTopic = data;
         break;
@@ -13003,6 +13070,10 @@ class App extends LightningElement {
       case 'top3-submitted':
         //increment submitted count 
         this.gamePlayersSubmitted = data.length;
+        break;
+
+      case 'voting-started':
+        SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
     }
   } //error handling
 

@@ -3,9 +3,9 @@ export const SESSIONSTATES = Object.freeze({
     IN_LOGIN: 'InLogin',
     IN_NEWGAME: 'InNewGame',
     IN_JOIN_GAME: 'InJoinGame',
-    IN_WAITING_GAME_START: 'InWaitingGameStart',
     IN_ENTER_TOP3: 'InEnterTop3',
-    SUBMIT_VOTE: 'SubmitVote',
+    IN_WAITING_VOTE_START: 'InWaitingVoteStart',
+    IN_VOTING: 'InVoting',
     REVEAL_ANSWER: 'RevealAnswer',
     GAME_RESULTS: 'GameResults'
 });

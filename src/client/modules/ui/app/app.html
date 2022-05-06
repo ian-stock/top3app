@@ -14,12 +14,16 @@
                     <ui-newgame playerlist={gamePlayerList} onstate_change = {handleStateChange}></ui-newgame>
                 </template>
 
-                <template if:true={isJoinedGameState}>
-                    <ui-waitinggame onstate_change = {handleStateChange}></ui-waitinggame>
-                </template>
-
                 <template if:true={isGameStartedState}>
                     <ui-entertop3 onstate_change = {handleStateChange}></ui-entertop3>
+                </template>
+
+                <template if:true={isTop3SubmittedState}>
+                    <ui-waitingvote onstate_change = {handleStateChange}></ui-waitingvote>
+                </template>
+
+                <template if:true={isVotingStartedState}>
+                    <ui-voting onstate_change = {handleStateChange}></ui-voting>
                 </template>
 
                 <!-- Errors -->

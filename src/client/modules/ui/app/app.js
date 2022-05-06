@@ -54,15 +54,23 @@ export default class App extends LightningElement {
         if(evt.detail.name === 'JoinedGame'){
             socket.emit('joinedgame', SESSION);
             if(!SESSION.host){
-                // bypassing waiting game page
-                // SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
                 this.sessionGameNum = SESSION.gameNum;
                 this.sessionUserName = SESSION.userName;
             }
         }
-        if(evt.detail.name === 'GameStarted'){
-            socket.emit('startedgame', SESSION);
+        if(evt.detail.name === 'TopicSelected'){
+            //update topic to all clients in footer
+            socket.emit('top3topic', SESSION);
+            //update session state and ui
+            SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
+        }
+        if(evt.detail.name === 'Top3Submitted'){
+            socket.emit('submittedtop3', SESSION);
+            SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_VOTE_START;
+        }
+        if(evt.detail.name === 'StartVoting'){
+            socket.emit('startvoting', SESSION);
         }
         if(evt.detail.name === 'GameEnded'){
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
@@ -83,11 +91,14 @@ export default class App extends LightningElement {
     get isNewGameState() {
         return this.sessionState === SESSIONSTATES.IN_NEWGAME;
     }
-    get isJoinedGameState() {
-        return this.sessionState === SESSIONSTATES.IN_WAITING_GAME_START;
+    get isTop3SubmittedState() {
+        return this.sessionState === SESSIONSTATES.IN_WAITING_VOTE_START;
     }
     get isGameStartedState() {
         return this.sessionState === SESSIONSTATES.IN_ENTER_TOP3;
+    }
+    get isVotingStartedState() {
+        return this.sessionState === SESSIONSTATES.IN_VOTING;
     }
     get isErrorMessage(){
         return this.errorState
@@ -105,15 +116,15 @@ export default class App extends LightningElement {
                     this.gamePlayerList += data[i].username + '  '
                 }
                 break;
-            case 'game-started': 
-                SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
-                break;
             case 'top3-topic': 
                 this.gameTopic = SESSION.gameTopic = data;
                 break;
             case 'top3-submitted': 
                 //increment submitted count 
                 this.gamePlayersSubmitted = data.length;;
+                break;
+            case 'voting-started':
+                SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
         }
     }
 

@@ -26,9 +26,9 @@ module.exports = function (io) {
                         io.to(data.gameNum).emit('player-joined', players.rows)
                     })
                 break;
-            case 'startedgame': 
-                io.to(data.gameNum).emit('game-started')
-                break;
+            // case 'topicselected': 
+            //     io.to(data.gameNum).emit('topic-selected')
+            //     break;
             case 'top3topic': 
                 io.to(data.gameNum).emit('top3-topic', data.gameTopic)
                 break;
@@ -38,6 +38,9 @@ module.exports = function (io) {
                     log('server.sockets.getPlayerList.submittedtop3', players);
                     io.to(data.gameNum).emit('top3-submitted', players.rows)    
                 })
+                break;
+            case 'startvoting': 
+                io.to(data.gameNum).emit('voting-started')  
                 break;
             case 'leavegame': 
                 socket.leave(data); //data: gameid

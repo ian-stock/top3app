@@ -20,6 +20,7 @@ export const SESSION = {
     "gameId": "notset",
     "gameNum": "notset",
     "gameState": "notset", 
+    "gameTopic": "notset", 
     "playerId": "notset",
     "host": false,
     "authenticated": false,

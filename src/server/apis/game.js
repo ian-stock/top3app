@@ -2,6 +2,7 @@ const router = require("express").Router();
 module.exports = router;
 const db = require('../utils/database.js')
 const { v4: uuidv4 } = require('uuid');
+const log = require('../utils/log');
 
 const GAMESTATES = Object.freeze({
     NEW_GAME: 'NewGame',
@@ -38,7 +39,22 @@ router.post('/', async (req, res) => {
         //web socket call to update all clients
         .then(function(){
             // io.emit('newgame', gameNum);
-            console.log('game.newgame: ' + gameNum);
+            log('server.game.newgame', gameNum);
+        })        
+})
+
+const gameUpdateStatement = 
+        `UPDATE game SET topic=$2 WHERE gamenum = $1  RETURNING *`;
+
+//update game / set topic
+router.post('/update/:gamenum', async (req, res) => {
+    const updateValues = [req.params.gamenum, req.body.topic];
+    //db call    
+    db.dbUpdate(gameUpdateStatement, updateValues)
+        .then(updateRes => res.send(updateRes))
+        .catch(e => console.error('server.game.updateTopic dbUpdate', e.stack))
+        .then(function(){
+            log('server.game.updateTopic: ', req.params.gamenum);
         })        
 })
 
@@ -61,7 +77,7 @@ router.post('/join', async (req, res) => {
         .catch(e => console.error('game dbInsert', e.stack))
         //web socket call to update all clients
         .then(function(){
-            console.log('game.joingame: ' + gameNum);
+            log('server.game.joingame', gameNum);
         })        
 })
 

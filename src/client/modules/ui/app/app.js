@@ -1,7 +1,7 @@
 import { LightningElement } from 'lwc';
 import { SESSIONSTATES, SESSION } from '../../services/session';
 import { io } from "../../../../../node_modules/socket.io-client/dist/socket.io.js"; // whole path for client side
-//import { handleSocketEvent } from '../../utils/socketclient';
+import {log} from '../../utils/log';
 
 const socket = io();
 
@@ -14,6 +14,8 @@ export default class App extends LightningElement {
     gamePlayerCount = 0;
     gamePlayerList;
     gamePlayerScore = 0;
+    gamePlayersSubmitted = 0;
+    gameTopic;
 
     connectedCallback(){
         this.addEventListener('state_change', this.handleStateChange);
@@ -22,10 +24,10 @@ export default class App extends LightningElement {
 
 
         socket.on("connect", () => {
-          console.log("app.socketid: " + socket.id); 
+          log('client.app.socketid', socket.id); 
         });
         socket.onAny((event, data) => {
-            console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
+            log('client.app.event-received', `${event} - ${JSON.stringify(data)}`);
             this.handleSocketEvent(event, data);
         });
 
@@ -33,8 +35,7 @@ export default class App extends LightningElement {
     
     //lwc events
     handleStateChange(evt) {
-        // console.log('app.handleStateChange: ' + evt.detail.name);
-        // console.log(evt);
+        log('client.app.handleStateChange', evt.detail.name);
 
         if(evt.detail.name === 'LoginRegister'){
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOGIN;
@@ -53,7 +54,9 @@ export default class App extends LightningElement {
         if(evt.detail.name === 'JoinedGame'){
             socket.emit('joinedgame', SESSION);
             if(!SESSION.host){
-                SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
+                // bypassing waiting game page
+                // SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
+                SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
                 this.sessionGameNum = SESSION.gameNum;
                 this.sessionUserName = SESSION.userName;
             }
@@ -97,7 +100,6 @@ export default class App extends LightningElement {
             case 'player-joined': 
                 //increment player count 
                 this.gamePlayerCount = data.length;
-                //this.gamePlayerList = JSON.stringify(data);
                 this.gamePlayerList = "";
                 for (let i in data) {
                     this.gamePlayerList += data[i].username + '  '
@@ -106,6 +108,12 @@ export default class App extends LightningElement {
             case 'game-started': 
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
                 break;
+            case 'top3-topic': 
+                this.gameTopic = SESSION.gameTopic = data;
+                break;
+            case 'top3-submitted': 
+                //increment submitted count 
+                this.gamePlayersSubmitted = data.length;;
         }
     }
 

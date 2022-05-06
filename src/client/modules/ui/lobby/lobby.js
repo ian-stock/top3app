@@ -2,6 +2,7 @@ import { LightningElement } from 'lwc';
 import { createNewGame, getGame } from '../../services/game';
 import { playerJoinGame } from '../../services/player';
 import { SESSION } from '../../services/session';
+import {log} from '../../utils/log';
 
 export default class Lobby extends LightningElement {
     gameNum; //for ui update
@@ -24,7 +25,7 @@ export default class Lobby extends LightningElement {
                 SESSION.gameId = response.id;
                 SESSION.gameState = response.gamestate;
             })
-            .catch(e => console.error('lobby createNewGame', e.stack))
+            .catch(e => console.error('client.lobby.createNewGame', e.stack))
             .then(() => {
                 this.joinGame()
             })
@@ -56,23 +57,25 @@ export default class Lobby extends LightningElement {
         })
         .then(() => {
             // userid, gamenum, gameid36, host
+            log('client.lobby.joingame', 'pre-playerJoinGame');
             playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host)
                 .then((response) => {
                     SESSION.playerId = response.id;
                     this.gameNum = SESSION.gameNum; //update ui
                 })
                 .catch(e => console.error('lobby.createNewGame', e.stack))
+                .then(() => {
+                    // lwc event - handled by app.js
+                    this.dispatchEvent(new CustomEvent('state_change', {
+                        detail: {
+                            name: 'JoinedGame',
+                            gamenum: SESSION.gameNum, 
+                            userid: SESSION.userId
+                        }
+                    }));    
+                })
         })
-        .then(() => {
-            // lwc event - handled by app.js
-            this.dispatchEvent(new CustomEvent('state_change', {
-                detail: {
-                    name: 'JoinedGame',
-                    gamenum: SESSION.gameNum, 
-                    userid: SESSION.userId
-                }
-            }));    
-        })
+
     }
 
 }

@@ -9,6 +9,12 @@
         <div class="buttonPanel">
             <button onclick={submitTop3}>Submit</button>
         </div>
+        <template if:true={isHost}>
+            <div>
+                <button onclick={startVoting}>Start Voting</button>
+            </div>
+        </template>
+
     </entertop3>
 </template>
 

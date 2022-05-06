@@ -643,7 +643,7 @@ function getErrorComponentStack(vm) {
  */
 
 
-function log(method, message, vm) {
+function log$1(method, message, vm) {
   let msg = `[LWC ${method}]: ${message}`;
 
   if (!isUndefined$1(vm)) {
@@ -659,11 +659,11 @@ function log(method, message, vm) {
 }
 
 function logError(message, vm) {
-  log('error', message, vm);
+  log$1('error', message, vm);
 }
 
 function logWarn(message, vm) {
-  log('warn', message, vm);
+  log$1('warn', message, vm);
 }
 /*
  * Copyright (c) 2018, salesforce.com, inc.
@@ -7800,6 +7800,17 @@ if (_implicitStylesheets$6) {
 }
 tmpl$7.stylesheetToken = "ui-lobby_lobby";
 
+function log(source, desc) {
+  const filterOut = [// "client.app",
+  // "client.game",
+  // "client.player",
+  "client.lobby"]; //returns true if substring exists
+
+  if (!filterOut.some(v => source.includes(v))) {
+    console.log(`${source}: ${desc}`);
+  }
+}
+
 function createNewGame(userid) {
   const gameInfo = {
     userid
@@ -7816,7 +7827,7 @@ function createNewGame(userid) {
   });
 }
 function getGame(gamenum) {
-  console.log('client.game.getGame'); // need to get game by 6 digit id first...
+  log('client.game.getGame', gamenum); // need to get game by 6 digit id first...
 
   return fetch(`/api/game/${gamenum}`, {
     method: 'GET',
@@ -7828,6 +7839,22 @@ function getGame(gamenum) {
     return data.rows[0];
   });
 }
+function updateGameTopic(gamenum, topic) {
+  const gameInfo = {
+    topic
+  }; //post, as there's a bug with PATCH and upper/lower case
+
+  return fetch(`/api/game/update/${gamenum}`, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(gameInfo)
+  }).then(function (response) {
+    return response.json();
+  });
+}
 
 function playerJoinGame(userid, gamenum, gameid36, host) {
   const playerInfo = {
@@ -7836,7 +7863,7 @@ function playerJoinGame(userid, gamenum, gameid36, host) {
     gameid36,
     host
   };
-  console.log('client.player.playerJoinGame');
+  log('client.player.playerJoinGame', JSON.stringify(playerInfo));
   return fetch('/api/game/join', {
     method: 'POST',
     headers: {
@@ -7845,6 +7872,8 @@ function playerJoinGame(userid, gamenum, gameid36, host) {
     },
     body: JSON.stringify(playerInfo)
   }).then(response => response.json()).then(data => {
+    log('client.player.playerJoinGame.response', JSON.stringify(data));
+    log(JSON.stringify(data), null);
     return data;
   });
 }
@@ -7853,7 +7882,8 @@ function submitPlayerTop3(playerid, top1, top2, top3) {
     top1,
     top2,
     top3
-  };
+  }; //post, as there's a bug with PATCH and upper/lower case
+
   return fetch(`/api/player/update/${playerid}`, {
     method: 'post',
     headers: {
@@ -7861,10 +7891,9 @@ function submitPlayerTop3(playerid, top1, top2, top3) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(top3Info)
-  }).then(response => response.json()).then(data => {
-    console.log('player.updateTop3 response');
-    console.log(JSON.stringify(data));
-    return data;
+  }).then(function (response) {
+    log('client.player.submitPlayerTop3.response', JSON.stringify(response));
+    return response.json();
   });
 }
 
@@ -7888,6 +7917,7 @@ const SESSION = {
   "gameId": "notset",
   "gameNum": "notset",
   "gameState": "notset",
+  "gameTopic": "notset",
   "playerId": "notset",
   "host": false,
   "authenticated": false,
@@ -7915,7 +7945,7 @@ class Lobby extends LightningElement {
       SESSION.gameNum = response.gamenum;
       SESSION.gameId = response.id;
       SESSION.gameState = response.gamestate;
-    }).catch(e => console.error('lobby createNewGame', e.stack)).then(() => {
+    }).catch(e => console.error('client.lobby.createNewGame', e.stack)).then(() => {
       this.joinGame();
     }).then(() => {
       // lwc event - handled by app.js
@@ -7944,19 +7974,20 @@ class Lobby extends LightningElement {
       SESSION.gameState = response.gamestate;
     }).then(() => {
       // userid, gamenum, gameid36, host
+      log('client.lobby.joingame', 'pre-playerJoinGame');
       playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host).then(response => {
         SESSION.playerId = response.id;
         this.gameNum = SESSION.gameNum; //update ui
-      }).catch(e => console.error('lobby.createNewGame', e.stack));
-    }).then(() => {
-      // lwc event - handled by app.js
-      this.dispatchEvent(new CustomEvent('state_change', {
-        detail: {
-          name: 'JoinedGame',
-          gamenum: SESSION.gameNum,
-          userid: SESSION.userId
-        }
-      }));
+      }).catch(e => console.error('lobby.createNewGame', e.stack)).then(() => {
+        // lwc event - handled by app.js
+        this.dispatchEvent(new CustomEvent('state_change', {
+          detail: {
+            name: 'JoinedGame',
+            gamenum: SESSION.gameNum,
+            userid: SESSION.userId
+          }
+        }));
+      });
     });
   }
 
@@ -8129,25 +8160,75 @@ var _uiLogin = registerComponent(Login, {
 var _implicitStylesheets$4 = [stylesheet0];
 
 function tmpl$5($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind} = $api;
-  const {_m0, _m1} = $ctx;
+  const {t: api_text, h: api_element, gid: api_scoped_id, b: api_bind, d: api_dynamic_text} = $api;
+  const {_m0, _m1, _m2} = $ctx;
   return [api_element("newgame", {
     key: 0
   }, [api_element("h2", {
     key: 1
   }, [api_text("newgame html")]), api_element("div", {
     key: 2
-  }, [api_text("Player List: ")]), api_element("div", {
+  }, [api_element("label", {
+    attrs: {
+      "for": api_scoped_id("topics")
+    },
     key: 3
-  }, [api_text(api_dynamic_text($cmp.playerlist))]), api_element("button", {
-    key: 4,
+  }, [api_text("Choose a Top3 topic:")]), api_element("input", {
+    attrs: {
+      "list": "topics",
+      "name": "topic",
+      "id": api_scoped_id("topic"),
+      "data-id": "topic"
+    },
+    key: 4
+  }, []), api_element("datalist", {
+    attrs: {
+      "id": api_scoped_id("topics")
+    },
+    key: 5
+  }, [api_element("option", {
+    attrs: {
+      "value": "Movies"
+    },
+    key: 6
+  }, [api_text("Movies")]), api_element("option", {
+    attrs: {
+      "value": "Albums"
+    },
+    key: 7
+  }, [api_text("Albums")]), api_element("option", {
+    attrs: {
+      "value": "Books"
+    },
+    key: 8
+  }, [api_text("Books")]), api_element("option", {
+    attrs: {
+      "value": "Foods"
+    },
+    key: 9
+  }, [api_text("Foods")]), api_element("option", {
+    attrs: {
+      "value": "Places"
+    },
+    key: 10
+  }, [api_text("Places")])])]), api_element("button", {
+    key: 11,
     on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.startGame))
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.top3Topic))
+    }
+  }, [api_text("Choose")]), api_element("div", {
+    key: 12
+  }, [api_text("Player List: ")]), api_element("div", {
+    key: 13
+  }, [api_text(api_dynamic_text($cmp.playerlist))]), api_element("button", {
+    key: 14,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.startGame))
     }
   }, [api_text("Start Game")]), api_element("button", {
-    key: 5,
+    key: 15,
     on: {
-      "click": _m1 || ($ctx._m1 = api_bind($cmp.endGame))
+      "click": _m2 || ($ctx._m2 = api_bind($cmp.endGame))
     }
   }, [api_text("End Game")])])];
 }
@@ -8159,335 +8240,6 @@ if (_implicitStylesheets$4) {
   tmpl$5.stylesheets.push.apply(tmpl$5.stylesheets, _implicitStylesheets$4);
 }
 tmpl$5.stylesheetToken = "ui-newgame_newgame";
-
-class NewGame$1 extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.playerlist = void 0;
-  }
-
-  //for ui update
-  startGame(e) {
-    this.dispatchEvent(new CustomEvent('state_change', {
-      detail: {
-        name: 'GameStarted'
-      }
-    }));
-  }
-
-  endGame(e) {
-    this.dispatchEvent(new CustomEvent('state_change', {
-      detail: {
-        name: 'GameEnded'
-      }
-    }));
-  }
-
-}
-
-registerDecorators(NewGame$1, {
-  publicProps: {
-    playerlist: {
-      config: 0
-    }
-  }
-});
-
-var _uiNewgame = registerComponent(NewGame$1, {
-  tmpl: _tmpl$5
-});
-
-var _implicitStylesheets$3 = [stylesheet0];
-
-function tmpl$4($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element} = $api;
-  return [api_element("waitinggame", {
-    key: 0
-  }, [api_element("h2", {
-    key: 1
-  }, [api_text("waitinggame html")]), api_element("div", {
-    key: 2
-  }, [api_text("Waiting for game to start...")])])];
-}
-var _tmpl$4 = registerTemplate(tmpl$4);
-tmpl$4.stylesheets = [];
-
-
-if (_implicitStylesheets$3) {
-  tmpl$4.stylesheets.push.apply(tmpl$4.stylesheets, _implicitStylesheets$3);
-}
-tmpl$4.stylesheetToken = "ui-waitinggame_waitinggame";
-
-class NewGame extends LightningElement {}
-
-var _uiWaitinggame = registerComponent(NewGame, {
-  tmpl: _tmpl$4
-});
-
-var _implicitStylesheets$2 = [stylesheet0];
-
-function tmpl$3($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, gid: api_scoped_id, b: api_bind} = $api;
-  const {_m0} = $ctx;
-  return [api_element("entertop3", {
-    key: 0
-  }, [api_element("h2", {
-    key: 1
-  }, [api_text("Enter your Top3")]), api_element("div", {
-    classMap: {
-      "formPanel": true
-    },
-    key: 2
-  }, [api_element("input", {
-    attrs: {
-      "type": "text",
-      "data-id": "oneInput",
-      "id": api_scoped_id("oneInput"),
-      "placeholder": "One"
-    },
-    key: 3
-  }, []), api_element("br", {
-    key: 4
-  }, []), api_element("br", {
-    key: 5
-  }, []), api_element("input", {
-    attrs: {
-      "type": "text",
-      "data-id": "twoInput",
-      "id": api_scoped_id("twoInput"),
-      "placeholder": "Two"
-    },
-    key: 6
-  }, []), api_element("br", {
-    key: 7
-  }, []), api_element("br", {
-    key: 8
-  }, []), api_element("input", {
-    attrs: {
-      "type": "text",
-      "data-id": "threeInput",
-      "id": api_scoped_id("threeInput"),
-      "placeholder": "Three"
-    },
-    key: 9
-  }, []), api_element("br", {
-    key: 10
-  }, []), api_element("br", {
-    key: 11
-  }, [])]), api_element("div", {
-    classMap: {
-      "buttonPanel": true
-    },
-    key: 12
-  }, [api_element("button", {
-    key: 13,
-    on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.submitTop3))
-    }
-  }, [api_text("Submit")])])])];
-}
-var _tmpl$3 = registerTemplate(tmpl$3);
-tmpl$3.stylesheets = [];
-
-
-if (_implicitStylesheets$2) {
-  tmpl$3.stylesheets.push.apply(tmpl$3.stylesheets, _implicitStylesheets$2);
-}
-tmpl$3.stylesheetToken = "ui-entertop3_entertop3";
-
-class EnterTop3 extends LightningElement {
-  submitTop3() {
-    const top1 = this.template.querySelector('[data-id="oneInput"]').value;
-    const top2 = this.template.querySelector('[data-id="twoInput"]').value;
-    const top3 = this.template.querySelector('[data-id="threeInput"]').value;
-    submitPlayerTop3(SESSION.playerId, top1, top2, top3).then(response => {
-      console.log('enterTop3.submitTop3.response');
-      console.log(JSON.stringify(response));
-    }).catch(e => console.error('enterTop3 submitPlayerTop3', e.stack));
-  }
-
-}
-
-var _uiEntertop3 = registerComponent(EnterTop3, {
-  tmpl: _tmpl$3
-});
-
-var _implicitStylesheets$1 = [stylesheet0];
-
-function tmpl$2($api, $cmp, $slotset, $ctx) {
-  const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
-  return [api_element("errormsg", {
-    key: 0
-  }, [api_element("h3", {
-    classMap: {
-      "error": true
-    },
-    key: 1
-  }, [api_text("Error: " + api_dynamic_text($cmp.errormsg))])])];
-}
-var _tmpl$2 = registerTemplate(tmpl$2);
-tmpl$2.stylesheets = [];
-
-
-if (_implicitStylesheets$1) {
-  tmpl$2.stylesheets.push.apply(tmpl$2.stylesheets, _implicitStylesheets$1);
-}
-tmpl$2.stylesheetToken = "ui-errormsg_errormsg";
-
-class ErrogMsg extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.errormsg = void 0;
-  }
-
-}
-
-registerDecorators(ErrogMsg, {
-  publicProps: {
-    errormsg: {
-      config: 0
-    }
-  }
-});
-
-var _uiErrormsg = registerComponent(ErrogMsg, {
-  tmpl: _tmpl$2
-});
-
-function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
-  var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;height: 50px;}"].join('');
-}
-var _implicitStylesheets = [stylesheet0, stylesheet];
-
-function tmpl$1($api, $cmp, $slotset, $ctx) {
-  const {d: api_dynamic_text, t: api_text, h: api_element, b: api_bind} = $api;
-  const {_m0} = $ctx;
-  return [api_element("footer", {
-    key: 0
-  }, [api_element("div", {
-    classMap: {
-      "innerContainer": true
-    },
-    key: 1
-  }, [api_element("div", {
-    key: 2
-  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
-    key: 3
-  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]), api_element("button", {
-    key: 4,
-    on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
-    }
-  }, [api_text("session")])])];
-}
-var _tmpl$1 = registerTemplate(tmpl$1);
-tmpl$1.stylesheets = [];
-
-
-if (_implicitStylesheets) {
-  tmpl$1.stylesheets.push.apply(tmpl$1.stylesheets, _implicitStylesheets);
-}
-tmpl$1.stylesheetToken = "ui-footer_footer";
-
-class Footer extends LightningElement {
-  constructor(...args) {
-    super(...args);
-    this.playercount = void 0;
-    this.playerscore = void 0;
-  }
-
-  printSession(e) {
-    // console.log(JSON.stringify(SESSION));
-    console.log(SESSION);
-  }
-
-}
-
-registerDecorators(Footer, {
-  publicProps: {
-    playercount: {
-      config: 0
-    },
-    playerscore: {
-      config: 0
-    }
-  }
-});
-
-var _uiFooter = registerComponent(Footer, {
-  tmpl: _tmpl$1
-});
-
-function tmpl($api, $cmp, $slotset, $ctx) {
-  const {c: api_custom_element, b: api_bind, h: api_element} = $api;
-  const {_m0, _m1, _m2, _m3, _m4, _m5} = $ctx;
-  return [api_custom_element("ui-header", _uiHeader, {
-    props: {
-      "sessiongamenum": $cmp.sessionGameNum,
-      "sessionusername": $cmp.sessionUserName
-    },
-    key: 0
-  }, []), api_element("div", {
-    classMap: {
-      "body": true
-    },
-    key: 1
-  }, [api_element("div", {
-    classMap: {
-      "innerContainer": true
-    },
-    key: 2
-  }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
-    key: 3,
-    on: {
-      "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
-    key: 4,
-    on: {
-      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
-      "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
-    }
-  }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
-    props: {
-      "playerlist": $cmp.gamePlayerList
-    },
-    key: 5,
-    on: {
-      "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isJoinedGameState ? api_custom_element("ui-waitinggame", _uiWaitinggame, {
-    key: 6,
-    on: {
-      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isGameStartedState ? api_custom_element("ui-entertop3", _uiEntertop3, {
-    key: 7,
-    on: {
-      "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
-    }
-  }, []) : null, $cmp.isErrorMessage ? api_custom_element("ui-errormsg", _uiErrormsg, {
-    props: {
-      "errormsg": $cmp.errorMessage
-    },
-    key: 8
-  }, []) : null])]), api_custom_element("ui-footer", _uiFooter, {
-    props: {
-      "playerscore": $cmp.gamePlayerScore,
-      "playercount": $cmp.gamePlayerCount
-    },
-    key: 9
-  }, [])];
-}
-var _tmpl = registerTemplate(tmpl);
-tmpl.stylesheets = [];
-
-
-if (_implicitStylesheets$8) {
-  tmpl.stylesheets.push.apply(tmpl.stylesheets, _implicitStylesheets$8);
-}
-tmpl.stylesheetToken = "ui-app_app";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -12746,7 +12498,384 @@ var socket_io = {exports: {}};
 });
 }(socket_io));
 
-//import { handleSocketEvent } from '../../utils/socketclient';
+const socket$2 = socket_io.exports.io();
+
+class NewGame$1 extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.playerlist = void 0;
+  }
+
+  //for ui update
+  top3Topic(e) {
+    SESSION.gameTopic = this.template.querySelector('[data-id="topic"]').value;
+    updateGameTopic(SESSION.gameNum, SESSION.gameTopic).then(response => {
+      socket$2.emit('top3topic', SESSION);
+    }).catch(e => console.error('newgame.updateGameTopic', e.stack));
+  }
+
+  startGame(e) {
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'GameStarted'
+      }
+    }));
+  }
+
+  endGame(e) {
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'GameEnded'
+      }
+    }));
+  }
+
+}
+
+registerDecorators(NewGame$1, {
+  publicProps: {
+    playerlist: {
+      config: 0
+    }
+  }
+});
+
+var _uiNewgame = registerComponent(NewGame$1, {
+  tmpl: _tmpl$5
+});
+
+var _implicitStylesheets$3 = [stylesheet0];
+
+function tmpl$4($api, $cmp, $slotset, $ctx) {
+  const {t: api_text, h: api_element} = $api;
+  return [api_element("waitinggame", {
+    key: 0
+  }, [api_element("h2", {
+    key: 1
+  }, [api_text("waitinggame html")]), api_element("div", {
+    key: 2
+  }, [api_text("Waiting for game to start...")])])];
+}
+var _tmpl$4 = registerTemplate(tmpl$4);
+tmpl$4.stylesheets = [];
+
+
+if (_implicitStylesheets$3) {
+  tmpl$4.stylesheets.push.apply(tmpl$4.stylesheets, _implicitStylesheets$3);
+}
+tmpl$4.stylesheetToken = "ui-waitinggame_waitinggame";
+
+class NewGame extends LightningElement {}
+
+var _uiWaitinggame = registerComponent(NewGame, {
+  tmpl: _tmpl$4
+});
+
+var _implicitStylesheets$2 = [stylesheet0];
+
+function tmpl$3($api, $cmp, $slotset, $ctx) {
+  const {t: api_text, h: api_element, gid: api_scoped_id, b: api_bind} = $api;
+  const {_m0, _m1} = $ctx;
+  return [api_element("entertop3", {
+    key: 0
+  }, [api_element("h2", {
+    key: 1
+  }, [api_text("Enter your Top3")]), api_element("div", {
+    classMap: {
+      "formPanel": true
+    },
+    key: 2
+  }, [api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "oneInput",
+      "id": api_scoped_id("oneInput"),
+      "placeholder": "One"
+    },
+    key: 3
+  }, []), api_element("br", {
+    key: 4
+  }, []), api_element("br", {
+    key: 5
+  }, []), api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "twoInput",
+      "id": api_scoped_id("twoInput"),
+      "placeholder": "Two"
+    },
+    key: 6
+  }, []), api_element("br", {
+    key: 7
+  }, []), api_element("br", {
+    key: 8
+  }, []), api_element("input", {
+    attrs: {
+      "type": "text",
+      "data-id": "threeInput",
+      "id": api_scoped_id("threeInput"),
+      "placeholder": "Three"
+    },
+    key: 9
+  }, []), api_element("br", {
+    key: 10
+  }, []), api_element("br", {
+    key: 11
+  }, [])]), api_element("div", {
+    classMap: {
+      "buttonPanel": true
+    },
+    key: 12
+  }, [api_element("button", {
+    key: 13,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.submitTop3))
+    }
+  }, [api_text("Submit")])]), $cmp.isHost ? api_element("div", {
+    key: 14
+  }, [api_element("button", {
+    key: 15,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.startVoting))
+    }
+  }, [api_text("Start Voting")])]) : null])];
+}
+var _tmpl$3 = registerTemplate(tmpl$3);
+tmpl$3.stylesheets = [];
+
+
+if (_implicitStylesheets$2) {
+  tmpl$3.stylesheets.push.apply(tmpl$3.stylesheets, _implicitStylesheets$2);
+}
+tmpl$3.stylesheetToken = "ui-entertop3_entertop3";
+
+const socket$1 = socket_io.exports.io();
+
+class EnterTop3 extends LightningElement {
+  submitTop3() {
+    const top1 = this.template.querySelector('[data-id="oneInput"]').value;
+    const top2 = this.template.querySelector('[data-id="twoInput"]').value;
+    const top3 = this.template.querySelector('[data-id="threeInput"]').value;
+    submitPlayerTop3(SESSION.playerId, top1, top2, top3).then(response => {
+      log('client.enterTop3.submitTop3.response', JSON.stringify(response));
+      socket$1.emit('submittedtop3', SESSION);
+    }).catch(e => console.error('client.enterTop3.submitPlayerTop3', e.stack));
+  } // UI expressions to dynamically render templates (return true or false)
+
+
+  get isHost() {
+    return SESSION.host;
+  }
+
+}
+
+var _uiEntertop3 = registerComponent(EnterTop3, {
+  tmpl: _tmpl$3
+});
+
+var _implicitStylesheets$1 = [stylesheet0];
+
+function tmpl$2($api, $cmp, $slotset, $ctx) {
+  const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
+  return [api_element("errormsg", {
+    key: 0
+  }, [api_element("h3", {
+    classMap: {
+      "error": true
+    },
+    key: 1
+  }, [api_text("Error: " + api_dynamic_text($cmp.errormsg))])])];
+}
+var _tmpl$2 = registerTemplate(tmpl$2);
+tmpl$2.stylesheets = [];
+
+
+if (_implicitStylesheets$1) {
+  tmpl$2.stylesheets.push.apply(tmpl$2.stylesheets, _implicitStylesheets$1);
+}
+tmpl$2.stylesheetToken = "ui-errormsg_errormsg";
+
+class ErrogMsg extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.errormsg = void 0;
+  }
+
+}
+
+registerDecorators(ErrogMsg, {
+  publicProps: {
+    errormsg: {
+      config: 0
+    }
+  }
+});
+
+var _uiErrormsg = registerComponent(ErrogMsg, {
+  tmpl: _tmpl$2
+});
+
+function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background: #ffcf40;height: 50px;}"].join('');
+}
+var _implicitStylesheets = [stylesheet0, stylesheet];
+
+function tmpl$1($api, $cmp, $slotset, $ctx) {
+  const {d: api_dynamic_text, t: api_text, h: api_element, b: api_bind} = $api;
+  const {_m0} = $ctx;
+  return [api_element("footer", {
+    key: 0
+  }, [$cmp.isHost ? api_element("div", {
+    classMap: {
+      "innerContainer": true
+    },
+    key: 1
+  }, [api_element("div", {
+    key: 2
+  }, [api_text("Players/Submitted: " + api_dynamic_text($cmp.playercount) + "/" + api_dynamic_text($cmp.playerssubmitted))]), api_element("div", {
+    key: 3
+  }, [api_text("Topic: " + api_dynamic_text($cmp.gametopic))]), api_element("div", {
+    key: 4
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]) : null, $cmp.isHost ? api_element("button", {
+    key: 5,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
+    }
+  }, [api_text("session")]) : null, !$cmp.isHost ? api_element("div", {
+    classMap: {
+      "innerContainer": true
+    },
+    key: 6
+  }, [api_element("div", {
+    key: 7
+  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
+    key: 8
+  }, [api_text("Topic: " + api_dynamic_text($cmp.gametopic))]), api_element("div", {
+    key: 9
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]) : null])];
+}
+var _tmpl$1 = registerTemplate(tmpl$1);
+tmpl$1.stylesheets = [];
+
+
+if (_implicitStylesheets) {
+  tmpl$1.stylesheets.push.apply(tmpl$1.stylesheets, _implicitStylesheets);
+}
+tmpl$1.stylesheetToken = "ui-footer_footer";
+
+class Footer extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.playercount = void 0;
+    this.playerscore = void 0;
+    this.playerssubmitted = void 0;
+    this.gametopic = void 0;
+  }
+
+  printSession(e) {
+    console.log(SESSION);
+  } // UI expressions to dynamically render templates (return true or false)
+
+
+  get isHost() {
+    return SESSION.host;
+  }
+
+}
+
+registerDecorators(Footer, {
+  publicProps: {
+    playercount: {
+      config: 0
+    },
+    playerscore: {
+      config: 0
+    },
+    playerssubmitted: {
+      config: 0
+    },
+    gametopic: {
+      config: 0
+    }
+  }
+});
+
+var _uiFooter = registerComponent(Footer, {
+  tmpl: _tmpl$1
+});
+
+function tmpl($api, $cmp, $slotset, $ctx) {
+  const {c: api_custom_element, b: api_bind, h: api_element} = $api;
+  const {_m0, _m1, _m2, _m3, _m4, _m5} = $ctx;
+  return [api_custom_element("ui-header", _uiHeader, {
+    props: {
+      "sessiongamenum": $cmp.sessionGameNum,
+      "sessionusername": $cmp.sessionUserName
+    },
+    key: 0
+  }, []), api_element("div", {
+    classMap: {
+      "body": true
+    },
+    key: 1
+  }, [api_element("div", {
+    classMap: {
+      "innerContainer": true
+    },
+    key: 2
+  }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
+    key: 3,
+    on: {
+      "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
+    key: 4,
+    on: {
+      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
+      "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
+    }
+  }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
+    props: {
+      "playerlist": $cmp.gamePlayerList
+    },
+    key: 5,
+    on: {
+      "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isJoinedGameState ? api_custom_element("ui-waitinggame", _uiWaitinggame, {
+    key: 6,
+    on: {
+      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isGameStartedState ? api_custom_element("ui-entertop3", _uiEntertop3, {
+    key: 7,
+    on: {
+      "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
+    }
+  }, []) : null, $cmp.isErrorMessage ? api_custom_element("ui-errormsg", _uiErrormsg, {
+    props: {
+      "errormsg": $cmp.errorMessage
+    },
+    key: 8
+  }, []) : null])]), api_custom_element("ui-footer", _uiFooter, {
+    props: {
+      "playerscore": $cmp.gamePlayerScore,
+      "playercount": $cmp.gamePlayerCount,
+      "playerssubmitted": $cmp.gamePlayersSubmitted,
+      "gametopic": $cmp.gameTopic
+    },
+    key: 9
+  }, [])];
+}
+var _tmpl = registerTemplate(tmpl);
+tmpl.stylesheets = [];
+
+
+if (_implicitStylesheets$8) {
+  tmpl.stylesheets.push.apply(tmpl.stylesheets, _implicitStylesheets$8);
+}
+tmpl.stylesheetToken = "ui-app_app";
 
 const socket = socket_io.exports.io();
 
@@ -12761,6 +12890,8 @@ class App extends LightningElement {
     this.gamePlayerCount = 0;
     this.gamePlayerList = void 0;
     this.gamePlayerScore = 0;
+    this.gamePlayersSubmitted = 0;
+    this.gameTopic = void 0;
   }
 
   connectedCallback() {
@@ -12768,18 +12899,18 @@ class App extends LightningElement {
     this.addEventListener('error_message', this.handleErrorMessage);
     this.sessionState = SESSION.sessionState;
     socket.on("connect", () => {
-      console.log("app.socketid: " + socket.id);
+      log('client.app.socketid', socket.id);
     });
     socket.onAny((event, data) => {
-      console.log(`app.event-received: ${event} - ${JSON.stringify(data)}`);
+      log('client.app.event-received', `${event} - ${JSON.stringify(data)}`);
       this.handleSocketEvent(event, data);
     });
   } //lwc events
 
 
   handleStateChange(evt) {
-    // console.log('app.handleStateChange: ' + evt.detail.name);
-    // console.log(evt);
+    log('client.app.handleStateChange', evt.detail.name);
+
     if (evt.detail.name === 'LoginRegister') {
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOGIN;
     }
@@ -12802,7 +12933,9 @@ class App extends LightningElement {
       socket.emit('joinedgame', SESSION);
 
       if (!SESSION.host) {
-        SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
+        // bypassing waiting game page
+        // SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_WAITING_GAME_START;
+        SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
         this.sessionGameNum = SESSION.gameNum;
         this.sessionUserName = SESSION.userName;
       }
@@ -12850,8 +12983,7 @@ class App extends LightningElement {
     switch (event) {
       case 'player-joined':
         //increment player count 
-        this.gamePlayerCount = data.length; //this.gamePlayerList = JSON.stringify(data);
-
+        this.gamePlayerCount = data.length;
         this.gamePlayerList = "";
 
         for (let i in data) {
@@ -12863,6 +12995,14 @@ class App extends LightningElement {
       case 'game-started':
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
         break;
+
+      case 'top3-topic':
+        this.gameTopic = SESSION.gameTopic = data;
+        break;
+
+      case 'top3-submitted':
+        //increment submitted count 
+        this.gamePlayersSubmitted = data.length;
     }
   } //error handling
 
@@ -12876,7 +13016,7 @@ class App extends LightningElement {
 }
 
 registerDecorators(App, {
-  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage", "gamePlayerCount", "gamePlayerList", "gamePlayerScore"]
+  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage", "gamePlayerCount", "gamePlayerList", "gamePlayerScore", "gamePlayersSubmitted", "gameTopic"]
 });
 
 var App$1 = registerComponent(App, {

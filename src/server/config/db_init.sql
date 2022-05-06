@@ -9,10 +9,12 @@ CREATE TABLE IF NOT EXISTS game(
     createdby VARCHAR(36), 
     gamenum VARCHAR(10),
     hostid VARCHAR(36),
-    gamestate VARCHAR(20) 
+    gamestate VARCHAR(20), 
+    topic VARCHAR(20) 
 );
 
 --ALTER TABLE game ADD COLUMN gameid varchar(10);
+--ALTER TABLE game ADD COLUMN topic varchar(20);
 
 
 --schema - id(36), created (timestamp), createdby(36), username(30), email(50), password(64), currentgame(36)
@@ -40,5 +42,8 @@ CREATE TABLE IF NOT EXISTS player(
     host BOOLEAN, 
     topone VARCHAR(100), 
     toptwo VARCHAR(100), 
-    topthree VARCHAR(100)
+    topthree VARCHAR(100),
+    playerstate VARCHAR(20)
 );
+
+--ALTER TABLE player ADD COLUMN playerstate VARCHAR(20);

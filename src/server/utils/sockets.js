@@ -1,16 +1,16 @@
 //for handling game/session state updates back to clients
-// const getPlayerList = require('../apis/player.js');
 const db = require('./database.js');
+const log = require('../utils/log');
 
 module.exports = function (io) {
     
     io.on('connection', async function(socket){
 
-        console.log('sockets.userConnected: ' + socket.id);
+        log('server.sockets.userConnected', socket.id);
       
         //catch all listener
         socket.onAny((event, data) => {
-            console.log(`ws emit: ${event}, ${data.gameNum}, ${data.userName}`);
+            log('server.sockets.emit', `${event}, ${data.gameNum}, ${data.userName}`);
 
             switch (event) {
             case 'newgame': 
@@ -18,15 +18,26 @@ module.exports = function (io) {
                 break;
             case 'joinedgame': 
                 socket.join(data.gameNum); //data: gameid, userid
-                console.log(socket.rooms);
+                log('server.sockets.joinedgame', socket.rooms);
 
-                db.getPlayerList(data.gameNum)
+                db.getPlayerList(data.gameNum, event)
                     .then((players) => {
+                        log('server.sockets.getPlayerList.joinedgame', players);
                         io.to(data.gameNum).emit('player-joined', players.rows)
                     })
                 break;
             case 'startedgame': 
                 io.to(data.gameNum).emit('game-started')
+                break;
+            case 'top3topic': 
+                io.to(data.gameNum).emit('top3-topic', data.gameTopic)
+                break;
+            case 'submittedtop3': 
+                db.getPlayerList(data.gameNum, event)
+                .then((players) => {
+                    log('server.sockets.getPlayerList.submittedtop3', players);
+                    io.to(data.gameNum).emit('top3-submitted', players.rows)    
+                })
                 break;
             case 'leavegame': 
                 socket.leave(data); //data: gameid

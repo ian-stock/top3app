@@ -1,9 +1,20 @@
 <template>
     <voting>
-        <h2>time for voting</h2>
-        <div>cards of each players top3.</div>
+        <h2>time for voting - cards of each players top3</h2>
+        <div class="card">
+            <div>1: {top1}</div>
+            <div>2: {top2}</div>
+            <div>3: {top3}</div>
+            <div>PlayerId(test): {playerid}</div>
+        </div>
+        <div class="player-select">
+            <select data-id="playerSelect">
+                <option for:each={playerList} key={option.id} for:item="option" value={option.username}>
+                    {option.username}
+                </option>
+            </select>
+        </div>
         <div>
-            <input type="select">
             <button onclick={vote}>Vote</button>
         </div>
         <template if:true={isHost}>

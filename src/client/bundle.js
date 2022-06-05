@@ -7751,7 +7751,7 @@ var _uiHeader = registerComponent(Header, {
 var _implicitStylesheets$7 = [stylesheet0];
 
 function tmpl$8($api, $cmp, $slotset, $ctx) {
-  const {b: api_bind, t: api_text, h: api_element, gid: api_scoped_id} = $api;
+  const {b: api_bind, t: api_text, h: api_element} = $api;
   const {_m0, _m1, _m2} = $ctx;
   return [api_element("lobby", {
     key: 0
@@ -7785,7 +7785,6 @@ function tmpl$8($api, $cmp, $slotset, $ctx) {
     attrs: {
       "type": "text",
       "data-id": "gameNumInput",
-      "id": api_scoped_id("gameNumInput"),
       "placeholder": "Game ID"
     },
     key: 8
@@ -7923,6 +7922,7 @@ const SESSION = {
   "authenticated": false,
   "gameScore": 0
 };
+const PLAYERS = [];
 
 class Lobby extends LightningElement {
   constructor(...args) {
@@ -8423,30 +8423,50 @@ var _uiWaitingvote = registerComponent(WaitingVote, {
 var _implicitStylesheets$2 = [stylesheet0];
 
 function tmpl$3($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, b: api_bind} = $api;
+  const {t: api_text, h: api_element, d: api_dynamic_text, k: api_key, i: api_iterator, b: api_bind} = $api;
   const {_m0, _m1} = $ctx;
   return [api_element("voting", {
     key: 0
   }, [api_element("h2", {
     key: 1
-  }, [api_text("time for voting")]), api_element("div", {
-    key: 2
-  }, [api_text("cards of each players top3.")]), api_element("div", {
-    key: 3
-  }, [api_element("input", {
-    attrs: {
-      "type": "select"
+  }, [api_text("time for voting - cards of each players top3")]), api_element("div", {
+    classMap: {
+      "card": true
     },
+    key: 2
+  }, [api_element("div", {
+    key: 3
+  }, [api_text("1: " + api_dynamic_text($cmp.top1))]), api_element("div", {
     key: 4
-  }, []), api_element("button", {
-    key: 5,
+  }, [api_text("2: " + api_dynamic_text($cmp.top2))]), api_element("div", {
+    key: 5
+  }, [api_text("3: " + api_dynamic_text($cmp.top3))]), api_element("div", {
+    key: 6
+  }, [api_text("PlayerId(test): " + api_dynamic_text($cmp.playerid))])]), api_element("div", {
+    classMap: {
+      "player-select": true
+    },
+    key: 7
+  }, [api_element("select", {
+    key: 8
+  }, api_iterator($cmp.playerList, function (option) {
+    return api_element("option", {
+      attrs: {
+        "value": option.username
+      },
+      key: api_key(9, option.id)
+    }, [api_text(api_dynamic_text(option.username))]);
+  }))]), api_element("div", {
+    key: 10
+  }, [api_element("button", {
+    key: 11,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.vote))
     }
   }, [api_text("Vote")])]), $cmp.isHost ? api_element("div", {
-    key: 6
+    key: 12
   }, [api_element("button", {
-    key: 7,
+    key: 13,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.nextVote))
     }
@@ -8462,8 +8482,37 @@ if (_implicitStylesheets$2) {
 tmpl$3.stylesheetToken = "ui-voting_voting";
 
 class Voting extends LightningElement {
-  vote(e) {//load all players as cards and allow voting
+  constructor(...args) {
+    super(...args);
+    this.playerList = void 0;
   }
+
+  connectedCallback() {
+    this.playerList = PLAYERS[0];
+    log('client.voting.connectedCallback', this.playerList);
+    console.log(this.playerList);
+  } // cmpInitialized = false;
+  // renderedCallback() {
+  //     if (this.cmpInitialized) {
+  //         return;
+  //     }
+  //     this.cmpInitialized = true;
+  //     //load all players as cards and allow voting
+  //     let pselect = this.template.querySelector('[data-id="playerSelect"]');
+  //     // let pselect2 = this.template.querySelector('.player-select');
+  //     log('client.voting.connectedCallback', PLAYERS);
+  //     console.log(pselect);
+  //     for (var i = 0; i < PLAYERS[0].length; i++) {
+  //         var option = document.createElement("option");
+  //         option.value = PLAYERS[0][i].username;
+  //         option.text = PLAYERS[0][i].username;
+  //         pselect.options.add(option);
+  //         // pselect.appendChild(option);
+  //     }
+  // }
+
+
+  vote(e) {}
 
   nextVote(e) {//load next player
   } // UI expressions to dynamically render templates (return true or false)
@@ -8474,6 +8523,10 @@ class Voting extends LightningElement {
   }
 
 }
+
+registerDecorators(Voting, {
+  fields: ["playerList"]
+});
 
 var _uiVoting = registerComponent(Voting, {
   tmpl: _tmpl$3
@@ -13073,6 +13126,10 @@ class App extends LightningElement {
         break;
 
       case 'voting-started':
+        //set session.players array
+        PLAYERS.push(data);
+        log('client.app.voting-started', PLAYERS);
+        console.log(PLAYERS);
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
     }
   } //error handling

@@ -27,6 +27,8 @@ export const SESSION = {
     "gameScore": 0
 }
 
+export const PLAYERS = [];
+
 export function createSession(){
     return{
         SESSION

@@ -1,6 +1,7 @@
 //for handling game/session state updates back to clients
 const db = require('./database.js');
-const log = require('../utils/log');
+const log = require('../utils/log.js');
+const utils = require('./utils.js')
 
 module.exports = function (io) {
     
@@ -40,7 +41,12 @@ module.exports = function (io) {
                 })
                 break;
             case 'startvoting': 
-                io.to(data.gameNum).emit('voting-started')  
+                db.getPlayerList(data.gameNum, event)
+                .then((players) => {
+                    log('server.sockets.getPlayerList.startvoting', players);
+                    //randomise list of players before sending back to client
+                    io.to(data.gameNum).emit('voting-started', utils.shuffle(players.rows))  
+                })  
                 break;
             case 'leavegame': 
                 socket.leave(data); //data: gameid
@@ -56,7 +62,3 @@ module.exports = function (io) {
       
     })
 }
-
- 
-
-

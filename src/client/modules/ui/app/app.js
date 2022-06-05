@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import { SESSIONSTATES, SESSION } from '../../services/session';
+import { SESSIONSTATES, SESSION, PLAYERS } from '../../services/session';
 import { io } from "../../../../../node_modules/socket.io-client/dist/socket.io.js"; // whole path for client side
 import {log} from '../../utils/log';
 
@@ -124,6 +124,10 @@ export default class App extends LightningElement {
                 this.gamePlayersSubmitted = data.length;;
                 break;
             case 'voting-started':
+                //set session.players array
+                PLAYERS.push(data);
+                log('client.app.voting-started', PLAYERS);
+                console.log(PLAYERS);
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
         }
     }

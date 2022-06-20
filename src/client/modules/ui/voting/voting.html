@@ -5,11 +5,11 @@
             <div>1: {top1}</div>
             <div>2: {top2}</div>
             <div>3: {top3}</div>
-            <div>PlayerId(test): {playerid}</div>
+            <div>PlayerUsername(test): {top3PlayerUsername}</div>
         </div>
         <div class="player-select">
             <select data-id="playerSelect">
-                <option for:each={playerList} key={option.id} for:item="option" value={option.username}>
+                <option for:each={playerSelectList} key={option.id} for:item="option" value={option.username}>
                     {option.username}
                 </option>
             </select>

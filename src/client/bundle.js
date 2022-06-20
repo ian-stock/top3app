@@ -8442,14 +8442,17 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
     key: 5
   }, [api_text("3: " + api_dynamic_text($cmp.top3))]), api_element("div", {
     key: 6
-  }, [api_text("PlayerId(test): " + api_dynamic_text($cmp.playerid))])]), api_element("div", {
+  }, [api_text("PlayerUsername(test): " + api_dynamic_text($cmp.top3PlayerUsername))])]), api_element("div", {
     classMap: {
       "player-select": true
     },
     key: 7
   }, [api_element("select", {
+    attrs: {
+      "data-id": "playerSelect"
+    },
     key: 8
-  }, api_iterator($cmp.playerList, function (option) {
+  }, api_iterator($cmp.playerSelectList, function (option) {
     return api_element("option", {
       attrs: {
         "value": option.username
@@ -8484,37 +8487,47 @@ tmpl$3.stylesheetToken = "ui-voting_voting";
 class Voting extends LightningElement {
   constructor(...args) {
     super(...args);
-    this.playerList = void 0;
+    this.playerViewList = void 0;
+    this.playerSelectList = void 0;
+    this.currentlyViewedPlayer = void 0;
+    this.top1 = void 0;
+    this.top2 = void 0;
+    this.top3 = void 0;
+    this.top3PlayerUsername = void 0;
+    this.top3PlayerId = void 0;
+    this.top3SelectedId = void 0;
+    this.top3SelectedUsername = void 0;
   }
 
   connectedCallback() {
-    this.playerList = PLAYERS[0];
-    log('client.voting.connectedCallback', this.playerList);
-    console.log(this.playerList);
-  } // cmpInitialized = false;
-  // renderedCallback() {
-  //     if (this.cmpInitialized) {
-  //         return;
-  //     }
-  //     this.cmpInitialized = true;
-  //     //load all players as cards and allow voting
-  //     let pselect = this.template.querySelector('[data-id="playerSelect"]');
-  //     // let pselect2 = this.template.querySelector('.player-select');
-  //     log('client.voting.connectedCallback', PLAYERS);
-  //     console.log(pselect);
-  //     for (var i = 0; i < PLAYERS[0].length; i++) {
-  //         var option = document.createElement("option");
-  //         option.value = PLAYERS[0][i].username;
-  //         option.text = PLAYERS[0][i].username;
-  //         pselect.options.add(option);
-  //         // pselect.appendChild(option);
-  //     }
-  // }
+    log('client.voting.connectedCallback', PLAYERS[0]);
+    this.playerViewList = PLAYERS[0];
+    this.playerSelectList = PLAYERS[0].sort();
+    this.currentlyViewedPlayer = this.playerViewList[0];
+    this.top1 = this.currentlyViewedPlayer.topone;
+    this.top2 = this.currentlyViewedPlayer.toptwo;
+    this.top3 = this.currentlyViewedPlayer.topthree;
+    this.top3PlayerUsername = this.currentlyViewedPlayer.username;
+    this.top3PlayerId = this.currentlyViewedPlayer.id;
+  }
 
+  vote(e) {
+    //submit vote, check server side, create/save answer & score, return result & score
+    //need client playerid, top3 question playerid (hidden) and selected username (or id) option
+    //may need to do via an onchange event - onchange={onfieldchange}, 
+    this.top3SelectedId = this.template.querySelector('data-id="playerSelect"').key;
+    this.top3SelectedUsername = this.template.querySelector('data-id="playerSelect"').value;
+    log('client.voting.vote.top3SelectedId', this.top3SelectedId);
+    log('client.voting.vote.top3SelectedUsername', this.top3SelectedUsername);
+    log('client.voting.vote.SESSION.playerId', SESSION.playerId);
+    log('client.voting.vote.top3PlayerId', this.top3PlayerId);
+  }
 
-  vote(e) {}
+  reveal(e) {//do automatically
+  }
 
   nextVote(e) {//load next player
+    //how to know when got to last player, should it be client or server side?
   } // UI expressions to dynamically render templates (return true or false)
 
 
@@ -8525,7 +8538,7 @@ class Voting extends LightningElement {
 }
 
 registerDecorators(Voting, {
-  fields: ["playerList"]
+  fields: ["playerViewList", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerUsername", "top3PlayerId", "top3SelectedId", "top3SelectedUsername"]
 });
 
 var _uiVoting = registerComponent(Voting, {

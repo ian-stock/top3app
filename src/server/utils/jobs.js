@@ -1,5 +1,3 @@
-#! /app/.heroku/node/bin/node
-
 //background scheduled job for clean ups
 
 const log = require('./log');

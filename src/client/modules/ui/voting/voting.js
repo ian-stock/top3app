@@ -1,19 +1,21 @@
 import { LightningElement, api } from 'lwc';
 import { SESSION, PLAYERS } from '../../services/session';
+import { submitAnswer } from '../../services/answer';
 import {log} from '../../utils/log';
 
 export default class Voting extends LightningElement {
 
-    playerViewList;
-    playerSelectList;
-    currentlyViewedPlayer;
+    playerViewList;             //list that drives player top3 cards to display
+    playerSelectList;           //drives combobox for selecting who to vote for
+
+    currentlyViewedPlayer;      //current player being voted on
     top1;
     top2;
     top3;
-    top3PlayerUsername;
-    top3PlayerId;
-    top3SelectedId;
-    top3SelectedUsername;
+    top3PlayerUsername;         //for testing only, remove
+    top3PlayerId;               //for submitting to server along with vote, to check true/false
+    
+    top3SelectedUsername;       //voted for player, submitted with top3PlayerId for server to check true/false
 
     connectedCallback(){
         log('client.voting.connectedCallback', PLAYERS[0]);
@@ -24,9 +26,15 @@ export default class Voting extends LightningElement {
         this.top1 = this.currentlyViewedPlayer.topone;
         this.top2 = this.currentlyViewedPlayer.toptwo;
         this.top3 = this.currentlyViewedPlayer.topthree;
-        this.top3PlayerUsername = this.currentlyViewedPlayer.username;
+        this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
         this.top3PlayerId = this.currentlyViewedPlayer.id;
 
+    }
+
+
+    handleVoteSelectChange(evt){
+        this.top3SelectedUsername = evt.target.value;
+        log('client.voting.select.change-handler', this.top3SelectedUsername);
     }
 
 
@@ -34,17 +42,27 @@ export default class Voting extends LightningElement {
         //submit vote, check server side, create/save answer & score, return result & score
         //need client playerid, top3 question playerid (hidden) and selected username (or id) option
         
-        //may need to do via an onchange event - onchange={onfieldchange}, 
-        this.top3SelectedId = this.template.querySelector('data-id="playerSelect"').key;
-        this.top3SelectedUsername = this.template.querySelector('data-id="playerSelect"').value;
-        
-        
-        log('client.voting.vote.top3SelectedId', this.top3SelectedId);
-        log('client.voting.vote.top3SelectedUsername', this.top3SelectedUsername);
-        log('client.voting.vote.SESSION.playerId', SESSION.playerId);
-        log('client.voting.vote.top3PlayerId', this.top3PlayerId);
+        log('client.voting.vote.user-SESSION.playerId', SESSION.playerId);                   //user        
+        log('client.voting.vote.viewed-top3PlayerId', this.top3PlayerId);                    //being viewed
+        log('client.voting.vote.voted-top3SelectedUsername', this.top3SelectedUsername);     //vote
+
+        //call the answers server API 
+        //userid, gameid, playerid, selectedPlayername
+        submitAnswer(SESSION.playerId, SESSION.gameId, this.top3PlayerId, this.top3SelectedUsername)
+        .then((response) => {
+            log('client.voting.submitAnswer.response', JSON.stringify(response));
+            // lwc event - handled by app.js 
+            this.dispatchEvent(new CustomEvent('state_change', {
+                detail: {
+                    name: 'AnswerSubmitted',
+                }
+            }));    
+        })
+        .catch(e => console.error('client.enterTop3.submitPlayerTop3', e.stack))        
+
     
     }
+    
 
     reveal(e){
         //do automatically

@@ -8423,8 +8423,8 @@ var _uiWaitingvote = registerComponent(WaitingVote, {
 var _implicitStylesheets$2 = [stylesheet0];
 
 function tmpl$3($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, d: api_dynamic_text, k: api_key, i: api_iterator, b: api_bind} = $api;
-  const {_m0, _m1} = $ctx;
+  const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind, k: api_key, i: api_iterator, f: api_flatten} = $api;
+  const {_m0, _m1, _m2} = $ctx;
   return [api_element("voting", {
     key: 0
   }, [api_element("h2", {
@@ -8451,27 +8451,37 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
     attrs: {
       "data-id": "playerSelect"
     },
-    key: 8
-  }, api_iterator($cmp.playerSelectList, function (option) {
+    key: 8,
+    on: {
+      "change": _m0 || ($ctx._m0 = api_bind($cmp.handleVoteSelectChange))
+    }
+  }, api_flatten([api_element("option", {
+    attrs: {
+      "disabled": "",
+      "selected": "",
+      "value": ""
+    },
+    key: 9
+  }, [api_text(" -- choose one -- ")]), api_iterator($cmp.playerSelectList, function (option) {
     return api_element("option", {
       attrs: {
         "value": option.username
       },
-      key: api_key(9, option.id)
+      key: api_key(10, option.id)
     }, [api_text(api_dynamic_text(option.username))]);
-  }))]), api_element("div", {
-    key: 10
+  })]))]), api_element("div", {
+    key: 11
   }, [api_element("button", {
-    key: 11,
+    key: 12,
     on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.vote))
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.vote))
     }
   }, [api_text("Vote")])]), $cmp.isHost ? api_element("div", {
-    key: 12
+    key: 13
   }, [api_element("button", {
-    key: 13,
+    key: 14,
     on: {
-      "click": _m1 || ($ctx._m1 = api_bind($cmp.nextVote))
+      "click": _m2 || ($ctx._m2 = api_bind($cmp.nextVote))
     }
   }, [api_text("Next")])]) : null])];
 }
@@ -8484,6 +8494,26 @@ if (_implicitStylesheets$2) {
 }
 tmpl$3.stylesheetToken = "ui-voting_voting";
 
+function submitAnswer(userid, gameid, playerid, selectedPlayername) {
+  const answerInfo = {
+    userid,
+    gameid,
+    playerid,
+    selectedPlayername
+  };
+  return fetch(`/api/answer/`, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(answerInfo)
+  }).then(function (response) {
+    log('client.answers.submitAnswer.response', JSON.stringify(response));
+    return response.json();
+  });
+}
+
 class Voting extends LightningElement {
   constructor(...args) {
     super(...args);
@@ -8495,10 +8525,10 @@ class Voting extends LightningElement {
     this.top3 = void 0;
     this.top3PlayerUsername = void 0;
     this.top3PlayerId = void 0;
-    this.top3SelectedId = void 0;
     this.top3SelectedUsername = void 0;
   }
 
+  //voted for player, submitted with top3PlayerId for server to check true/false
   connectedCallback() {
     log('client.voting.connectedCallback', PLAYERS[0]);
     this.playerViewList = PLAYERS[0];
@@ -8507,20 +8537,36 @@ class Voting extends LightningElement {
     this.top1 = this.currentlyViewedPlayer.topone;
     this.top2 = this.currentlyViewedPlayer.toptwo;
     this.top3 = this.currentlyViewedPlayer.topthree;
-    this.top3PlayerUsername = this.currentlyViewedPlayer.username;
+    this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
+
     this.top3PlayerId = this.currentlyViewedPlayer.id;
+  }
+
+  handleVoteSelectChange(evt) {
+    this.top3SelectedUsername = evt.target.value;
+    log('client.voting.select.change-handler', this.top3SelectedUsername);
   }
 
   vote(e) {
     //submit vote, check server side, create/save answer & score, return result & score
     //need client playerid, top3 question playerid (hidden) and selected username (or id) option
-    //may need to do via an onchange event - onchange={onfieldchange}, 
-    this.top3SelectedId = this.template.querySelector('data-id="playerSelect"').key;
-    this.top3SelectedUsername = this.template.querySelector('data-id="playerSelect"').value;
-    log('client.voting.vote.top3SelectedId', this.top3SelectedId);
-    log('client.voting.vote.top3SelectedUsername', this.top3SelectedUsername);
-    log('client.voting.vote.SESSION.playerId', SESSION.playerId);
-    log('client.voting.vote.top3PlayerId', this.top3PlayerId);
+    log('client.voting.vote.user-SESSION.playerId', SESSION.playerId); //user        
+
+    log('client.voting.vote.viewed-top3PlayerId', this.top3PlayerId); //being viewed
+
+    log('client.voting.vote.voted-top3SelectedUsername', this.top3SelectedUsername); //vote
+    //call the answers server API 
+    //userid, gameid, playerid, selectedPlayername
+
+    submitAnswer(SESSION.playerId, SESSION.gameId, this.top3PlayerId, this.top3SelectedUsername).then(response => {
+      log('client.voting.submitAnswer.response', JSON.stringify(response)); // lwc event - handled by app.js 
+
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'AnswerSubmitted'
+        }
+      }));
+    }).catch(e => console.error('client.enterTop3.submitPlayerTop3', e.stack));
   }
 
   reveal(e) {//do automatically
@@ -8538,7 +8584,7 @@ class Voting extends LightningElement {
 }
 
 registerDecorators(Voting, {
-  fields: ["playerViewList", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerUsername", "top3PlayerId", "top3SelectedId", "top3SelectedUsername"]
+  fields: ["playerViewList", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerUsername", "top3PlayerId", "top3SelectedUsername"]
 });
 
 var _uiVoting = registerComponent(Voting, {

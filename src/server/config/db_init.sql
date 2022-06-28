@@ -53,13 +53,13 @@ CREATE TABLE IF NOT EXISTS player(
 --ALTER TABLE player ADD COLUMN playerstate VARCHAR(20);
 
 --schema - id(36), created (timestamp), createdby(36), userid(36), gameid(36), host(boolean), topone, toptwo, topthree
-CREATE TABLE IF NOT EXISTS answers(
+CREATE TABLE IF NOT EXISTS answer(
     id VARCHAR(36) PRIMARY KEY,
     created TIMESTAMP DEFAULT NOW(), 
     createdby VARCHAR(36), 
-    userid VARCHAR(36),
     gameid VARCHAR(36), 
     playerid VARCHAR(36), 
     answer  VARCHAR(36), --playerid
+    correct boolean, 
     score INT
 );

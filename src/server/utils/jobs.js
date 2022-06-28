@@ -1,6 +1,8 @@
+#! /app/.heroku/node/bin/node
+
 //background scheduled job for clean ups
 
-const log = require('../src/server/utils/log');
+const log = require('./log');
 
 //clear out old games every night
 function gameDelete(){

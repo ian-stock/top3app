@@ -1,6 +1,6 @@
 //for handling game/session state updates back to clients
 const db = require('./database.js');
-const log = require('../utils/log.js');
+const log = require('./log.js');
 const utils = require('./utils.js')
 
 module.exports = function (io) {

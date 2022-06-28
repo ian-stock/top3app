@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const config = {};
-const log = require('../utils/log');
+const log = require('./log');
 
 if (process.env.DATABASE_URL){}
 

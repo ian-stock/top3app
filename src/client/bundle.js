@@ -8424,7 +8424,7 @@ var _implicitStylesheets$2 = [stylesheet0];
 
 function tmpl$3($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind, k: api_key, i: api_iterator, f: api_flatten} = $api;
-  const {_m0, _m1, _m2} = $ctx;
+  const {_m0, _m1, _m2, _m3} = $ctx;
   return [api_element("voting", {
     key: 0
   }, [api_element("h2", {
@@ -8481,7 +8481,14 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
   }, [api_element("button", {
     key: 14,
     on: {
-      "click": _m2 || ($ctx._m2 = api_bind($cmp.nextVote))
+      "click": _m2 || ($ctx._m2 = api_bind($cmp.revealAnswer))
+    }
+  }, [api_text("Reveal")])]) : null, $cmp.isHost ? api_element("div", {
+    key: 15
+  }, [api_element("button", {
+    key: 16,
+    on: {
+      "click": _m3 || ($ctx._m3 = api_bind($cmp.nextVote))
     }
   }, [api_text("Next")])]) : null])];
 }
@@ -8569,7 +8576,7 @@ class Voting extends LightningElement {
     }).catch(e => console.error('client.enterTop3.submitPlayerTop3', e.stack));
   }
 
-  reveal(e) {//do automatically
+  revealAnswer(e) {//do automatically eventually
   }
 
   nextVote(e) {//load next player

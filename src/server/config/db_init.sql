@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS player(
 CREATE TABLE IF NOT EXISTS answer(
     id VARCHAR(36) PRIMARY KEY,
     created TIMESTAMP DEFAULT NOW(), 
-    createdby VARCHAR(36), 
+    createdby VARCHAR(36), --who voted/answered
     gameid VARCHAR(36), 
-    playerid VARCHAR(36), 
+    playerid VARCHAR(36), --who was being voted on
     answer  VARCHAR(36), --playerid
     correct boolean, 
     score INT

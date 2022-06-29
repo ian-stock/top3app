@@ -11,10 +11,20 @@ const playerListQry =
     where game.gamenum = $1
     ORDER BY player.created asc`;
 
+const playerDetailQry = 
+    `SELECT * FROM public.player where id = $1`;
+
 const playerUpdateStatement = 
         `UPDATE player SET topone=$2, toptwo=$3, topthree=$4, playerstate=$5 WHERE id = $1  RETURNING *`;
 
 //get player detail
+router.get('/:playerid', async (req, res) => {
+    const params = [req.params.playerid];
+    log('server.player.getplayer-detail', req.params.playerid);
+    const result = await db.dbQuery(playerDetailQry, params);
+    //add handling for no rows being returned
+    res.send(result);
+})
 
 //get list of players
 router.get('/:gamenum', async (req, res) => {

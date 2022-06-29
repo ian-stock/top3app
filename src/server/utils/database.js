@@ -67,7 +67,8 @@ function dbDelete() {
   //include delete statement logic
 }
 
-//for server-side db call (not express api)
+//for server-side db calls (not express api)
+
 const playerListQry1 = 
     `SELECT player.id, public.user.username, player.host, player.topone, player.toptwo, player.topthree
     FROM game
@@ -87,6 +88,18 @@ async function getPlayerList(gamenum, event){
   return result;
 }
 
+const playerDetailQry = 
+    `SELECT public.player.*, public.user.username FROM public.player 
+    FULL OUTER JOIN public.user ON player.userid = public.user.id
+    where player.id = $1`;
+
+async function getPlayerDetail(playerid){
+  log(`server.database.getPlayerDetail`, playerid);
+  const params = [playerid];
+  const result = await dbQuery(playerDetailQry, params);
+  return result;
+}
+
 
 exports.dbQuery = dbQuery;
 exports.dbInsert = dbInsert;
@@ -95,3 +108,4 @@ exports.dbDelete = dbDelete;
 
 // module.exports = getPlayerList;
 exports.getPlayerList = getPlayerList;
+exports.getPlayerDetail = getPlayerDetail;

@@ -64,8 +64,8 @@ export default class Voting extends LightningElement {
     }
     
 
-    reveal(e){
-        //do automatically
+    revealAnswer(e){
+        //do automatically eventually
 
     }
 

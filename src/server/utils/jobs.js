@@ -1,4 +1,6 @@
 //background scheduled job for clean ups
+//Heroku Scheduler
+//Job Command: node /app/src/server/utils/jobs.js
 
 const log = require('./log');
 

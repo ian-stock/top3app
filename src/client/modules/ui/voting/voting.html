@@ -5,11 +5,14 @@
             <div>1: {top1}</div>
             <div>2: {top2}</div>
             <div>3: {top3}</div>
-            <div>PlayerUsername(test): {top3PlayerUsername}</div>
         </div>
+        <template if:true={isRevealed}>
+            <div>{answerMessage}</div>
+            <div>It was: {correctAnswer}</div>
+        </template>
         <div class="player-select">
             <select data-id="playerSelect" onchange={handleVoteSelectChange}>
-                <option disabled selected value> -- choose one -- </option>
+                <option disabled selected value>-- choose one --</option>
                 <option for:each={playerSelectList} key={option.id} for:item="option" value={option.username}>
                     {option.username}
                 </option>
@@ -20,11 +23,12 @@
         </div>
         <template if:true={isHost}>
             <div>
-                <button onclick={revealAnswer}>Reveal</button>
+                <button onclick={hostRevealAnswer}>Reveal</button>
             </div>
             <div>
-                <button onclick={nextVote}>Next</button>
+                <input data-id="nextButton" type="button" onclick={hostNextVote} value="Next">
             </div>
+            <div>Vote Count: {voteCount}</div>
         </template>
 
     </voting>

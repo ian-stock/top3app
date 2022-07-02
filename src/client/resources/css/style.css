@@ -4,7 +4,7 @@
   font-size: 24px;
 }
 
-button{
+button, input[type=button]{
   font-size: 2vw;
   border-radius: 5px;
   padding: 5px;

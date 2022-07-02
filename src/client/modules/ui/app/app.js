@@ -16,6 +16,7 @@ export default class App extends LightningElement {
     gamePlayerScore = 0;
     gamePlayersSubmitted = 0;
     gameTopic;
+    votingRevealed;
 
     connectedCallback(){
         this.addEventListener('state_change', this.handleStateChange);
@@ -72,6 +73,16 @@ export default class App extends LightningElement {
         if(evt.detail.name === 'StartVoting'){
             socket.emit('startvoting', SESSION);
         }
+        if(evt.detail.name === 'AnswerSubmitted'){
+            //for vote count updates
+            socket.emit('answersubmitted', SESSION);
+        }
+        if(evt.detail.name === 'AnswerRevealed'){
+            socket.emit('answerrevealed', SESSION);
+        }
+        if(evt.detail.name === 'NextVote'){
+            socket.emit('nextvote', SESSION);
+        }
         if(evt.detail.name === 'GameEnded'){
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
             SESSION.gameId = SESSION.gameNum = SESSION.gameState = 'notset';
@@ -127,8 +138,18 @@ export default class App extends LightningElement {
                 //set session.players array
                 PLAYERS.push(data);
                 log('client.app.voting-started', PLAYERS);
-                console.log(PLAYERS);
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
+                break;
+            case 'answer-revealed': 
+                //reveal answer
+                log('client.app.answer-revealed', event);
+                this.template.querySelector('ui-voting').revealAnswerUI();
+                break;
+            case 'next-vote': 
+                //next vote/player
+                log('client.app.next-vote', event);
+                this.template.querySelector('ui-voting').loadNextPlayer();
+                break;
         }
     }
 

@@ -37,7 +37,14 @@ router.post('/', async (req, res) => {
 
         //db call    
         db.dbInsert(insertSQL, insertValues)
-            .then(insertRes => res.send(insertRes))
+            // .then(insertRes => res.send(insertRes))
+            .then(insertRes => 
+                {
+                    //add correct answer to response, to reveal, before returning to client
+                    insertRes.correctAnswer = playerRespForCheck.rows[0].username;
+                    res.send(insertRes);
+                }
+            )
             .catch(e => console.error('answer.submit dbInsert', e.stack))
             .then(function(){
                 log('server.answer.submit', `${playerRespForCheck.rows[0].username} | ${answer}`);

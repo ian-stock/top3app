@@ -19,7 +19,7 @@ app.use(express.json())
 routes(app);
 
 http.listen(port, function(){
-    console.log('listening on *:' + port);
+    console.log('server.server: listening on port :' + port);
 });
 
 

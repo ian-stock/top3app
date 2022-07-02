@@ -2,7 +2,7 @@ const router = require("express").Router();
 module.exports = router;
 const db = require('../utils/database.js')
 const { v4: uuidv4 } = require('uuid');
-
+const log = require('./../utils/log')
 
 //crud - post, get, patch, delete, query
 //schema - id(36), created (timestamp), username(30), email(), password(), currentgame(36)
@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
         .then(insertRes => res.send(insertRes))
         .catch(e => console.error('user.registration dbInsert', e.stack))
         .then(function(){
-            console.log('user.register: ' + userName);
+            log('user.register', userName);
         })        
 })
 

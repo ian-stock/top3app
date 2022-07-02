@@ -16,6 +16,7 @@ module.exports = function (io) {
             switch (event) {
             case 'newgame': 
                 //console.log('ws emit: newgame | ' + data);
+                log('server.sockets.newgame', event);
                 break;
             case 'joinedgame': 
                 socket.join(data.gameNum); //data: gameid, userid
@@ -48,15 +49,24 @@ module.exports = function (io) {
                     io.to(data.gameNum).emit('voting-started', utils.shuffle(players.rows))  
                 })  
                 break;
+            case 'answersubmitted': 
+                io.to(data.gameNum).emit('answer-submitted')
+                break;    
+            case 'answerrevealed': 
+                io.to(data.gameNum).emit('answer-revealed')
+                break;                    
             case 'leavegame': 
                 socket.leave(data); //data: gameid
                 break;
+            case 'nextvote': 
+                io.to(data.gameNum).emit('next-vote')
+                break;                    
             case 'disconnect': 
-                console.log("user disconnected: socketid: " + socket.id);
+                log('server.sockets.user-disconnected', socket.id);
                 break;
             default: 
                 io.to(data[0]).emit(event, data);
-                console.log('emit default: ' + event + " | " + data);
+                log('server.sockets.default',  + event + " | " + data);
             }
         });
       

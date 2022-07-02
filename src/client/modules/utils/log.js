@@ -3,7 +3,8 @@ export function log(source, desc){
     const filterOut = [
         // "client.app",
         // "client.game",
-        // "client.player",
+        "client.player",
+        // "client.voting",
         "client.lobby"
     ]
     //returns true if substring exists

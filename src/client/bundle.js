@@ -7665,7 +7665,7 @@ seal(LightningElement.prototype);
 
 function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}button", shadowSelector, "{font-size: 2vw;border-radius: 5px;padding: 5px;cursor: pointer;}button:hover", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
+  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 2vw;border-radius: 5px;padding: 5px;cursor: pointer;}button:hover", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
 }
 var stylesheet0 = [stylesheet$3];
 
@@ -7802,7 +7802,7 @@ tmpl$8.stylesheetToken = "ui-lobby_lobby";
 function log(source, desc) {
   const filterOut = [// "client.app",
   // "client.game",
-  // "client.player",
+  "client.player", // "client.voting",
   "client.lobby"]; //returns true if substring exists
 
   if (!filterOut.some(v => source.includes(v))) {
@@ -8440,18 +8440,20 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
     key: 4
   }, [api_text("2: " + api_dynamic_text($cmp.top2))]), api_element("div", {
     key: 5
-  }, [api_text("3: " + api_dynamic_text($cmp.top3))]), api_element("div", {
+  }, [api_text("3: " + api_dynamic_text($cmp.top3))])]), $cmp.isRevealed ? api_element("div", {
     key: 6
-  }, [api_text("PlayerUsername(test): " + api_dynamic_text($cmp.top3PlayerUsername))])]), api_element("div", {
+  }, [api_text(api_dynamic_text($cmp.answerMessage))]) : null, $cmp.isRevealed ? api_element("div", {
+    key: 7
+  }, [api_text("It was: " + api_dynamic_text($cmp.correctAnswer))]) : null, api_element("div", {
     classMap: {
       "player-select": true
     },
-    key: 7
+    key: 8
   }, [api_element("select", {
     attrs: {
       "data-id": "playerSelect"
     },
-    key: 8,
+    key: 9,
     on: {
       "change": _m0 || ($ctx._m0 = api_bind($cmp.handleVoteSelectChange))
     }
@@ -8461,36 +8463,45 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
       "selected": "",
       "value": ""
     },
-    key: 9
-  }, [api_text(" -- choose one -- ")]), api_iterator($cmp.playerSelectList, function (option) {
+    key: 10
+  }, [api_text("-- choose one --")]), api_iterator($cmp.playerSelectList, function (option) {
     return api_element("option", {
       attrs: {
         "value": option.username
       },
-      key: api_key(10, option.id)
+      key: api_key(11, option.id)
     }, [api_text(api_dynamic_text(option.username))]);
   })]))]), api_element("div", {
-    key: 11
+    key: 12
   }, [api_element("button", {
-    key: 12,
+    key: 13,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.vote))
     }
   }, [api_text("Vote")])]), $cmp.isHost ? api_element("div", {
-    key: 13
+    key: 14
   }, [api_element("button", {
-    key: 14,
+    key: 15,
     on: {
-      "click": _m2 || ($ctx._m2 = api_bind($cmp.revealAnswer))
+      "click": _m2 || ($ctx._m2 = api_bind($cmp.hostRevealAnswer))
     }
   }, [api_text("Reveal")])]) : null, $cmp.isHost ? api_element("div", {
-    key: 15
-  }, [api_element("button", {
-    key: 16,
+    key: 16
+  }, [api_element("input", {
+    attrs: {
+      "data-id": "nextButton",
+      "type": "button"
+    },
+    props: {
+      "value": "Next"
+    },
+    key: 17,
     on: {
-      "click": _m3 || ($ctx._m3 = api_bind($cmp.nextVote))
+      "click": _m3 || ($ctx._m3 = api_bind($cmp.hostNextVote))
     }
-  }, [api_text("Next")])]) : null])];
+  }, [])]) : null, $cmp.isHost ? api_element("div", {
+    key: 18
+  }, [api_text("Vote Count: " + api_dynamic_text($cmp.voteCount))]) : null])];
 }
 var _tmpl$3 = registerTemplate(tmpl$3);
 tmpl$3.stylesheets = [];
@@ -8524,7 +8535,8 @@ function submitAnswer(userid, gameid, playerid, selectedPlayername) {
 class Voting extends LightningElement {
   constructor(...args) {
     super(...args);
-    this.playerViewList = void 0;
+    this.playerArray = void 0;
+    this.playerIndex = 0;
     this.playerSelectList = void 0;
     this.currentlyViewedPlayer = void 0;
     this.top1 = void 0;
@@ -8533,14 +8545,26 @@ class Voting extends LightningElement {
     this.top3PlayerUsername = void 0;
     this.top3PlayerId = void 0;
     this.top3SelectedUsername = void 0;
+    this.correctAnswer = void 0;
+    this.answeredCorrectly = void 0;
+    this.answerMessage = void 0;
+    this.revealed = false;
+    this.voteCount = 0;
   }
 
-  //voted for player, submitted with top3PlayerId for server to check true/false
-  connectedCallback() {
-    log('client.voting.connectedCallback', PLAYERS[0]);
-    this.playerViewList = PLAYERS[0];
-    this.playerSelectList = PLAYERS[0].sort();
-    this.currentlyViewedPlayer = this.playerViewList[0];
+  revealAnswerUI() {
+    this.revealed = true;
+  }
+
+  loadNextPlayer() {
+    this.revealed = false;
+    this.playerIndex++;
+    this.loadPlayer();
+    this.template.querySelector('[data-id="playerSelect"]').value = '-- choose one --';
+  }
+
+  loadPlayer() {
+    this.currentlyViewedPlayer = this.playerArray[this.playerIndex];
     this.top1 = this.currentlyViewedPlayer.topone;
     this.top2 = this.currentlyViewedPlayer.toptwo;
     this.top3 = this.currentlyViewedPlayer.topthree;
@@ -8549,12 +8573,19 @@ class Voting extends LightningElement {
     this.top3PlayerId = this.currentlyViewedPlayer.id;
   }
 
+  connectedCallback() {
+    log('client.voting.connectedCallback', PLAYERS[0]);
+    this.playerArray = PLAYERS[0];
+    this.playerSelectList = PLAYERS[0].sort();
+    this.loadPlayer();
+  }
+
   handleVoteSelectChange(evt) {
     this.top3SelectedUsername = evt.target.value;
     log('client.voting.select.change-handler', this.top3SelectedUsername);
   }
 
-  vote(e) {
+  vote(evt) {
     //submit vote, check server side, create/save answer & score, return result & score
     //need client playerid, top3 question playerid (hidden) and selected username (or id) option
     log('client.voting.vote.user-SESSION.playerId', SESSION.playerId); //user        
@@ -8566,21 +8597,62 @@ class Voting extends LightningElement {
     //userid, gameid, playerid, selectedPlayername
 
     submitAnswer(SESSION.playerId, SESSION.gameId, this.top3PlayerId, this.top3SelectedUsername).then(response => {
-      log('client.voting.submitAnswer.response', JSON.stringify(response)); // lwc event - handled by app.js 
+      log('client.voting.submitAnswer.response', JSON.stringify(response));
+      this.correctAnswer = response.correctAnswer;
+
+      if (response.correct) {
+        this.answeredCorrectly = true;
+        this.answerMessage = "Yeah, you were right!";
+      } else {
+        this.answeredCorrectly = false;
+        this.answerMessage = "Sorry, you didn't get that one";
+      } // lwc event - handled by app.js 
+
 
       this.dispatchEvent(new CustomEvent('state_change', {
         detail: {
           name: 'AnswerSubmitted'
         }
       }));
-    }).catch(e => console.error('client.enterTop3.submitPlayerTop3', e.stack));
+    }).catch(e => console.error('client.voting.submitAnswer', e.stack));
   }
 
-  revealAnswer(e) {//do automatically eventually
+  hostRevealAnswer(e) {
+    //do automatically eventually
+    // lwc event - handled by app.js 
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'AnswerRevealed'
+      }
+    }));
   }
 
-  nextVote(e) {//load next player
-    //how to know when got to last player, should it be client or server side?
+  hostNextVote(evt) {
+    //load next player
+    //probably should control this server side eventually
+    let voteEventName = 'NextVote';
+    log('client.voting.hostNextVote', `${this.playerArray.length} | ${this.playerIndex}`);
+
+    if (this.playerArray.length - 2 == this.playerIndex) {
+      log('client.voting.hostNextVote', 'length-2');
+      this.template.querySelector('[data-id="nextButton"]').value = 'Last Vote';
+    }
+
+    if (this.playerArray.length - 1 == this.playerIndex) {
+      log('client.voting.hostNextVote', 'length-1');
+      this.template.querySelector('[data-id="nextButton"]').value = 'Show Results';
+    }
+
+    if (this.playerArray.length - 1 == this.playerIndex) {
+      log('client.voting.hostNextVote.lastPlayer', 'lastplayer');
+      voteEventName = 'ShowResults';
+    }
+
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: voteEventName
+      }
+    }));
   } // UI expressions to dynamically render templates (return true or false)
 
 
@@ -8588,10 +8660,15 @@ class Voting extends LightningElement {
     return SESSION.host;
   }
 
+  get isRevealed() {
+    return this.revealed;
+  }
+
 }
 
 registerDecorators(Voting, {
-  fields: ["playerViewList", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerUsername", "top3PlayerId", "top3SelectedUsername"]
+  publicMethods: ["revealAnswerUI", "loadNextPlayer"],
+  fields: ["playerArray", "playerIndex", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerUsername", "top3PlayerId", "top3SelectedUsername", "correctAnswer", "answeredCorrectly", "answerMessage", "revealed", "voteCount"]
 });
 
 var _uiVoting = registerComponent(Voting, {
@@ -13068,6 +13145,7 @@ class App extends LightningElement {
     this.gamePlayerScore = 0;
     this.gamePlayersSubmitted = 0;
     this.gameTopic = void 0;
+    this.votingRevealed = void 0;
   }
 
   connectedCallback() {
@@ -13129,6 +13207,19 @@ class App extends LightningElement {
 
     if (evt.detail.name === 'StartVoting') {
       socket.emit('startvoting', SESSION);
+    }
+
+    if (evt.detail.name === 'AnswerSubmitted') {
+      //for vote count updates
+      socket.emit('answersubmitted', SESSION);
+    }
+
+    if (evt.detail.name === 'AnswerRevealed') {
+      socket.emit('answerrevealed', SESSION);
+    }
+
+    if (evt.detail.name === 'NextVote') {
+      socket.emit('nextvote', SESSION);
     }
 
     if (evt.detail.name === 'GameEnded') {
@@ -13195,8 +13286,20 @@ class App extends LightningElement {
         //set session.players array
         PLAYERS.push(data);
         log('client.app.voting-started', PLAYERS);
-        console.log(PLAYERS);
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
+        break;
+
+      case 'answer-revealed':
+        //reveal answer
+        log('client.app.answer-revealed', event);
+        this.template.querySelector('ui-voting').revealAnswerUI();
+        break;
+
+      case 'next-vote':
+        //next vote/player
+        log('client.app.next-vote', event);
+        this.template.querySelector('ui-voting').loadNextPlayer();
+        break;
     }
   } //error handling
 
@@ -13210,7 +13313,7 @@ class App extends LightningElement {
 }
 
 registerDecorators(App, {
-  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage", "gamePlayerCount", "gamePlayerList", "gamePlayerScore", "gamePlayersSubmitted", "gameTopic"]
+  fields: ["sessionGameNum", "sessionState", "sessionUserName", "errorState", "errorMessage", "gamePlayerCount", "gamePlayerList", "gamePlayerScore", "gamePlayersSubmitted", "gameTopic", "votingRevealed"]
 });
 
 var App$1 = registerComponent(App, {

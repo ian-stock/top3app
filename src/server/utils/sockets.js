@@ -61,6 +61,9 @@ module.exports = function (io) {
             case 'nextvote': 
                 io.to(data.gameNum).emit('next-vote')
                 break;                    
+            case 'showresults': 
+                io.to(data.gameNum).emit('show-results')
+                break;     
             case 'disconnect': 
                 log('server.sockets.user-disconnected', socket.id);
                 break;

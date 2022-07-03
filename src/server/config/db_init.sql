@@ -30,10 +30,12 @@ CREATE TABLE IF NOT EXISTS "user"(
     email VARCHAR(50) UNIQUE, 
     password VARCHAR(64),
     currentgame VARCHAR(36), 
-    totalscore INT
+    totalscore INT DEFAULT 0,
+    noofgames INT DEFAULT 0
 );
 
---ALTER TABLE user ADD COLUMN totalscore INT;
+--ALTER TABLE public.user ADD COLUMN totalscore INT DEFAULT 0;
+--ALTER TABLE public.user ADD COLUMN noofgames INT DEFAULT 0;
 
 
 --schema - id(36), created (timestamp), createdby(36), userid(36), gameid(36), host(boolean), topone, toptwo, topthree
@@ -47,10 +49,12 @@ CREATE TABLE IF NOT EXISTS player(
     topone VARCHAR(100), 
     toptwo VARCHAR(100), 
     topthree VARCHAR(100),
-    playerstate VARCHAR(20)
+    playerstate VARCHAR(20),
+    gamescore INT
 );
 
 --ALTER TABLE player ADD COLUMN playerstate VARCHAR(20);
+--ALTER TABLE player ADD COLUMN gamescore INT;
 
 --schema - id(36), created (timestamp), createdby(36), userid(36), gameid(36), host(boolean), topone, toptwo, topthree
 CREATE TABLE IF NOT EXISTS answer(

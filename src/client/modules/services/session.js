@@ -6,8 +6,7 @@ export const SESSIONSTATES = Object.freeze({
     IN_ENTER_TOP3: 'InEnterTop3',
     IN_WAITING_VOTE_START: 'InWaitingVoteStart',
     IN_VOTING: 'InVoting',
-    REVEAL_ANSWER: 'RevealAnswer',
-    GAME_RESULTS: 'GameResults'
+    IN_GAME_RESULTS: 'InGameResults'
 });
 
 //session is single-user, game is multi-user

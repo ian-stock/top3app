@@ -4,7 +4,8 @@ export function log(source, desc){
         // "client.app",
         // "client.game",
         "client.player",
-        // "client.voting",
+        "client.voting",
+        "client.results",
         "client.lobby"
     ]
     //returns true if substring exists

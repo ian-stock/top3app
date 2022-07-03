@@ -4,7 +4,8 @@ const db = require('../utils/database.js')
 const log = require('./../utils/log')
 
 const playerListQry = 
-    `SELECT player.id, public.user.username, player.host
+    `SELECT player.id, public.user.username, player.host, 
+    player.gamescore, public.user.totalscore, public.user.noofgames
     FROM game
     INNER JOIN public.player ON game.id = player.gameid
     INNER JOIN public.user ON player.userid = public.user.id
@@ -27,7 +28,7 @@ router.get('/:playerid', async (req, res) => {
 })
 
 //get list of players
-router.get('/:gamenum', async (req, res) => {
+router.get('/list/:gamenum', async (req, res) => {
     const params = [req.params.gamenum];
     log('server.player.getplayers', req.params.gamenum);
     const result = await db.dbQuery(playerListQry, params);
@@ -44,5 +45,20 @@ router.post('/update/:playerid', async (req, res) => {
         .catch(e => console.error('server.player.submitTop3 dbUpdate', e.stack))
         .then(function(){
             log('server.player.top3update: ', req.params.playerid);
+        })        
+})
+
+const playerScoreUpdateStatement = 
+        `UPDATE player SET gamescore=$2 WHERE id = $1  RETURNING *`;
+
+//update player game score
+router.post('/updatescore/:playerid', async (req, res) => {
+    const updateValues = [req.params.playerid, req.body.gamescore];
+    //db call    
+    db.dbUpdate(playerScoreUpdateStatement, updateValues)
+        .then(updateRes => res.send(updateRes))
+        .catch(e => console.error('server.player.updatePlayerScore dbUpdate', e.stack))
+        .then(function(){
+            log('server.player.updatePlayerScore: ', req.params.playerid);
         })        
 })

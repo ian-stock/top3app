@@ -83,6 +83,9 @@ export default class App extends LightningElement {
         if(evt.detail.name === 'NextVote'){
             socket.emit('nextvote', SESSION);
         }
+        if(evt.detail.name === 'ShowResults'){
+            socket.emit('showresults', SESSION);
+        }
         if(evt.detail.name === 'GameEnded'){
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
             SESSION.gameId = SESSION.gameNum = SESSION.gameState = 'notset';
@@ -110,6 +113,9 @@ export default class App extends LightningElement {
     }
     get isVotingStartedState() {
         return this.sessionState === SESSIONSTATES.IN_VOTING;
+    }
+    get isGameResultsState() {
+        return this.sessionState === SESSIONSTATES.IN_GAME_RESULTS;
     }
     get isErrorMessage(){
         return this.errorState
@@ -140,16 +146,26 @@ export default class App extends LightningElement {
                 log('client.app.voting-started', PLAYERS);
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
                 break;
+            case 'answer-submitted': 
+            this.template.querySelector('ui-voting').updateVotedCount();
+                break;
             case 'answer-revealed': 
                 //reveal answer
                 log('client.app.answer-revealed', event);
                 this.template.querySelector('ui-voting').revealAnswerUI();
+                this.gamePlayerScore = SESSION.gameScore;
                 break;
             case 'next-vote': 
                 //next vote/player
                 log('client.app.next-vote', event);
                 this.template.querySelector('ui-voting').loadNextPlayer();
                 break;
+            case 'show-results': 
+                //show-results
+                log('client.app.show-results', event);
+                SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_GAME_RESULTS;
+                break;
+                
         }
     }
 

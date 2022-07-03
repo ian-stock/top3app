@@ -1,0 +1,6 @@
+@import '../../../resources/css/style.css';
+
+table, th, td {
+    border: 1px solid grey;
+    text-align:center;
+}

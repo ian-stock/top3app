@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { SESSION, PLAYERS } from '../../services/session';
 import { submitAnswer } from '../../services/answer';
+import { updatePlayerScore } from '../../services/player';
 import {log} from '../../utils/log';
 
 export default class Voting extends LightningElement {
@@ -25,6 +26,10 @@ export default class Voting extends LightningElement {
 
     voteCount = 0;
 
+    @api updateVotedCount(e){
+        this.voteCount++;
+    }
+
     @api revealAnswerUI() {
         this.revealed = true;
     }
@@ -34,6 +39,7 @@ export default class Voting extends LightningElement {
         this.playerIndex++;
         this.loadPlayer()
         this.template.querySelector('[data-id="playerSelect"]').value = '-- choose one --';
+        this.voteCount = 0;
     }
 
     loadPlayer(){
@@ -82,7 +88,13 @@ export default class Voting extends LightningElement {
                 this.answeredCorrectly = false;
                 this.answerMessage = "Sorry, you didn't get that one";
             }
-            
+            SESSION.gameScore = SESSION.gameScore + response.score;
+            //need to update player record too
+            updatePlayerScore(SESSION.playerId, SESSION.gameScore)
+            .then((response) => {
+                log('client.voting.updatePlayerScore.response', JSON.stringify(response));
+            })
+            .catch(e => console.error('client.voting.updatePlayerScore', e.stack))        
 
             // lwc event - handled by app.js 
             this.dispatchEvent(new CustomEvent('state_change', {
@@ -122,7 +134,7 @@ export default class Voting extends LightningElement {
             log('client.voting.hostNextVote.lastPlayer', 'lastplayer');
             voteEventName = 'ShowResults';
         }
-
+        // lwc event - handled by app.js 
         this.dispatchEvent(new CustomEvent('state_change', {
             detail: {
                 name: voteEventName,

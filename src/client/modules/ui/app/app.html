@@ -26,6 +26,10 @@
                     <ui-voting onstate_change = {handleStateChange}></ui-voting>
                 </template>
 
+                <template if:true={isGameResultsState}>
+                    <ui-results onstate_change = {handleStateChange}></ui-results>
+                </template>
+
                 <!-- Errors -->
                 <template if:true={isErrorMessage}>
                     <ui-errormsg errormsg={errorMessage}></ui-errormsg>

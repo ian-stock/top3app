@@ -1,0 +1,31 @@
+<template>
+    <results>
+        <h2>results html</h2>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Game Score</th>
+                        <th>Total Score</th>
+                        <th>No. of Games</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={playerScoresList} for:item="player">
+                        <tr key={player.id}>
+                            <td>{player.username}</td>
+                            <td>{player.gamescore}</td>
+                            <td>{player.totalscore}</td>
+                            <td>{player.noofgames}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button onclick={endGame}>End Game</button>
+        </div>
+    </results>
+</template>
+

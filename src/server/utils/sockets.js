@@ -1,5 +1,7 @@
 //for handling game/session state updates back to clients
 const db = require('./database.js');
+const usr = require('../apis/user');
+
 const log = require('./log.js');
 const utils = require('./utils.js')
 
@@ -62,7 +64,12 @@ module.exports = function (io) {
                 io.to(data.gameNum).emit('next-vote')
                 break;                    
             case 'showresults': 
-                io.to(data.gameNum).emit('show-results')
+            log('server.sockets.showresults.updateUserScores', data.gameNum);    
+            usr.updateUserScores(data.gameNum, event)
+                .then((users) => {
+                    log('server.sockets.showresults.emit', data.gameNum);
+                    io.to(data.gameNum).emit('show-results')
+                })  
                 break;     
             case 'disconnect': 
                 log('server.sockets.user-disconnected', socket.id);

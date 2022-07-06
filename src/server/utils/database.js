@@ -70,7 +70,8 @@ function dbDelete() {
 //for server-side db calls (not express api)
 
 const playerListQry1 = 
-    `SELECT player.id, public.user.username, player.host, player.topone, player.toptwo, player.topthree
+    `SELECT player.id, public.user.username, player.host, player.topone, player.toptwo, player.topthree,
+    public.user.id as userid, player.gamescore, public.user.totalscore, public.user.noofgames
     FROM game
     INNER JOIN public.player ON game.id = player.gameid
     INNER JOIN public.user ON player.userid = public.user.id

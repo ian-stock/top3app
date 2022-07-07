@@ -1,1 +1,27 @@
 @import '../../../resources/css/style.css';
+
+.splashImg {
+    width: 90%;
+    max-width: 400px;
+    margin-top: 10%;
+
+}
+.buttonPane {
+    bottom: 5.9%;
+    height: 19%;
+    width: 36%;
+    color: #fff;
+}
+
+
+.buttonStyle {
+    width: 100%;
+    text-align: center;
+    margin: auto 0;
+    color: #fff;
+    font-family: NeutrafaceDisplayTitling,Helvetica,Arial,sans-serif;
+    font-size: 1.8vh;
+    text-shadow: 0 0.2vh #000;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}

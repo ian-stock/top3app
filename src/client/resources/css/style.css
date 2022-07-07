@@ -4,8 +4,13 @@
   font-size: 24px;
 }
 
+div{
+  text-align: center
+}
+
 button, input[type=button]{
-  font-size: 2vw;
+  /* font-size: 2vw; */
+  font-size: 1rem;
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
@@ -16,7 +21,8 @@ button:hover{
 }
 .innerContainer{
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: center;
   width: 60%;
   height: 100%;
   min-height: 100%;

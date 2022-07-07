@@ -7663,23 +7663,23 @@ freeze(LightningElement);
 seal(LightningElement.prototype);
 /* version: 2.7.0 */
 
-function stylesheet$4(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$5(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 2vw;border-radius: 5px;padding: 5px;cursor: pointer;}button:hover", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: space-between;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
+  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}div", shadowSelector, "{text-align: center}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 1rem;border-radius: 5px;padding: 5px;cursor: pointer;}button:hover", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: center;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
 }
-var stylesheet0 = [stylesheet$4];
+var stylesheet0 = [stylesheet$5];
 
-function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$4(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return [".body", shadowSelector, " {background: #FFF7A2;top: 50px;height: calc(100vh - 100px);}"].join('');
 }
-var _implicitStylesheets$a = [stylesheet0, stylesheet$3];
+var _implicitStylesheets$a = [stylesheet0, stylesheet$4];
 
-function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background: #ff9100;height: 50px;box-shadow: 0 6px 8px rgb(0 0 0 / 20%);}img", shadowSelector, "{height: 50px;}"].join('');
+  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background: #ff9100;height: 50px;box-shadow: 0 6px 8px rgb(0 0 0 / 20%);}.innerContainer", shadowSelector, "{justify-content: space-between;}img", shadowSelector, "{height: 50px;}"].join('');
 }
-var _implicitStylesheets$9 = [stylesheet0, stylesheet$2];
+var _implicitStylesheets$9 = [stylesheet0, stylesheet$3];
 
 function tmpl$a($api, $cmp, $slotset, $ctx) {
   const {h: api_element, d: api_dynamic_text, t: api_text} = $api;
@@ -7748,46 +7748,61 @@ var _uiHeader = registerComponent(Header, {
   tmpl: _tmpl$a
 });
 
-var _implicitStylesheets$8 = [stylesheet0];
+function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return [".splashImg", shadowSelector, " {width: 90%;max-width: 400px;margin-top: 10%;}.buttonPane", shadowSelector, " {bottom: 5.9%;height: 19%;width: 36%;color: #fff;}.buttonStyle", shadowSelector, " {width: 100%;text-align: center;margin: auto 0;color: #fff;font-family: NeutrafaceDisplayTitling,Helvetica,Arial,sans-serif;font-size: 1.8vh;text-shadow: 0 0.2vh #000;letter-spacing: .12em;text-transform: uppercase;}"].join('');
+}
+var _implicitStylesheets$8 = [stylesheet0, stylesheet$2];
 
 function tmpl$9($api, $cmp, $slotset, $ctx) {
-  const {b: api_bind, t: api_text, h: api_element} = $api;
+  const {h: api_element, b: api_bind, t: api_text} = $api;
   const {_m0, _m1, _m2} = $ctx;
   return [api_element("lobby", {
     key: 0
   }, [api_element("div", {
     key: 1
-  }, [api_element("button", {
-    key: 2,
-    on: {
-      "click": _m0 || ($ctx._m0 = api_bind($cmp.loginRegister))
-    }
-  }, [api_text("Login/Register")])]), api_element("div", {
+  }, [api_element("img", {
+    classMap: {
+      "splashImg": true
+    },
+    attrs: {
+      "src": "../../../resources/img/top3.jpeg",
+      "alt": "top3"
+    },
+    key: 2
+  }, [])]), api_element("div", {
     key: 3
   }, [api_element("button", {
     key: 4,
     on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.loginRegister))
+    }
+  }, [api_text("Login/Register")])]), api_element("div", {
+    key: 5
+  }, [api_element("button", {
+    key: 6,
+    on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.newGame))
     }
   }, [api_text("New Game")])]), api_element("div", {
-    key: 5
+    key: 7
   }, [api_element("button", {
     attrs: {
       "data-id": "joinGameBtn"
     },
-    key: 6,
+    key: 8,
     on: {
       "click": _m2 || ($ctx._m2 = api_bind($cmp.joinGame))
     }
   }, [api_text("Join Game")]), api_element("br", {
-    key: 7
+    key: 9
   }, []), api_element("input", {
     attrs: {
       "type": "text",
       "data-id": "gameNumInput",
       "placeholder": "Game ID"
     },
-    key: 8
+    key: 10
   }, [])])])];
 }
 var _tmpl$9 = registerTemplate(tmpl$9);

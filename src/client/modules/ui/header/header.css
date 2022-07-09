@@ -5,7 +5,8 @@ header {
     /* align-items: stretch; */
     justify-content: space-between;
     /* background: #ED5314 ; dark orange*/
-    background: #ff9100;
+    /* background: #ff9100; light orange */
+    background-color: rgb(150,150,150);
     height: 50px;
     box-shadow: 0 6px 8px rgb(0 0 0 / 20%);
 }

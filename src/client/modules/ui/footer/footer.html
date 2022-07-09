@@ -1,19 +1,9 @@
 <template>
     <footer>
-        <!-- <template if:true={isHost}> -->
             <div class="innerContainer">
-                <div>Players/Submitted: {playercount}/{playerssubmitted}</div>
-                <div>Topic: {gametopic}</div>
-                <div>Score: {playerscore}</div>
+                <div>Players/Submitted: {playercount}/{playerssubmitted} </div>
+                <div> Score: {playerscore}</div>
             </div>
             <button onclick={printSession}>session</button>
-        <!-- </template>
-        <template if:false={isHost}>
-            <div class="innerContainer">
-                <div>Players: {playercount}</div>
-                <div>Topic: {gametopic}</div>
-                <div>Score: {playerscore}</div>
-            </div>
-        </template> -->
     </footer>
 </template>

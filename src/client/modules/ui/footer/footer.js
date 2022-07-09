@@ -5,7 +5,6 @@ export default class Footer extends LightningElement {
     @api playercount;
     @api playerscore;
     @api playerssubmitted;
-    @api gametopic;
 
     printSession(e){
         console.log(SESSION);    

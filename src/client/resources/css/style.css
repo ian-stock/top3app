@@ -13,10 +13,20 @@ button, input[type=button]{
   font-size: 1rem;
   border-radius: 5px;
   padding: 5px;
+  color:rgb(50, 50, 50);
+  background-color: rgb(200, 200, 200);
+}
+
+button:enabled, input[type=button]:enabled{
   cursor: pointer;
 }
 
-button:hover{
+button:disabled {
+  color: whitesmoke;
+  background-color: lightgray;
+}
+
+button:hover:enabled{
   background-color: rgb(180, 180, 180);
 }
 .innerContainer{

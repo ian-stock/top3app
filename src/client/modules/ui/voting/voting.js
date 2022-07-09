@@ -26,6 +26,8 @@ export default class Voting extends LightningElement {
 
     voteCount = 0;
 
+    voteButtonDisabled = false;
+
     @api updateVotedCount(e){
         this.voteCount++;
     }
@@ -56,7 +58,7 @@ export default class Voting extends LightningElement {
 
         this.playerArray = PLAYERS[0];
         this.playerSelectList = PLAYERS[0].sort();
-
+        this.voteButtonDisabled = false;
         this.loadPlayer();
 
     }
@@ -73,6 +75,8 @@ export default class Voting extends LightningElement {
         log('client.voting.vote.user-SESSION.playerId', SESSION.playerId);                   //user        
         log('client.voting.vote.viewed-top3PlayerId', this.top3PlayerId);                    //being viewed
         log('client.voting.vote.voted-top3SelectedUsername', this.top3SelectedUsername);     //vote
+
+        this.voteButtonDisabled = true;
 
         //call the answers server API 
         //userid, gameid, playerid, selectedPlayername
@@ -142,11 +146,14 @@ export default class Voting extends LightningElement {
         }));
     }
 
-    // UI expressions to dynamically render templates (return true or false)
+    // UI expressions for template rendering and button controls
     get isHost() {
         return SESSION.host;
     }
     get isRevealed() {
         return this.revealed;
+    }
+    get disableVoteButton() {
+        return this.voteButtonDisabled;
     }
 }

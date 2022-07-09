@@ -19,7 +19,7 @@
             </select>
         </div>
         <div>
-            <button onclick={vote}>Vote</button>
+            <button onclick={vote} disabled={disableVoteButton}>Vote</button>
         </div>
         <template if:true={isHost}>
             <div>

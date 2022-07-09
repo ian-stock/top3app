@@ -5,6 +5,11 @@ footer {
     align-items: stretch;
     justify-content: space-between;
     /* background: #ffcf40; - yellow */ 
-    background: #88CEFB;
+    /* background: #88CEFB; light blue*/
+    background-color: rgb(150,150,150);
     height: 50px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }

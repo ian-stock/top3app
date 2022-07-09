@@ -75,7 +75,14 @@ export default class Lobby extends LightningElement {
                     }));    
                 })
         })
-
     }
+    // UI expressions for template rendering and button controls
+    get disableLoginButton() {
+        return SESSION.authenticated;
+    }
+    get disableGameControls() {
+        return !SESSION.authenticated;;
+    }
+    
 
 }

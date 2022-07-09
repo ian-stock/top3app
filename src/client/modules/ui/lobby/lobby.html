@@ -1,20 +1,17 @@
 <template>
     <lobby>
         <div>
-            <img class="splashImg" src="../../../resources/img/top3.jpeg" alt="top3" />
+            <img class="splashImg" src="../../../resources/img/top3-transparent.png" alt="top3" />
         </div>
         <div>
-                <button onclick={loginRegister}>Login/Register</button>
+                <button disabled={disableLoginButton} onclick={loginRegister}>Login/Register</button>
         </div>
         <div>
-            <button onclick={newGame}>New Game</button>
+            <button disabled={disableGameControls} onclick={newGame}>New Game</button>
         </div>
         <div>
-            <button data-id="joinGameBtn" onclick={joinGame}>Join Game</button></br>
-            <input type="text" data-id="gameNumInput" placeholder="Game ID">
+            <button data-id="joinGameBtn" disabled={disableGameControls} onclick={joinGame}>Join Game</button></br>
+            <input type="text" data-id="gameNumInput" placeholder="Game ID" disabled={disableGameControls}>
         </div>
-        <!-- <div class="buttonPane">
-            <button class="buttonStyle">Example</button>
-        </div> -->
     </lobby>
 </template>

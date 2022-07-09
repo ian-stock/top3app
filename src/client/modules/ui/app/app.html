@@ -1,6 +1,6 @@
 <template>
     <ui-header sessiongamenum={sessionGameNum} sessionusername={sessionUserName}></ui-header>
-        <div class="body">
+        <div class="container">
             <div class="innerContainer">
                 <template if:true={isInLobbyState}>
                     <ui-lobby onstate_change = {handleStateChange}></ui-lobby>
@@ -15,7 +15,7 @@
                 </template>
 
                 <template if:true={isGameStartedState}>
-                    <ui-entertop3 onstate_change = {handleStateChange}></ui-entertop3>
+                    <ui-entertop3 gametopic={gameTopic} onstate_change = {handleStateChange}></ui-entertop3>
                 </template>
 
                 <template if:true={isTop3SubmittedState}>
@@ -36,6 +36,6 @@
                 </template>
             </div> <!-- End inner container -->
         </div> <!-- End body -->
-    <ui-footer playerscore={gamePlayerScore} playercount={gamePlayerCount} playerssubmitted={gamePlayersSubmitted} 
-        gametopic={gameTopic}></ui-footer>
+    <ui-footer playerscore={gamePlayerScore} playercount={gamePlayerCount} playerssubmitted={gamePlayersSubmitted}>
+        </ui-footer>
 </template>

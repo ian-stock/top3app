@@ -1,9 +1,11 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { submitPlayerTop3 } from '../../services/player';
 import { SESSION } from '../../services/session';
 import {log} from '../../utils/log';
 
 export default class EnterTop3 extends LightningElement {
+
+    @api gametopic;
 
     submitTop3(){
         const top1 = this.template.querySelector('[data-id="oneInput"]').value;

@@ -25,7 +25,8 @@ router.get('/:gamenum', async (req, res) => {
 router.post('/', async (req, res) => {
     const uuid = uuidv4();
     const userId = req.body.userid;
-    const gameNum = Math.floor(10000 + Math.random() * 90000).toString(); //random 6 digit number
+    // const gameNum = Math.floor(10000 + Math.random() * 90000).toString(); //random 5 digit number
+    const gameNum = Math.floor(1000 + Math.random() * 9000).toString(); //random 4 digit number
     const gameState = GAMESTATES.NEW_GAME; 
     const insertSQL = 
         'INSERT INTO game(id, createdby, gamenum, hostid, gamestate) VALUES ($1, $2, $3, $4, $5) RETURNING *';

@@ -50,7 +50,7 @@ export default class App extends LightningElement {
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_NEWGAME;
             this.sessionGameNum = SESSION.gameNum;
             this.sessionUserName = SESSION.userName;
-            this.template.querySelector('ui-header').updateHost();
+            this.template.querySelector('ui-header').updateHost('Host');
         }
         if(evt.detail.name === 'JoinedGame'){
             socket.emit('joinedgame', SESSION);
@@ -90,7 +90,9 @@ export default class App extends LightningElement {
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
             SESSION.gameId = SESSION.gameNum = SESSION.gameState = 'notset';
             SESSION.host = false;
-            this.sessionUserName = this.sessionGameNum = '';
+            this.template.querySelector('ui-header').updateHost('Player');
+            this.sessionGameNum = '';
+            PLAYERS.length = 0; //clear players array
         }
     }
 

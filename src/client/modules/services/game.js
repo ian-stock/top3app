@@ -17,7 +17,7 @@ export function createNewGame(userid) {
 
 export function getGame(gamenum) {
     log('client.game.getGame', gamenum);
-    // need to get game by 6 digit id first...
+    // need to get game by 4 digit id first...
     return fetch(`/api/game/${gamenum}`, {
         method: 'GET',
         headers: {

@@ -10,7 +10,7 @@ const log = require('./../utils/log')
 // create/register user
 router.post('/register', async (req, res) => {
     const uuid = uuidv4();
-    const userName = req.body.username;
+    const userName = req.body.username.toLowerCase(); //make username case insensitive
     const password = req.body.pwd;
     const insertSQL = 
         'INSERT INTO public.user(id, createdby, username, password) VALUES ($1, $2, $3, $4) RETURNING *';
@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
 
 // login user
 router.post('/login', async (req, res) => {
-    const params = [req.body.username, req.body.pwd]
+    const params = [req.body.username.toLowerCase(), req.body.pwd] //make username case insensitive
     const result = await db.dbQuery('SELECT id, username FROM public.user WHERE username = $1 and password = $2', params)
     //add handling for no rows being returned - wrong username, wrong password
     res.send(result)
@@ -41,20 +41,6 @@ const userListQry =
     FULL OUTER JOIN public.player ON game.id = player.gameid
     FULL OUTER JOIN public.user ON player.userid = public.user.id
     where game.gamenum = $1`;
-
-// async function updateUserScores(gamenum, event){
-//     log(`server.user.updateUserScores.${event}`, gamenum);
-//     const params = [gamenum];
-//     db.dbQuery(userListQry, params)
-//         .then(userList => {
-//             //for each record, update the user scores
-//             for (let i in userList) {
-//                 log(`server.user.updateUserScores.updateUser.${i}`, userList.id);
-//                 updateUser(userList.id, userList.gamescore, userList.totalscore, userList.noofgames)
-//             }
-//         })
-//         .catch(e => console.error('user.updateScores dbInsert', e.stack))
-//   }
 
 async function updateUserScores(gamenum, event){
     log(`server.user.updateUserScores.${event}`, gamenum);

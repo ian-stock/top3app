@@ -1,16 +1,12 @@
 <template>
     <lobby>
-        <div>
+        <div class="topPane">
             <img class="splashImg" src="../../../resources/img/top3-transparent.png" alt="top3" />
         </div>
-        <div>
-                <button disabled={disableLoginButton} onclick={loginRegister}>Login/Register</button>
-        </div>
-        <div>
-            <button disabled={disableGameControls} onclick={newGame}>New Game</button>
-        </div>
-        <div>
-            <button data-id="joinGameBtn" disabled={disableGameControls} onclick={joinGame}>Join Game</button></br>
+        <div class="controlsPane">
+            <button disabled={disableLoginButton} onclick={loginRegister}>Login / Register</button><br>
+            <button disabled={disableGameControls} onclick={newGame}>New Game</button><br>
+            <button data-id="joinGameBtn" disabled={disableGameControls} onclick={joinGame}>Join Game</button><br>
             <input type="text" data-id="gameNumInput" placeholder="Game ID" disabled={disableGameControls}>
         </div>
     </lobby>

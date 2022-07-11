@@ -1,12 +1,14 @@
 <template>
     <login>
-        <div class="formPanel"> 
-            <input type="text" data-id="userIdInput" id="userIdInput" placeholder="User ID"></br>
-            <input type="password" data-id="pwdInput" id="pwdInput" placeholder="Password"></br>
-        </div>
-        <div class="buttonPanel">
-            <button onclick={login}>Login</button>
-            <button onclick={register}>Register</button>            
+        <div class="controlsPane">
+            <div class="formPane"> 
+                <input type="text" data-id="userIdInput" id="userIdInput" placeholder="User ID"></br>
+                <input type="password" data-id="pwdInput" id="pwdInput" placeholder="Password"></br>
+            </div>
+            <div class="buttonPane">
+                <button onclick={login}>Login</button>
+                <button onclick={register}>Register</button>            
+            </div>
         </div>
     </login>
 </template>

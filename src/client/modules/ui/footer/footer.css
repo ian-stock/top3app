@@ -9,7 +9,16 @@ footer {
     background-color: rgb(150,150,150);
     height: 50px;
     position: fixed;
+    /* position:absolute; */
     left: 0;
     bottom: 0;
     width: 100%;
+}
+
+.innerContainer{
+    justify-content: space-between;
+}
+
+button{
+    width:auto;
 }

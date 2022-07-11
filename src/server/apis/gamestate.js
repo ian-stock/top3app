@@ -7,3 +7,4 @@ const db = require('../utils/database.js')
 //get game record, player list, questions and answers
 
 //not doing this yet, try simpler option first of using db for maintaining state
+//might need for late joiners 

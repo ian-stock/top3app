@@ -1,9 +1,13 @@
 <template>
     <newgame>
-        <h2>newgame html</h2>
-        <div>
-            <label for="topics">Choose a Top3 topic:</label>
-            <input list="topics" name="topic" id="topic" data-id="topic">
+        <div class="topPane">
+            <h2>newgame html</h2><br>
+            <div>Player List: </div><br>
+            <div>{playerlist}</div>
+        </div>
+        <div class="controlsPane">
+            <label for="topics">Choose a Top3 topic:</label><br>
+            <input list="topics" name="topic" id="topic" data-id="topic"><br>
                 <datalist id="topics">
                     <option value="Movies">Movies</option>
                     <option value="Albums">Albums</option>
@@ -11,11 +15,9 @@
                     <option value="Foods">Foods</option>
                     <option value="Places">Places</option>
                 </datalist>
+            <button onclick={top3Topic}>Choose</button><br>
+            <button onclick={endGame}>End Game</button>
         </div>
-        <button onclick={top3Topic}>Choose</button>
-        <div>Player List: </div>
-        <div>{playerlist}</div>
-        <button onclick={endGame}>End Game</button>
     </newgame>
 </template>
 

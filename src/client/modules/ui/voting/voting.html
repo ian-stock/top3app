@@ -1,36 +1,35 @@
 <template>
     <voting>
-        <h2>time for voting - cards of each players top3</h2>
-        <div class="card">
-            <div>1: {top1}</div>
-            <div>2: {top2}</div>
-            <div>3: {top3}</div>
+        <div class="topPane">
+            <h2>time for voting - cards of each players top3</h2>
+            <table>
+                <colgroup>
+                <col class="col1" />
+                <col class="col2" />
+                </colgroup>
+                <tr><td>Top 1</td><td>{top1}</td></tr>
+                <tr><td>Top 2</td><td>{top2}</td></tr>
+                <tr><td>Top 3</td><td>{top3}</td></tr>
+            </table>
+            <template if:true={isRevealed}>
+                <div>{answerMessage}</div>
+                <div>It was: {correctAnswer}</div>
+            </template>
         </div>
-        <template if:true={isRevealed}>
-            <div>{answerMessage}</div>
-            <div>It was: {correctAnswer}</div>
-        </template>
-        <div class="player-select">
+        <div class="controlsPane">
             <select data-id="playerSelect" onchange={handleVoteSelectChange}>
                 <option disabled selected value>-- choose one --</option>
                 <option for:each={playerSelectList} key={option.id} for:item="option" value={option.username}>
                     {option.username}
                 </option>
-            </select>
+            </select><br>
+            <button onclick={vote} disabled={disableVoteButton}>Vote</button><br>
+            <template if:true={isHost}>
+                <button onclick={hostRevealAnswer}>Reveal</button><br>
+                <input data-id="nextButton" type="button" onclick={hostNextVote} value="Next"><br>
+                <div>Vote Count: {voteCount}</div>
+            </template>
         </div>
-        <div>
-            <button onclick={vote} disabled={disableVoteButton}>Vote</button>
-        </div>
-        <template if:true={isHost}>
-            <div>
-                <button onclick={hostRevealAnswer}>Reveal</button>
-            </div>
-            <div>
-                <input data-id="nextButton" type="button" onclick={hostNextVote} value="Next">
-            </div>
-            <div>Vote Count: {voteCount}</div>
-        </template>
-
     </voting>
 </template>
 

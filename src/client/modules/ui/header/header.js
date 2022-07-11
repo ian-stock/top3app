@@ -6,8 +6,8 @@ export default class Header extends LightningElement {
     hostOrPlayer = 'Player';
 
     @api 
-    updateHost() {
-        this.hostOrPlayer = 'Host';
+    updateHost(playerType) {
+        this.hostOrPlayer = playerType;
     }
 
 

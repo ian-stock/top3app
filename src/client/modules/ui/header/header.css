@@ -12,10 +12,8 @@ header {
 }
 
 .innerContainer{
-
     justify-content: space-between;
-
-  }
+}
 
 img{
     height: 50px;

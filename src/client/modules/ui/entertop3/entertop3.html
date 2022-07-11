@@ -1,13 +1,13 @@
 <template>
     <entertop3>
-        <h2>Enter your Top3</h2>
-        <div>Topic: {gametopic}</div>
-        <div class="formPanel"> 
-            <input type="text" data-id="oneInput" id="oneInput" placeholder="One"><br><br>
-            <input type="text" data-id="twoInput" id="twoInput" placeholder="Two"><br><br>
-            <input type="text" data-id="threeInput" id="threeInput" placeholder="Three"><br><br>
+        <div class="topPane">
+            <h2>Enter your Top3</h2>
+            <div>Topic: {gametopic}</div>
         </div>
-        <div class="buttonPanel">
+        <div class="controlsPane">
+            <input type="text" data-id="oneInput" id="oneInput" placeholder="One"><br>
+            <input type="text" data-id="twoInput" id="twoInput" placeholder="Two"><br>
+            <input type="text" data-id="threeInput" id="threeInput" placeholder="Three"><br>
             <button onclick={submitTop3}>Submit</button>
         </div>
     </entertop3>

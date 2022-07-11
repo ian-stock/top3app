@@ -1,1 +1,25 @@
 @import '../../../resources/css/style.css';
+
+voting{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 350px;
+    width: 350px;
+}
+
+table{
+    margin: 0 auto;
+}
+
+table, th, td {
+    border: 1px solid grey;
+    text-align:center;
+    width:350px;
+}
+.col1 {
+  width: 30%;
+}
+.col2 {
+  width: 70%;
+}

@@ -5,7 +5,20 @@
 }
 
 div{
-  text-align: center
+  text-align: center;
+  /* border-color: red;
+  border-style: solid; */
+}
+
+.controlsPane {
+  bottom: 15%;
+  position: absolute;
+  min-width: 350px;
+}
+
+input{
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 button, input[type=button]{
@@ -15,6 +28,8 @@ button, input[type=button]{
   padding: 5px;
   color:rgb(50, 50, 50);
   background-color: rgb(200, 200, 200);
+  margin: 5px;
+  width: 220px;
 }
 
 button:enabled, input[type=button]:enabled{

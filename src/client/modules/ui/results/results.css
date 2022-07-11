@@ -1,5 +1,13 @@
 @import '../../../resources/css/style.css';
 
+results{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 350px;
+    width: 350px;
+}
+
 table, th, td {
     border: 1px solid grey;
     text-align:center;

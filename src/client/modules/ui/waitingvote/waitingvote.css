@@ -1,1 +1,12 @@
 @import '../../../resources/css/style.css';
+
+waitingvote{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 350px;
+}
+
+
+
+

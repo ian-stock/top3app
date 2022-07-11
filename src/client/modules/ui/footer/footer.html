@@ -1,9 +1,12 @@
 <template>
     <footer>
-            <div class="innerContainer">
-                <div>Players/Submitted: {playercount}/{playerssubmitted} </div>
-                <div> Score: {playerscore}</div>
-            </div>
-            <button onclick={printSession}>session</button>
+        <div class="innerContainer">
+            <div>Players/Submitted: {playercount}/{playerssubmitted} </div>
+            <div> Score: {playerscore}</div>
+        </div>
+        <template if:true={isHost}>
+            <button onclick={printSession}>s</button>
+            <button onclick={printPlayers}>p</button>
+        </template>
     </footer>
 </template>

@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { SESSION } from '../../services/session';
+import { SESSION, PLAYERS } from '../../services/session';
 
 export default class Footer extends LightningElement {
     @api playercount;
@@ -9,7 +9,10 @@ export default class Footer extends LightningElement {
     printSession(e){
         console.log(SESSION);    
     }
-    
+    printPlayers(e){
+        console.log(PLAYERS);    
+    }
+
     // UI expressions to dynamically render templates (return true or false)
     get isHost() {
         return SESSION.host;

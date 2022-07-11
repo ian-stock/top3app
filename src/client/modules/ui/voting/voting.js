@@ -51,6 +51,7 @@ export default class Voting extends LightningElement {
         this.top3 = this.currentlyViewedPlayer.topthree;
         this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
         this.top3PlayerId = this.currentlyViewedPlayer.id;
+        this.voteButtonDisabled = false;
     }
 
     connectedCallback(){
@@ -58,7 +59,6 @@ export default class Voting extends LightningElement {
 
         this.playerArray = PLAYERS[0];
         this.playerSelectList = PLAYERS[0].sort();
-        this.voteButtonDisabled = false;
         this.loadPlayer();
 
     }

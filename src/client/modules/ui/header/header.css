@@ -1,20 +1,18 @@
 @import '../../../resources/css/style.css';
 
 header {
-    display: flex;
-    /* align-items: stretch; */
-    justify-content: space-between;
     /* background: #ED5314 ; dark orange*/
     /* background: #ff9100; light orange */
     background-color: rgb(150,150,150);
     height: 50px;
-    box-shadow: 0 6px 8px rgb(0 0 0 / 20%);
 }
 
 .innerContainer{
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 img{
     height: 50px;
+    left:0px;
+    position: absolute;
 }

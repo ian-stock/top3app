@@ -7677,7 +7677,7 @@ var _implicitStylesheets$a = [stylesheet0, stylesheet$9];
 
 function stylesheet$8(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {display: flex;justify-content: space-between;background-color: rgb(150,150,150);height: 50px;box-shadow: 0 6px 8px rgb(0 0 0 / 20%);}.innerContainer", shadowSelector, "{justify-content: space-between;}img", shadowSelector, "{height: 50px;}"].join('');
+  return ["header", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}img", shadowSelector, "{height: 50px;left:0px;position: absolute;}"].join('');
 }
 var _implicitStylesheets$9 = [stylesheet0, stylesheet$8];
 
@@ -8992,7 +8992,7 @@ var _uiErrormsg = registerComponent(ErrogMsg, {
 
 function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["footer", shadowSelector, " {display: flex;align-items: stretch;justify-content: space-between;background-color: rgb(150,150,150);height: 50px;position: fixed;left: 0;bottom: 0;width: 100%;}.innerContainer", shadowSelector, "{justify-content: space-between;}button", shadowSelector, "{width:auto;}"].join('');
+  return ["footer", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;position: fixed;left: 0;bottom: 0;width: 100%;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}button", shadowSelector, "{width:auto;}"].join('');
 }
 var _implicitStylesheets = [stylesheet0, stylesheet];
 

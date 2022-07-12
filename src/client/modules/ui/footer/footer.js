@@ -15,7 +15,8 @@ export default class Footer extends LightningElement {
 
     // UI expressions to dynamically render templates (return true or false)
     get isHost() {
-        return SESSION.host;
+        // return SESSION.host;
+        return true;
     }
 
 }

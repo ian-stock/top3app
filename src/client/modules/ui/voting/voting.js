@@ -103,7 +103,7 @@ export default class Voting extends LightningElement {
             // lwc event - handled by app.js 
             this.dispatchEvent(new CustomEvent('state_change', {
                 detail: {
-                    name: 'AnswerSubmitted',
+                    name: 'AnswerSubmitted'
                 }
             }));    
         })
@@ -115,7 +115,7 @@ export default class Voting extends LightningElement {
         // lwc event - handled by app.js 
         this.dispatchEvent(new CustomEvent('state_change', {
             detail: {
-                name: 'AnswerRevealed',
+                name: 'AnswerRevealed'
             }
         }));
 
@@ -141,7 +141,7 @@ export default class Voting extends LightningElement {
         // lwc event - handled by app.js 
         this.dispatchEvent(new CustomEvent('state_change', {
             detail: {
-                name: voteEventName,
+                name: voteEventName
             }
         }));
     }

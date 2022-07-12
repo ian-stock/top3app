@@ -19,7 +19,10 @@ router.post('/register', async (req, res) => {
     //db call    
     db.dbInsert(insertSQL, insertValues)
         .then(insertRes => res.send(insertRes))
-        .catch(e => console.error('user.registration dbInsert', e.stack))
+        .catch(e => {
+            console.error('user.registration dbInsert', e.stack);
+            res.send({error: e.message});
+        })
         .then(function(){
             log('user.register', userName);
         })        

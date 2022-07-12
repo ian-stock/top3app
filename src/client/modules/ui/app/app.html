@@ -3,31 +3,31 @@
         <div class="container">
             <div class="innerContainer">
                 <template if:true={isInLobbyState}>
-                    <ui-lobby onstate_change = {handleStateChange}></ui-lobby>
+                    <ui-lobby onstate_change={handleStateChange} onerror_message={handleErrorMessage}></ui-lobby>
                 </template>
 
                 <template if:true={isLoginRegState}>
-                    <ui-login onstate_change = {handleStateChange} onerror_message = {handleErrorMessage}></ui-login>
+                    <ui-login onstate_change={handleStateChange} onerror_message={handleErrorMessage}></ui-login>
                 </template>
 
                 <template if:true={isNewGameState}>
-                    <ui-newgame playerlist={gamePlayerList} onstate_change = {handleStateChange}></ui-newgame>
+                    <ui-newgame playerlist={gamePlayerList} onstate_change={handleStateChange}></ui-newgame>
                 </template>
 
                 <template if:true={isGameStartedState}>
-                    <ui-entertop3 gametopic={gameTopic} onstate_change = {handleStateChange}></ui-entertop3>
+                    <ui-entertop3 gametopic={gameTopic} onstate_change={handleStateChange}></ui-entertop3>
                 </template>
 
                 <template if:true={isTop3SubmittedState}>
-                    <ui-waitingvote onstate_change = {handleStateChange}></ui-waitingvote>
+                    <ui-waitingvote onstate_change={handleStateChange}></ui-waitingvote>
                 </template>
 
                 <template if:true={isVotingStartedState}>
-                    <ui-voting onstate_change = {handleStateChange}></ui-voting>
+                    <ui-voting onstate_change={handleStateChange}></ui-voting>
                 </template>
 
                 <template if:true={isGameResultsState}>
-                    <ui-results onstate_change = {handleStateChange}></ui-results>
+                    <ui-results onstate_change={handleStateChange}></ui-results>
                 </template>
 
                 <!-- Errors -->

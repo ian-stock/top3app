@@ -16,7 +16,8 @@
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "trace": true 
         },
         {
             "name": "Attach by Process ID",
@@ -35,6 +36,12 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/server/server.js"
+        },
+        {
+            "type": "pwa-chrome",
+            "name": "http://localhost:3000/",
+            "request": "launch",
+            "url": "http://localhost:3000/"
         }
     ]
 }

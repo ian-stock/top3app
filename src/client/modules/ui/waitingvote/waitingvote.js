@@ -7,7 +7,7 @@ export default class WaitingVote extends LightningElement {
         //change game state, new lwc to load all players as cards and allow voting
         this.dispatchEvent(new CustomEvent('state_change', {
             detail: {
-                name: 'StartVoting',
+                name: 'StartVoting'
             }
         })); 
     }

@@ -24,6 +24,8 @@ async function dbQuery(statement, params) {
     return qryRes; 
   }catch(e){
     console.error('dbQuery error', e.stack);
+    console.error(e.message);
+    return {error: e.message};
   }
 }
 
@@ -43,6 +45,8 @@ async function dbInsert(statement, params) {
   }catch(e){
     await client.query('ROLLBACK')
     console.error('dbInsert error', e.stack);
+    console.error(e.message);
+    return {error: e.message};
   } finally {
     client.release()
   }

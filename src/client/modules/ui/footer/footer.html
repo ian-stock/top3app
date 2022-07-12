@@ -5,8 +5,10 @@
             <div> Score: {playerscore}</div>
         </div>
         <template if:true={isHost}>
-            <button onclick={printSession}>s</button>
-            <button onclick={printPlayers}>p</button>
+            <div class="debugPane">
+                <button onclick={printSession}>s</button>
+                <button onclick={printPlayers}>p</button>
+            </div>
         </template>
     </footer>
 </template>

@@ -47,12 +47,14 @@ export default class App extends LightningElement {
             this.sessionUserName = SESSION.userName;
         }
         if(evt.detail.name === 'NewGame'){
+            this.errorState = false; //if previous error
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_NEWGAME;
             this.sessionGameNum = SESSION.gameNum;
             this.sessionUserName = SESSION.userName;
             this.template.querySelector('ui-header').updateHost('Host');
         }
         if(evt.detail.name === 'JoinedGame'){
+            this.errorState = false; //if previous error
             socket.emit('joinedgame', SESSION);
             if(!SESSION.host){
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
@@ -173,7 +175,7 @@ export default class App extends LightningElement {
 
     //error handling
     handleErrorMessage(evt) {
-        // console.log('app.handleErrorMessage: ' + evt.detail.errormsg);
+        log('client.app.handleErrorMessage: ' + evt.detail.errormsg);
         this.errorMessage = evt.detail.errormsg;
         this.errorState = true;
     }

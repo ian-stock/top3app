@@ -1,10 +1,16 @@
 <template>
     <header>
         <div class="innerContainer">
-            <img src="../../../resources/img/top3-transparent-thumb.png" alt="top3" />
-            <!-- <htitle class="app-name">Top3 Header</htitle> -->
+            <!-- onblur={closeMenu} - executes before anchor links are clicked -->
+            <button class="menuButton" onclick={openMenu}></button>
             <div class="gamenum">GameID: {sessiongamenum}</div>
             <div class="userid">{hostOrPlayer}: {sessionusername}</div>
+            <div class="menuPanel" data-id="menuPanel">
+                <a href="#">Leave Game</a>
+                <a href="#">End Game</a>
+                <a href="#">Log Out</a>
+                <a href="#">About</a>
+            </div>
         </div>
     </header>
 </template>

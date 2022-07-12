@@ -7663,26 +7663,27 @@ freeze(LightningElement);
 seal(LightningElement.prototype);
 /* version: 2.7.0 */
 
-function stylesheet$a(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$b(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}div", shadowSelector, "{text-align: center;}.controlsPane", shadowSelector, " {bottom: 15%;position: absolute;min-width: 350px;}input", shadowSelector, "{margin-top: 10px;margin-bottom: 10px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 1rem;border-radius: 5px;padding: 5px;color:rgb(50, 50, 50);background-color: rgb(200, 200, 200);margin: 5px;width: 220px;}button:enabled", shadowSelector, ", input[type=button]:enabled", shadowSelector, "{cursor: pointer;}button:disabled", shadowSelector, " {color: whitesmoke;background-color: lightgray;}button:hover:enabled", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: center;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
+  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}div", shadowSelector, "{text-align: center;}.controlsPane", shadowSelector, " {bottom: 15%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}input", shadowSelector, "{margin-top: 10px;margin-bottom: 10px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 1rem;border-radius: 5px;padding: 5px;color:rgb(50, 50, 50);background-color: rgb(200, 200, 200);margin: 5px;width: 220px;}button:enabled", shadowSelector, ", input[type=button]:enabled", shadowSelector, "{cursor: pointer;}button:disabled", shadowSelector, " {color: whitesmoke;background-color: lightgray;}button:hover:enabled", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: center;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
 }
-var stylesheet0 = [stylesheet$a];
+var stylesheet0 = [stylesheet$b];
 
-function stylesheet$9(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$a(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return [".container", shadowSelector, " {background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet, red);filter: brightness(0.90);top: 50px;position: absolute;left: 0;height: calc(100% - 50px);width: 100%;}"].join('');
 }
-var _implicitStylesheets$a = [stylesheet0, stylesheet$9];
+var _implicitStylesheets$a = [stylesheet0, stylesheet$a];
 
-function stylesheet$8(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$9(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}img", shadowSelector, "{height: 50px;left:0px;position: absolute;}"].join('');
+  return ["header", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}a", shadowSelector, "{display:none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);}a:hover", shadowSelector, "{color: rgb(180, 180, 180);}"].join('');
 }
-var _implicitStylesheets$9 = [stylesheet0, stylesheet$8];
+var _implicitStylesheets$9 = [stylesheet0, stylesheet$9];
 
 function tmpl$a($api, $cmp, $slotset, $ctx) {
-  const {h: api_element, d: api_dynamic_text, t: api_text} = $api;
+  const {b: api_bind, h: api_element, d: api_dynamic_text, t: api_text} = $api;
+  const {_m0} = $ctx;
   return [api_element("header", {
     key: 0
   }, [api_element("div", {
@@ -7690,12 +7691,14 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "innerContainer": true
     },
     key: 1
-  }, [api_element("img", {
-    attrs: {
-      "src": "../../../resources/img/top3-transparent-thumb.png",
-      "alt": "top3"
+  }, [api_element("button", {
+    classMap: {
+      "menuButton": true
     },
-    key: 2
+    key: 2,
+    on: {
+      "click": _m0 || ($ctx._m0 = api_bind($cmp.openMenu))
+    }
   }, []), api_element("div", {
     classMap: {
       "gamenum": true
@@ -7706,7 +7709,35 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "userid": true
     },
     key: 4
-  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))])])])];
+  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))]), api_element("div", {
+    classMap: {
+      "menuPanel": true
+    },
+    attrs: {
+      "data-id": "menuPanel"
+    },
+    key: 5
+  }, [api_element("a", {
+    attrs: {
+      "href": "#"
+    },
+    key: 6
+  }, [api_text("Leave Game")]), api_element("a", {
+    attrs: {
+      "href": "#"
+    },
+    key: 7
+  }, [api_text("End Game")]), api_element("a", {
+    attrs: {
+      "href": "#"
+    },
+    key: 8
+  }, [api_text("Log Out")]), api_element("a", {
+    attrs: {
+      "href": "#"
+    },
+    key: 9
+  }, [api_text("About")])])])])];
 }
 var _tmpl$a = registerTemplate(tmpl$a);
 tmpl$a.stylesheets = [];
@@ -7723,10 +7754,34 @@ class Header extends LightningElement {
     this.sessiongamenum = void 0;
     this.sessionusername = void 0;
     this.hostOrPlayer = 'Player';
+    this.menuPanel = void 0;
+    this.anchors = void 0;
   }
 
   updateHost(playerType) {
     this.hostOrPlayer = playerType;
+  }
+
+  openMenu() {
+    this.menuPanel = this.template.querySelector('[data-id="menuPanel"]');
+
+    if (this.menuPanel.style.height == 0 || this.menuPanel.style.height == '0px') {
+      this.template.querySelector('[data-id="menuPanel"]').style.height = '170px';
+      this.anchors = this.template.querySelectorAll('a');
+      this.anchors.forEach(a => {
+        a.style.display = 'block';
+      });
+    } else {
+      this.closeMenu();
+    }
+  }
+
+  closeMenu() {
+    this.template.querySelector('[data-id="menuPanel"]').style.height = '0';
+    this.anchors = this.template.querySelectorAll('a');
+    this.anchors.forEach(a => {
+      a.style.display = 'none';
+    });
   }
 
 }
@@ -7741,18 +7796,18 @@ registerDecorators(Header, {
     }
   },
   publicMethods: ["updateHost"],
-  fields: ["hostOrPlayer"]
+  fields: ["hostOrPlayer", "menuPanel", "anchors"]
 });
 
 var _uiHeader = registerComponent(Header, {
   tmpl: _tmpl$a
 });
 
-function stylesheet$7(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$8(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["lobby", shadowSelector, "{display: flex;justify-content: center;}.splashImg", shadowSelector, " {width: 90%;max-width: 400px;margin-top: 10%;}"].join('');
 }
-var _implicitStylesheets$8 = [stylesheet0, stylesheet$7];
+var _implicitStylesheets$8 = [stylesheet0, stylesheet$8];
 
 function tmpl$9($api, $cmp, $slotset, $ctx) {
   const {h: api_element, b: api_bind, t: api_text} = $api;
@@ -7817,6 +7872,8 @@ function tmpl$9($api, $cmp, $slotset, $ctx) {
       "disabled": $cmp.disableGameControls ? "" : null
     },
     key: 10
+  }, []), api_element("br", {
+    key: 11
   }, [])])])];
 }
 var _tmpl$9 = registerTemplate(tmpl$9);
@@ -7831,7 +7888,8 @@ tmpl$9.stylesheetToken = "ui-lobby_lobby";
 function log(source, desc) {
   const filterOut = [// "client.app",
   // "client.game",
-  "client.player", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
+  "client.player", "client.voting", "client.results" // "client.lobby"
+  ]; //returns true if substring exists
 
   if (!filterOut.some(v => source.includes(v))) {
     console.log(`${source}: ${desc}`);
@@ -8027,24 +8085,34 @@ class Lobby extends LightningElement {
     }
 
     getGame(SESSION.gameNum).then(response => {
-      SESSION.gameId = response.id;
-      SESSION.gameState = response.gamestate;
-    }).then(() => {
-      // userid, gamenum, gameid36, host
-      log('client.lobby.joingame', 'pre-playerJoinGame');
-      playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host).then(response => {
-        SESSION.playerId = response.id;
-        this.gameNum = SESSION.gameNum; //update ui
-      }).catch(e => console.error('lobby.createNewGame', e.stack)).then(() => {
-        // lwc event - handled by app.js
-        this.dispatchEvent(new CustomEvent('state_change', {
+      log('client.lobby.getGame.reponse', JSON.stringify(response));
+
+      if (response == null) {
+        this.dispatchEvent(new CustomEvent('error_message', {
           detail: {
-            name: 'JoinedGame',
-            gamenum: SESSION.gameNum,
-            userid: SESSION.userId
+            name: 'raiseUIError',
+            errormsg: 'GameID not found'
           }
         }));
-      });
+      } else {
+        SESSION.gameId = response.id;
+        SESSION.gameState = response.gamestate; // userid, gamenum, gameid36, host
+
+        log('client.lobby.joingame', 'pre-playerJoinGame');
+        playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host).then(response => {
+          SESSION.playerId = response.id;
+          this.gameNum = SESSION.gameNum; //update ui
+        }).catch(e => console.error('lobby.createNewGame', e.stack)).then(() => {
+          // lwc event - handled by app.js
+          this.dispatchEvent(new CustomEvent('state_change', {
+            detail: {
+              name: 'JoinedGame',
+              gamenum: SESSION.gameNum,
+              userid: SESSION.userId
+            }
+          }));
+        });
+      }
     });
   } // UI expressions for template rendering and button controls
 
@@ -8067,11 +8135,11 @@ var _uiLobby = registerComponent(Lobby, {
   tmpl: _tmpl$9
 });
 
-function stylesheet$6(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$7(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["login", shadowSelector, "{display: flex;justify-content: center;}button", shadowSelector, "{margin: 5px;width: 120px;}"].join('');
 }
-var _implicitStylesheets$7 = [stylesheet0, stylesheet$6];
+var _implicitStylesheets$7 = [stylesheet0, stylesheet$7];
 
 function tmpl$8($api, $cmp, $slotset, $ctx) {
   const {gid: api_scoped_id, h: api_element, b: api_bind, t: api_text} = $api;
@@ -8174,24 +8242,43 @@ class Login extends LightningElement {
     this.inputPwd = void 0;
     this.eventType = void 0;
     this.eventDetail = void 0;
+    this.errorMessage = void 0;
+    this.dupUserMsg = 'duplicate key value violates unique constraint "user_username_key"';
+    this.dbConnectMsg = 'connect ECONNREFUSED';
   }
 
   register() {
     this.inputUserName = this.template.querySelector('[data-id="userIdInput"]').value;
     this.inputPwd = this.template.querySelector('[data-id="pwdInput"]').value;
     userRegistration(this.inputUserName, this.inputPwd).then(response => {
-      SESSION.userId = response.id;
-      SESSION.userName = response.username;
-      SESSION.authenticated = true;
-    }).catch(e => console.error('login.userRegistration', e.stack)).then(() => {
-      // lwc event - handled by app.js
-      this.dispatchEvent(new CustomEvent('state_change', {
-        detail: {
-          name: 'LoggedIn',
-          userid: SESSION.userName
+      if (response.hasOwnProperty('error')) {
+        if (response.error == this.dupUserMsg) {
+          this.errorMessage = 'Username already registered';
+        } else if (response.error.startsWith(this.dbConnectMsg)) {
+          this.errorMessage = 'Database connection error';
+        } else {
+          this.errorMessage = response.error;
         }
-      }));
-    });
+
+        this.dispatchEvent(new CustomEvent('error_message', {
+          detail: {
+            name: 'raiseUIError',
+            errormsg: this.errorMessage
+          }
+        }));
+      } else {
+        SESSION.userId = response.id;
+        SESSION.userName = response.username;
+        SESSION.authenticated = true; // lwc event - handled by app.js
+
+        this.dispatchEvent(new CustomEvent('state_change', {
+          detail: {
+            name: 'LoggedIn',
+            userid: SESSION.userName
+          }
+        }));
+      }
+    }).catch(e => console.error('login.userRegistration', e.stack));
   }
 
   login() {
@@ -8208,11 +8295,19 @@ class Login extends LightningElement {
           userid: SESSION.userName
         };
       } else {
+        if (response.hasOwnProperty('error')) {
+          if (response.error.startsWith(this.dbConnectMsg)) {
+            this.errorMessage = 'Database connection error';
+          }
+        } else {
+          this.errorMessage = 'Incorrect username and password';
+        }
+
         this.eventType = 'error_message';
         this.eventDetail = {
           name: 'raiseUIError',
-          errormsg: 'Incorrect username and password'
-        }; // alert('Incorrect username and password');
+          errormsg: this.errorMessage
+        };
       }
     }).catch(e => console.error('login.userLogin', e.stack)).then(() => {
       // lwc event - handled by app.js
@@ -8225,18 +8320,18 @@ class Login extends LightningElement {
 }
 
 registerDecorators(Login, {
-  fields: ["inputUserName", "inputPwd", "eventType", "eventDetail"]
+  fields: ["inputUserName", "inputPwd", "eventType", "eventDetail", "errorMessage", "dupUserMsg", "dbConnectMsg"]
 });
 
 var _uiLogin = registerComponent(Login, {
   tmpl: _tmpl$8
 });
 
-function stylesheet$5(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$6(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["newgame", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;}"].join('');
 }
-var _implicitStylesheets$6 = [stylesheet0, stylesheet$5];
+var _implicitStylesheets$6 = [stylesheet0, stylesheet$6];
 
 function tmpl$7($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text, gid: api_scoped_id, b: api_bind} = $api;
@@ -8374,11 +8469,11 @@ var _uiNewgame = registerComponent(NewGame$1, {
   tmpl: _tmpl$7
 });
 
-function stylesheet$4(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$5(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["entertop3", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;}"].join('');
 }
-var _implicitStylesheets$5 = [stylesheet0, stylesheet$4];
+var _implicitStylesheets$5 = [stylesheet0, stylesheet$5];
 
 function tmpl$6($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text, gid: api_scoped_id, b: api_bind} = $api;
@@ -8480,11 +8575,11 @@ var _uiEntertop3 = registerComponent(EnterTop3, {
   tmpl: _tmpl$6
 });
 
-function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$4(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["waitingvote", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;}"].join('');
 }
-var _implicitStylesheets$4 = [stylesheet0, stylesheet$3];
+var _implicitStylesheets$4 = [stylesheet0, stylesheet$4];
 
 function tmpl$5($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, b: api_bind} = $api;
@@ -8542,11 +8637,11 @@ var _uiWaitingvote = registerComponent(WaitingVote, {
   tmpl: _tmpl$5
 });
 
-function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["voting", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, "{margin: 0 auto;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;width:350px;}.col1", shadowSelector, " {width: 30%;}.col2", shadowSelector, " {width: 70%;}"].join('');
 }
-var _implicitStylesheets$3 = [stylesheet0, stylesheet$2];
+var _implicitStylesheets$3 = [stylesheet0, stylesheet$3];
 
 function tmpl$4($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, d: api_dynamic_text, b: api_bind, k: api_key, i: api_iterator, f: api_flatten} = $api;
@@ -8852,11 +8947,11 @@ var _uiVoting = registerComponent(Voting, {
   tmpl: _tmpl$4
 });
 
-function stylesheet$1(token, useActualHostSelector, useNativeDirPseudoclass) {
+function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
   return ["results", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;}"].join('');
 }
-var _implicitStylesheets$2 = [stylesheet0, stylesheet$1];
+var _implicitStylesheets$2 = [stylesheet0, stylesheet$2];
 
 function tmpl$3($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, k: api_key, d: api_dynamic_text, i: api_iterator, b: api_bind} = $api;
@@ -8948,18 +9043,24 @@ var _uiResults = registerComponent(NewGame, {
   tmpl: _tmpl$3
 });
 
-var _implicitStylesheets$1 = [stylesheet0];
+function stylesheet$1(token, useActualHostSelector, useNativeDirPseudoclass) {
+  var shadowSelector = token ? ("[" + token + "]") : "";
+  return ["errormsg", shadowSelector, "{top: 40%;position: absolute;width:300px;min-width: 300px;height:60px;left: 50%;margin-left: -150px;}.errmsg", shadowSelector, "{border-radius: 10px;background-color: rgb(255, 225, 225);border-color: red;border-style: solid;text-align: center;}"].join('');
+}
+var _implicitStylesheets$1 = [stylesheet0, stylesheet$1];
 
 function tmpl$2($api, $cmp, $slotset, $ctx) {
   const {d: api_dynamic_text, t: api_text, h: api_element} = $api;
   return [api_element("errormsg", {
     key: 0
-  }, [api_element("h3", {
+  }, [api_element("div", {
     classMap: {
-      "error": true
+      "errmsg": true
     },
     key: 1
-  }, [api_text("Error: " + api_dynamic_text($cmp.errormsg))])])];
+  }, [api_element("h3", {
+    key: 2
+  }, [api_text(api_dynamic_text($cmp.errormsg))])])])];
 }
 var _tmpl$2 = registerTemplate(tmpl$2);
 tmpl$2.stylesheets = [];
@@ -8992,7 +9093,7 @@ var _uiErrormsg = registerComponent(ErrogMsg, {
 
 function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["footer", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;position: fixed;left: 0;bottom: 0;width: 100%;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}button", shadowSelector, "{width:auto;}"].join('');
+  return ["footer", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;position: fixed;left: 0;bottom: 0;width: 100%;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}button", shadowSelector, "{width:auto;}.debugPane", shadowSelector, "{position: absolute;bottom: 0px;right: 0px;}"].join('');
 }
 var _implicitStylesheets = [stylesheet0, stylesheet];
 
@@ -9010,17 +9111,22 @@ function tmpl$1($api, $cmp, $slotset, $ctx) {
     key: 2
   }, [api_text("Players/Submitted: " + api_dynamic_text($cmp.playercount) + "/" + api_dynamic_text($cmp.playerssubmitted) + " ")]), api_element("div", {
     key: 3
-  }, [api_text(" Score: " + api_dynamic_text($cmp.playerscore))])]), $cmp.isHost ? api_element("button", {
-    key: 4,
+  }, [api_text(" Score: " + api_dynamic_text($cmp.playerscore))])]), $cmp.isHost ? api_element("div", {
+    classMap: {
+      "debugPane": true
+    },
+    key: 4
+  }, [api_element("button", {
+    key: 5,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.printSession))
     }
-  }, [api_text("s")]) : null, $cmp.isHost ? api_element("button", {
-    key: 5,
+  }, [api_text("s")]), api_element("button", {
+    key: 6,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.printPlayers))
     }
-  }, [api_text("p")]) : null])];
+  }, [api_text("p")])]) : null])];
 }
 var _tmpl$1 = registerTemplate(tmpl$1);
 tmpl$1.stylesheets = [];
@@ -9049,7 +9155,8 @@ class Footer extends LightningElement {
 
 
   get isHost() {
-    return SESSION.host;
+    // return SESSION.host;
+    return true;
   }
 
 }
@@ -9074,7 +9181,7 @@ var _uiFooter = registerComponent(Footer, {
 
 function tmpl($api, $cmp, $slotset, $ctx) {
   const {c: api_custom_element, b: api_bind, h: api_element} = $api;
-  const {_m0, _m1, _m2, _m3, _m4, _m5, _m6, _m7} = $ctx;
+  const {_m0, _m1, _m2, _m3, _m4, _m5, _m6, _m7, _m8} = $ctx;
   return [api_custom_element("ui-header", _uiHeader, {
     props: {
       "sessiongamenum": $cmp.sessionGameNum,
@@ -9094,13 +9201,14 @@ function tmpl($api, $cmp, $slotset, $ctx) {
   }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
     key: 3,
     on: {
-      "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange))
+      "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange)),
+      "error_message": _m1 || ($ctx._m1 = api_bind($cmp.handleErrorMessage))
     }
   }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
     key: 4,
     on: {
-      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange)),
-      "error_message": _m2 || ($ctx._m2 = api_bind($cmp.handleErrorMessage))
+      "state_change": _m2 || ($ctx._m2 = api_bind($cmp.handleStateChange)),
+      "error_message": _m3 || ($ctx._m3 = api_bind($cmp.handleErrorMessage))
     }
   }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
     props: {
@@ -9108,7 +9216,7 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     },
     key: 5,
     on: {
-      "state_change": _m3 || ($ctx._m3 = api_bind($cmp.handleStateChange))
+      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isGameStartedState ? api_custom_element("ui-entertop3", _uiEntertop3, {
     props: {
@@ -9116,22 +9224,22 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     },
     key: 6,
     on: {
-      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
+      "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isTop3SubmittedState ? api_custom_element("ui-waitingvote", _uiWaitingvote, {
     key: 7,
     on: {
-      "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
+      "state_change": _m6 || ($ctx._m6 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isVotingStartedState ? api_custom_element("ui-voting", _uiVoting, {
     key: 8,
     on: {
-      "state_change": _m6 || ($ctx._m6 = api_bind($cmp.handleStateChange))
+      "state_change": _m7 || ($ctx._m7 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isGameResultsState ? api_custom_element("ui-results", _uiResults, {
     key: 9,
     on: {
-      "state_change": _m7 || ($ctx._m7 = api_bind($cmp.handleStateChange))
+      "state_change": _m8 || ($ctx._m8 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isErrorMessage ? api_custom_element("ui-errormsg", _uiErrormsg, {
     props: {
@@ -13460,6 +13568,8 @@ class App extends LightningElement {
     }
 
     if (evt.detail.name === 'NewGame') {
+      this.errorState = false; //if previous error
+
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_NEWGAME;
       this.sessionGameNum = SESSION.gameNum;
       this.sessionUserName = SESSION.userName;
@@ -13467,6 +13577,8 @@ class App extends LightningElement {
     }
 
     if (evt.detail.name === 'JoinedGame') {
+      this.errorState = false; //if previous error
+
       socket.emit('joinedgame', SESSION);
 
       if (!SESSION.host) {
@@ -13609,7 +13721,7 @@ class App extends LightningElement {
 
 
   handleErrorMessage(evt) {
-    // console.log('app.handleErrorMessage: ' + evt.detail.errormsg);
+    log('client.app.handleErrorMessage: ' + evt.detail.errormsg);
     this.errorMessage = evt.detail.errormsg;
     this.errorState = true;
   }

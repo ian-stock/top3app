@@ -10,7 +10,7 @@ export default class Lobby extends LightningElement {
     loginRegister(){
         this.dispatchEvent(new CustomEvent('state_change', {
             detail: {
-                name: 'LoginRegister',
+                name: 'LoginRegister'
             }
         }));
         
@@ -52,28 +52,36 @@ export default class Lobby extends LightningElement {
         }
         getGame(SESSION.gameNum)
         .then((response) => {
-            SESSION.gameId = response.id;
-            SESSION.gameState = response.gamestate;
-        })
-        .then(() => {
-            // userid, gamenum, gameid36, host
-            log('client.lobby.joingame', 'pre-playerJoinGame');
-            playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host)
-                .then((response) => {
-                    SESSION.playerId = response.id;
-                    this.gameNum = SESSION.gameNum; //update ui
-                })
-                .catch(e => console.error('lobby.createNewGame', e.stack))
-                .then(() => {
-                    // lwc event - handled by app.js
-                    this.dispatchEvent(new CustomEvent('state_change', {
-                        detail: {
-                            name: 'JoinedGame',
-                            gamenum: SESSION.gameNum, 
-                            userid: SESSION.userId
-                        }
-                    }));    
-                })
+            log('client.lobby.getGame.reponse',JSON.stringify(response));
+            if(response == null){
+                this.dispatchEvent(new CustomEvent('error_message', {
+                    detail: {
+                        name: 'raiseUIError',
+                        errormsg: 'GameID not found' 
+                    }
+                }));
+            } else {
+                SESSION.gameId = response.id;
+                SESSION.gameState = response.gamestate;
+                // userid, gamenum, gameid36, host
+                log('client.lobby.joingame', 'pre-playerJoinGame');
+                playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host)
+                    .then((response) => {
+                        SESSION.playerId = response.id;
+                        this.gameNum = SESSION.gameNum; //update ui
+                    })
+                    .catch(e => console.error('lobby.createNewGame', e.stack))
+                    .then(() => {
+                        // lwc event - handled by app.js
+                        this.dispatchEvent(new CustomEvent('state_change', {
+                            detail: {
+                                name: 'JoinedGame',
+                                gamenum: SESSION.gameNum, 
+                                userid: SESSION.userId
+                            }
+                        }));    
+                    })
+            }
         })
     }
     // UI expressions for template rendering and button controls
@@ -84,5 +92,4 @@ export default class Lobby extends LightningElement {
         return !SESSION.authenticated;;
     }
     
-
 }

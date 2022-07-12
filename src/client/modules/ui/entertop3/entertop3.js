@@ -17,7 +17,7 @@ export default class EnterTop3 extends LightningElement {
             // lwc event - handled by app.js 
             this.dispatchEvent(new CustomEvent('state_change', {
                 detail: {
-                    name: 'Top3Submitted',
+                    name: 'Top3Submitted'
                 }
             }));    
         })

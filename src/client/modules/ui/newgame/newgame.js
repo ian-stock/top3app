@@ -13,7 +13,7 @@ export default class NewGame extends LightningElement {
                 // lwc event - handled by app.js - change host screen to next one
                 this.dispatchEvent(new CustomEvent('state_change', {
                     detail: {
-                        name: 'TopicSelected',
+                        name: 'TopicSelected'
                     }
                 }));    
             })

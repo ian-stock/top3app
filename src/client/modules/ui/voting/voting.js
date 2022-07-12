@@ -22,6 +22,7 @@ export default class Voting extends LightningElement {
     correctAnswer;
     answeredCorrectly;
     answerMessage;
+    completeAnswerMessage;
     revealed = false;
 
     voteCount = 0;
@@ -29,12 +30,19 @@ export default class Voting extends LightningElement {
     voteButtonDisabled = false;
     revealButtonDisabled = true;
     nextButtonDisabled = true;
+    didTheyVote = false;
 
     @api updateVotedCount(e){
         this.voteCount++;
     }
 
     @api revealAnswerUI() {
+        if(this.didTheyVote){
+            this.completeAnswerMessage =  this.answerMessage + '\n It was: ' + this.correctAnswer;
+        } else{
+            this.completeAnswerMessage =  "Don't forget to vote! \n" + "No points for slow coaches 😀";
+        }
+        this.voteButtonDisabled = true;
         this.revealed = true;
     }
 
@@ -56,6 +64,7 @@ export default class Voting extends LightningElement {
         this.voteButtonDisabled = false;
         this.revealButtonDisabled = true;
         this.nextButtonDisabled = true;
+        this.didTheyVote = false;
     }
 
     connectedCallback(){
@@ -95,6 +104,7 @@ export default class Voting extends LightningElement {
         log('client.voting.vote.voted-top3SelectedUsername', this.top3SelectedUsername);     //vote
 
         this.voteButtonDisabled = true;
+        this.didTheyVote = true;
 
         //call the answers server API 
         //userid, gameid, playerid, selectedPlayername
@@ -134,7 +144,8 @@ export default class Voting extends LightningElement {
         // lwc event - handled by app.js 
         this.dispatchEvent(new CustomEvent('state_change', {
             detail: {
-                name: 'AnswerRevealed'
+                name: 'AnswerRevealed',
+                correctAnswer: this.correctAnswer
             }
         }));
         this.nextButtonDisabled = false;

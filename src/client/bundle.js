@@ -7888,7 +7888,8 @@ tmpl$9.stylesheetToken = "ui-lobby_lobby";
 function log(source, desc) {
   const filterOut = [// "client.app",
   // "client.game",
-  "client.player", "client.voting", "client.results" // "client.lobby"
+  "client.player", // "client.voting",
+  "client.results" // "client.lobby"
   ]; //returns true if substring exists
 
   if (!filterOut.some(v => source.includes(v))) {
@@ -8726,7 +8727,7 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     key: 20
   }, [api_element("div", {
     key: 21
-  }, [api_text(api_dynamic_text($cmp.answerMessage) + " \n It was: " + api_dynamic_text($cmp.correctAnswer))])]) : null]), api_element("div", {
+  }, [api_text(api_dynamic_text($cmp.completeAnswerMessage))])]) : null]), api_element("div", {
     classMap: {
       "controlsPane": true
     },
@@ -8841,11 +8842,13 @@ class Voting extends LightningElement {
     this.correctAnswer = void 0;
     this.answeredCorrectly = void 0;
     this.answerMessage = void 0;
+    this.completeAnswerMessage = void 0;
     this.revealed = false;
     this.voteCount = 0;
     this.voteButtonDisabled = false;
     this.revealButtonDisabled = true;
     this.nextButtonDisabled = true;
+    this.didTheyVote = false;
   }
 
   updateVotedCount(e) {
@@ -8853,6 +8856,12 @@ class Voting extends LightningElement {
   }
 
   revealAnswerUI() {
+    if (this.didTheyVote) {
+      this.completeAnswerMessage = this.answerMessage + '\n It was: ' + this.correctAnswer;
+    } else {
+      this.completeAnswerMessage = "Don't forget to vote! \n" + "No points for slow coaches 😀";
+    }
+
     this.revealed = true;
   }
 
@@ -8874,6 +8883,7 @@ class Voting extends LightningElement {
     this.voteButtonDisabled = false;
     this.revealButtonDisabled = true;
     this.nextButtonDisabled = true;
+    this.didTheyVote = false;
   }
 
   connectedCallback() {
@@ -8912,7 +8922,8 @@ class Voting extends LightningElement {
 
     log('client.voting.vote.voted-top3SelectedUsername', this.top3SelectedUsername); //vote
 
-    this.voteButtonDisabled = true; //call the answers server API 
+    this.voteButtonDisabled = true;
+    this.didTheyVote = true; //call the answers server API 
     //userid, gameid, playerid, selectedPlayername
 
     submitAnswer(SESSION.playerId, SESSION.gameId, this.top3PlayerId, this.top3SelectedUsername).then(response => {
@@ -8947,7 +8958,8 @@ class Voting extends LightningElement {
     // lwc event - handled by app.js 
     this.dispatchEvent(new CustomEvent('state_change', {
       detail: {
-        name: 'AnswerRevealed'
+        name: 'AnswerRevealed',
+        correctAnswer: this.correctAnswer
       }
     }));
     this.nextButtonDisabled = false;
@@ -9008,7 +9020,7 @@ class Voting extends LightningElement {
 
 registerDecorators(Voting, {
   publicMethods: ["updateVotedCount", "revealAnswerUI", "loadNextPlayer"],
-  fields: ["playerArray", "playerIndex", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerId", "top3SelectedUsername", "correctAnswer", "answeredCorrectly", "answerMessage", "revealed", "voteCount", "voteButtonDisabled", "revealButtonDisabled", "nextButtonDisabled"]
+  fields: ["playerArray", "playerIndex", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerId", "top3SelectedUsername", "correctAnswer", "answeredCorrectly", "answerMessage", "completeAnswerMessage", "revealed", "voteCount", "voteButtonDisabled", "revealButtonDisabled", "nextButtonDisabled", "didTheyVote"]
 });
 
 var _uiVoting = registerComponent(Voting, {
@@ -13684,7 +13696,7 @@ class App extends LightningElement {
     }
 
     if (evt.detail.name === 'AnswerRevealed') {
-      socket.emit('answerrevealed', SESSION);
+      socket.emit('answerrevealed', SESSION); //socket.emit('answerrevealed', SESSION, evt.detail.correctAnswer);
     }
 
     if (evt.detail.name === 'NextVote') {

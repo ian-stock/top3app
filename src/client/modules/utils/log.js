@@ -5,8 +5,8 @@ export function log(source, desc){
         // "client.game",
         "client.player",
         "client.voting",
-        "client.results"
-        // "client.lobby"
+        "client.results",
+        "client.lobby"
     ]
     //returns true if substring exists
     if (!filterOut.some(v => source.includes(v))) {

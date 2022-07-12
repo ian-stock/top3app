@@ -81,6 +81,7 @@ export default class App extends LightningElement {
         }
         if(evt.detail.name === 'AnswerRevealed'){
             socket.emit('answerrevealed', SESSION);
+            //socket.emit('answerrevealed', SESSION, evt.detail.correctAnswer);
         }
         if(evt.detail.name === 'NextVote'){
             socket.emit('nextvote', SESSION);

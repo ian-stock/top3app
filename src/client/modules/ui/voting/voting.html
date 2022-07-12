@@ -14,8 +14,9 @@
             </table>
             <template if:true={isRevealed}>
                 <div class="revealPane" data-id="revealPane">
-                    <div>{answerMessage} &#10;
-                    It was: {correctAnswer}</div>
+                    <!-- <div>{answerMessage} &#10;
+                    It was: {correctAnswer}</div> -->
+                    <div>{completeAnswerMessage}</div>
                 </div>
             </template>
         </div>

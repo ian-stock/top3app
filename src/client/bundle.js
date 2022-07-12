@@ -7665,7 +7665,7 @@ seal(LightningElement.prototype);
 
 function stylesheet$b(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}div", shadowSelector, "{text-align: center;}.controlsPane", shadowSelector, " {bottom: 15%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}input", shadowSelector, "{margin-top: 10px;margin-bottom: 10px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 1rem;border-radius: 5px;padding: 5px;color:rgb(50, 50, 50);background-color: rgb(200, 200, 200);margin: 5px;width: 220px;}button:enabled", shadowSelector, ", input[type=button]:enabled", shadowSelector, "{cursor: pointer;}button:disabled", shadowSelector, " {color: whitesmoke;background-color: lightgray;}button:hover:enabled", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: center;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
+  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}div", shadowSelector, "{text-align: center;}.topPane", shadowSelector, "{top: 20px;position: relative;}.controlsPane", shadowSelector, " {bottom: 15%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}input", shadowSelector, "{margin-top: 10px;margin-bottom: 10px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 1rem;border-radius: 5px;padding: 5px;color:rgb(50, 50, 50);background-color: rgb(200, 200, 200);margin: 5px;width: 220px;}button:enabled", shadowSelector, ", input[type=button]:enabled", shadowSelector, "{cursor: pointer;}button:disabled", shadowSelector, " {color: whitesmoke;background-color: lightgray;}button:hover:enabled", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: center;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
 }
 var stylesheet0 = [stylesheet$b];
 
@@ -7677,7 +7677,7 @@ var _implicitStylesheets$a = [stylesheet0, stylesheet$a];
 
 function stylesheet$9(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}a", shadowSelector, "{display:none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);}a:hover", shadowSelector, "{color: rgb(180, 180, 180);}"].join('');
+  return ["header", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}a", shadowSelector, "{display:none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);}a:hover", shadowSelector, "{color: rgb(180, 180, 180);}"].join('');
 }
 var _implicitStylesheets$9 = [stylesheet0, stylesheet$9];
 
@@ -8345,75 +8345,71 @@ function tmpl$7($api, $cmp, $slotset, $ctx) {
     key: 1
   }, [api_element("h2", {
     key: 2
-  }, [api_text("newgame html")]), api_element("br", {
+  }, [api_text("Newgame: Wait for people to join and then choose a topic")]), api_element("br", {
     key: 3
-  }, []), api_element("div", {
+  }, []), api_element("br", {
     key: 4
-  }, [api_text("Player List: ")]), api_element("br", {
-    key: 5
   }, []), api_element("div", {
+    key: 5
+  }, [api_text("Player List: ")]), api_element("br", {
     key: 6
+  }, []), api_element("div", {
+    key: 7
   }, [api_text(api_dynamic_text($cmp.playerlist))])]), api_element("div", {
     classMap: {
       "controlsPane": true
     },
-    key: 7
-  }, [api_element("label", {
-    attrs: {
-      "for": api_scoped_id("topics")
-    },
     key: 8
-  }, [api_text("Choose a Top3 topic:")]), api_element("br", {
-    key: 9
-  }, []), api_element("input", {
+  }, [api_element("input", {
     attrs: {
       "list": "topics",
       "name": "topic",
       "id": api_scoped_id("topic"),
-      "data-id": "topic"
+      "data-id": "topic",
+      "placeholder": "choose/enter topic"
     },
-    key: 10
+    key: 9
   }, []), api_element("br", {
-    key: 11
+    key: 10
   }, []), api_element("datalist", {
     attrs: {
       "id": api_scoped_id("topics")
     },
-    key: 12
+    key: 11
   }, [api_element("option", {
     attrs: {
       "value": "Movies"
     },
-    key: 13
+    key: 12
   }, [api_text("Movies")]), api_element("option", {
     attrs: {
       "value": "Albums"
     },
-    key: 14
+    key: 13
   }, [api_text("Albums")]), api_element("option", {
     attrs: {
       "value": "Books"
     },
-    key: 15
+    key: 14
   }, [api_text("Books")]), api_element("option", {
     attrs: {
       "value": "Foods"
     },
-    key: 16
+    key: 15
   }, [api_text("Foods")]), api_element("option", {
     attrs: {
       "value": "Places"
     },
-    key: 17
+    key: 16
   }, [api_text("Places")])]), api_element("button", {
-    key: 18,
+    key: 17,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.top3Topic))
     }
   }, [api_text("Choose")]), api_element("br", {
-    key: 19
+    key: 18
   }, []), api_element("button", {
-    key: 20,
+    key: 19,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.endGame))
     }
@@ -8543,7 +8539,7 @@ tmpl$6.stylesheetToken = "ui-entertop3_entertop3";
 class EnterTop3 extends LightningElement {
   constructor(...args) {
     super(...args);
-    this.gametopic = void 0;
+    this.gametopic = 'tbc...';
   }
 
   submitTop3() {
@@ -8593,15 +8589,13 @@ function tmpl$5($api, $cmp, $slotset, $ctx) {
     key: 1
   }, [api_element("h2", {
     key: 2
-  }, [api_text("waiting vote html")]), api_element("div", {
-    key: 3
-  }, [api_text("Waiting for voting to start...")])]), $cmp.isHost ? api_element("div", {
+  }, [api_text("Waiting for players to submit, and voting to start...")])]), $cmp.isHost ? api_element("div", {
     classMap: {
       "controlsPane": true
     },
-    key: 4
+    key: 3
   }, [api_element("button", {
-    key: 5,
+    key: 4,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.startVoting))
     }
@@ -8639,7 +8633,7 @@ var _uiWaitingvote = registerComponent(WaitingVote, {
 
 function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["voting", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, "{margin: 0 auto;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;width:350px;}.col1", shadowSelector, " {width: 30%;}.col2", shadowSelector, " {width: 70%;}"].join('');
+  return ["voting", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, "{margin: 0 auto;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;width:350px;}.col1", shadowSelector, " {width: 30%;}.col2", shadowSelector, " {width: 70%;}.revealPane", shadowSelector, "{position: relative;top: 10px;width:300px;min-width: 300px;height:55px;left: 50%;margin-left: -150px;border-radius: 10px;border-style: solid;box-shadow: 0 0 20px white;text-align: center;white-space: pre-wrap;}.voteCountPane", shadowSelector, "{color:whitesmoke;}"].join('');
 }
 var _implicitStylesheets$3 = [stylesheet0, stylesheet$3];
 
@@ -8655,54 +8649,66 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     key: 1
   }, [api_element("h2", {
     key: 2
-  }, [api_text("time for voting - cards of each players top3")]), api_element("table", {
+  }, [api_text("Time for voting")]), api_element("br", {
     key: 3
-  }, [api_element("colgroup", {
+  }, []), api_element("h2", {
     key: 4
+  }, [api_text("Who's is this Top 3...?")]), api_element("br", {
+    key: 5
+  }, []), api_element("table", {
+    key: 6
+  }, [api_element("colgroup", {
+    key: 7
   }, [api_element("col", {
     classMap: {
       "col1": true
     },
-    key: 5
+    key: 8
   }, []), api_element("col", {
     classMap: {
       "col2": true
     },
-    key: 6
-  }, [])]), api_element("tbody", {
-    key: 7
-  }, [api_element("tr", {
-    key: 8
-  }, [api_element("td", {
     key: 9
-  }, [api_text("Top 1")]), api_element("td", {
+  }, [])]), api_element("tbody", {
     key: 10
-  }, [api_text(api_dynamic_text($cmp.top1))])]), api_element("tr", {
+  }, [api_element("tr", {
     key: 11
   }, [api_element("td", {
     key: 12
-  }, [api_text("Top 2")]), api_element("td", {
+  }, [api_text("Top 1")]), api_element("td", {
     key: 13
-  }, [api_text(api_dynamic_text($cmp.top2))])]), api_element("tr", {
+  }, [api_text(api_dynamic_text($cmp.top1))])]), api_element("tr", {
     key: 14
   }, [api_element("td", {
     key: 15
-  }, [api_text("Top 3")]), api_element("td", {
+  }, [api_text("Top 2")]), api_element("td", {
     key: 16
-  }, [api_text(api_dynamic_text($cmp.top3))])])])]), $cmp.isRevealed ? api_element("div", {
+  }, [api_text(api_dynamic_text($cmp.top2))])]), api_element("tr", {
     key: 17
-  }, [api_text(api_dynamic_text($cmp.answerMessage))]) : null, $cmp.isRevealed ? api_element("div", {
+  }, [api_element("td", {
     key: 18
-  }, [api_text("It was: " + api_dynamic_text($cmp.correctAnswer))]) : null]), api_element("div", {
+  }, [api_text("Top 3")]), api_element("td", {
+    key: 19
+  }, [api_text(api_dynamic_text($cmp.top3))])])])]), $cmp.isRevealed ? api_element("div", {
+    classMap: {
+      "revealPane": true
+    },
+    attrs: {
+      "data-id": "revealPane"
+    },
+    key: 20
+  }, [api_element("div", {
+    key: 21
+  }, [api_text(api_dynamic_text($cmp.answerMessage) + " \n It was: " + api_dynamic_text($cmp.correctAnswer))])]) : null]), api_element("div", {
     classMap: {
       "controlsPane": true
     },
-    key: 19
+    key: 22
   }, [api_element("select", {
     attrs: {
       "data-id": "playerSelect"
     },
-    key: 20,
+    key: 23,
     on: {
       "change": _m0 || ($ctx._m0 = api_bind($cmp.handleVoteSelectChange))
     }
@@ -8712,33 +8718,33 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
       "selected": "",
       "value": ""
     },
-    key: 21
+    key: 24
   }, [api_text("-- choose one --")]), api_iterator($cmp.playerSelectList, function (option) {
     return api_element("option", {
       attrs: {
         "value": option.username
       },
-      key: api_key(22, option.id)
+      key: api_key(25, option.id)
     }, [api_text(api_dynamic_text(option.username))]);
   })])), api_element("br", {
-    key: 23
+    key: 26
   }, []), api_element("button", {
     attrs: {
       "disabled": $cmp.disableVoteButton ? "" : null
     },
-    key: 24,
+    key: 27,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.vote))
     }
   }, [api_text("Vote")]), api_element("br", {
-    key: 25
+    key: 28
   }, []), $cmp.isHost ? api_element("button", {
-    key: 26,
+    key: 29,
     on: {
       "click": _m2 || ($ctx._m2 = api_bind($cmp.hostRevealAnswer))
     }
   }, [api_text("Reveal")]) : null, $cmp.isHost ? api_element("br", {
-    key: 27
+    key: 30
   }, []) : null, $cmp.isHost ? api_element("input", {
     attrs: {
       "data-id": "nextButton",
@@ -8747,15 +8753,18 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     props: {
       "value": "Next"
     },
-    key: 28,
+    key: 31,
     on: {
       "click": _m3 || ($ctx._m3 = api_bind($cmp.hostNextVote))
     }
   }, []) : null, $cmp.isHost ? api_element("br", {
-    key: 29
-  }, []) : null, $cmp.isHost ? api_element("div", {
-    key: 30
-  }, [api_text("Vote Count: " + api_dynamic_text($cmp.voteCount))]) : null])])];
+    key: 32
+  }, []) : null, api_element("div", {
+    classMap: {
+      "voteCountPane": true
+    },
+    key: 33
+  }, [api_text("Vote Count: " + api_dynamic_text($cmp.voteCount))])])])];
 }
 var _tmpl$4 = registerTemplate(tmpl$4);
 tmpl$4.stylesheets = [];
@@ -8841,6 +8850,21 @@ class Voting extends LightningElement {
     this.loadPlayer();
   }
 
+  renderedCallback() {
+    //set colours of reveal pane if visible
+    let rp = this.template.querySelector('[data-id="revealPane"]');
+
+    if (rp != null) {
+      if (this.answeredCorrectly) {
+        rp.style.borderColor = 'green';
+        rp.style.backgroundColor = 'rgb(225, 255, 225)';
+      } else {
+        rp.style.borderColor = 'red';
+        rp.style.backgroundColor = 'rgb(255, 225, 225)';
+      }
+    }
+  }
+
   handleVoteSelectChange(evt) {
     this.top3SelectedUsername = evt.target.value;
     log('client.voting.select.change-handler', this.top3SelectedUsername);
@@ -8867,7 +8891,7 @@ class Voting extends LightningElement {
         this.answerMessage = "Yeah, you were right!";
       } else {
         this.answeredCorrectly = false;
-        this.answerMessage = "Sorry, you didn't get that one";
+        this.answerMessage = "Sorry, you didn't get that one.";
       }
 
       SESSION.gameScore = SESSION.gameScore + response.score; //need to update player record too
@@ -8958,45 +8982,52 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
   const {_m0} = $ctx;
   return [api_element("results", {
     key: 0
-  }, [api_element("h2", {
+  }, [api_element("div", {
+    classMap: {
+      "topPane": true
+    },
     key: 1
-  }, [api_text("results html")]), api_element("div", {
+  }, [api_element("h2", {
     key: 2
-  }, [api_element("table", {
+  }, [api_text("Final Scores")]), api_element("br", {
     key: 3
-  }, [api_element("thead", {
+  }, [])]), api_element("div", {
     key: 4
-  }, [api_element("tr", {
+  }, [api_element("table", {
     key: 5
-  }, [api_element("th", {
+  }, [api_element("thead", {
     key: 6
-  }, [api_text("Username")]), api_element("th", {
+  }, [api_element("tr", {
     key: 7
-  }, [api_text("Game Score")]), api_element("th", {
+  }, [api_element("th", {
     key: 8
-  }, [api_text("Total Score")]), api_element("th", {
+  }, [api_text("Username")]), api_element("th", {
     key: 9
-  }, [api_text("No. of Games")])])]), api_element("tbody", {
+  }, [api_text("Game Score")]), api_element("th", {
     key: 10
+  }, [api_text("Total Score")]), api_element("th", {
+    key: 11
+  }, [api_text("No. of Games")])])]), api_element("tbody", {
+    key: 12
   }, api_iterator($cmp.playerScoresList, function (player) {
     return api_element("tr", {
-      key: api_key(11, player.id)
+      key: api_key(13, player.id)
     }, [api_element("td", {
-      key: 12
-    }, [api_text(api_dynamic_text(player.username))]), api_element("td", {
-      key: 13
-    }, [api_text(api_dynamic_text(player.gamescore))]), api_element("td", {
       key: 14
-    }, [api_text(api_dynamic_text(player.totalscore))]), api_element("td", {
+    }, [api_text(api_dynamic_text(player.username))]), api_element("td", {
       key: 15
+    }, [api_text(api_dynamic_text(player.gamescore))]), api_element("td", {
+      key: 16
+    }, [api_text(api_dynamic_text(player.totalscore))]), api_element("td", {
+      key: 17
     }, [api_text(api_dynamic_text(player.noofgames))])]);
   }))])]), api_element("div", {
     classMap: {
       "controlsPane": true
     },
-    key: 16
+    key: 18
   }, [api_element("button", {
-    key: 17,
+    key: 19,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.endGame))
     }
@@ -9045,7 +9076,7 @@ var _uiResults = registerComponent(NewGame, {
 
 function stylesheet$1(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["errormsg", shadowSelector, "{top: 40%;position: absolute;width:300px;min-width: 300px;height:60px;left: 50%;margin-left: -150px;}.errmsg", shadowSelector, "{border-radius: 10px;background-color: rgb(255, 225, 225);border-color: red;border-style: solid;text-align: center;}"].join('');
+  return ["errormsg", shadowSelector, "{top: 40%;position: absolute;width:300px;min-width: 300px;height:60px;line-height: 60px;left: 50%;margin-left: -150px;}.errmsg", shadowSelector, "{border-radius: 10px;background-color: rgb(255, 225, 225);border-color: red;border-style: solid;text-align: center;}"].join('');
 }
 var _implicitStylesheets$1 = [stylesheet0, stylesheet$1];
 
@@ -9093,7 +9124,7 @@ var _uiErrormsg = registerComponent(ErrogMsg, {
 
 function stylesheet(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["footer", shadowSelector, " {background-color: rgb(150,150,150);height: 50px;position: fixed;left: 0;bottom: 0;width: 100%;}.innerContainer", shadowSelector, "{justify-content: space-evenly;}button", shadowSelector, "{width:auto;}.debugPane", shadowSelector, "{position: absolute;bottom: 0px;right: 0px;}"].join('');
+  return ["footer", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;position: fixed;left: 0;bottom: 0;width: 100%;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}button", shadowSelector, "{width:auto;}.debugPane", shadowSelector, "{position: absolute;bottom: 0px;right: 0px;}"].join('');
 }
 var _implicitStylesheets = [stylesheet0, stylesheet];
 

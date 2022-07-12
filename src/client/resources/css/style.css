@@ -10,6 +10,11 @@ div{
   border-style: solid; */
 }
 
+.topPane{
+  top: 20px;
+  position: relative;
+}
+
 .controlsPane {
   bottom: 15%;
   position: absolute;

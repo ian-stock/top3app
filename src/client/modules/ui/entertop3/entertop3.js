@@ -5,7 +5,7 @@ import {log} from '../../utils/log';
 
 export default class EnterTop3 extends LightningElement {
 
-    @api gametopic;
+    @api gametopic = 'tbc...';
 
     submitTop3(){
         const top1 = this.template.querySelector('[data-id="oneInput"]').value;

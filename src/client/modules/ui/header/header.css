@@ -3,12 +3,14 @@
 header {
     /* background: #ED5314 ; dark orange*/
     /* background: #ff9100; light orange */
-    background-color: rgb(150,150,150);
+    background-color: rgb(100,100,100);
     height: 50px;
+    line-height: 50px;
 }
 
 .innerContainer{
     justify-content: space-evenly;
+    color: whitesmoke;
 }
 
 .menuButton{

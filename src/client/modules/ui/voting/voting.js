@@ -63,6 +63,20 @@ export default class Voting extends LightningElement {
 
     }
 
+    renderedCallback(){
+        //set colours of reveal pane if visible
+        let rp = this.template.querySelector('[data-id="revealPane"]');
+        if (rp != null){
+            if(this.answeredCorrectly){
+                rp.style.borderColor = 'green';
+                rp.style.backgroundColor = 'rgb(225, 255, 225)';
+            }else{
+                rp.style.borderColor = 'red';
+                rp.style.backgroundColor = 'rgb(255, 225, 225)';
+            }
+        }
+    }
+
     handleVoteSelectChange(evt){
         this.top3SelectedUsername = evt.target.value;
         log('client.voting.select.change-handler', this.top3SelectedUsername);
@@ -90,7 +104,7 @@ export default class Voting extends LightningElement {
             } else
             {
                 this.answeredCorrectly = false;
-                this.answerMessage = "Sorry, you didn't get that one";
+                this.answerMessage = "Sorry, you didn't get that one.";
             }
             SESSION.gameScore = SESSION.gameScore + response.score;
             //need to update player record too

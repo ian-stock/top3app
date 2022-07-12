@@ -6,6 +6,7 @@ errormsg{
     width:300px;
     min-width: 300px;
     height:60px;
+    line-height: 60px;
     left: 50%;
     margin-left: -150px;
 }

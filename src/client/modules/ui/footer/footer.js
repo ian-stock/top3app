@@ -4,7 +4,6 @@ import { SESSION, PLAYERS } from '../../services/session';
 export default class Footer extends LightningElement {
     @api playercount;
     @api playerscore;
-    @api playerssubmitted;
 
     printSession(e){
         console.log(SESSION);    

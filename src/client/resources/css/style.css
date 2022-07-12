@@ -23,6 +23,15 @@ div{
   margin-left: -175px;
 }
 
+.submittedCountPane{
+  color:whitesmoke;
+  bottom: 10%;
+  position: absolute;
+  min-width: 350px;
+  left: 50%;
+  margin-left: -175px;
+}
+
 input{
   margin-top: 10px;
   margin-bottom: 10px;
@@ -43,7 +52,7 @@ button:enabled, input[type=button]:enabled{
   cursor: pointer;
 }
 
-button:disabled {
+button:disabled, input[type=button]:disabled {
   color: whitesmoke;
   background-color: lightgray;
 }

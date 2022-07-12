@@ -7665,7 +7665,7 @@ seal(LightningElement.prototype);
 
 function stylesheet$b(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}div", shadowSelector, "{text-align: center;}.topPane", shadowSelector, "{top: 20px;position: relative;}.controlsPane", shadowSelector, " {bottom: 15%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}input", shadowSelector, "{margin-top: 10px;margin-bottom: 10px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 1rem;border-radius: 5px;padding: 5px;color:rgb(50, 50, 50);background-color: rgb(200, 200, 200);margin: 5px;width: 220px;}button:enabled", shadowSelector, ", input[type=button]:enabled", shadowSelector, "{cursor: pointer;}button:disabled", shadowSelector, " {color: whitesmoke;background-color: lightgray;}button:hover:enabled", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: center;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
+  return ["*", shadowSelector, " {margin: 0;padding: 0;font-size: 24px;}div", shadowSelector, "{text-align: center;}.topPane", shadowSelector, "{top: 20px;position: relative;}.controlsPane", shadowSelector, " {bottom: 15%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}.submittedCountPane", shadowSelector, "{color:whitesmoke;bottom: 10%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}input", shadowSelector, "{margin-top: 10px;margin-bottom: 10px;}button", shadowSelector, ", input[type=button]", shadowSelector, "{font-size: 1rem;border-radius: 5px;padding: 5px;color:rgb(50, 50, 50);background-color: rgb(200, 200, 200);margin: 5px;width: 220px;}button:enabled", shadowSelector, ", input[type=button]:enabled", shadowSelector, "{cursor: pointer;}button:disabled", shadowSelector, ", input[type=button]:disabled", shadowSelector, " {color: whitesmoke;background-color: lightgray;}button:hover:enabled", shadowSelector, "{background-color: rgb(180, 180, 180);}.innerContainer", shadowSelector, "{display: flex;justify-content: center;width: 60%;height: 100%;min-height: 100%;margin: auto auto;}@media only screen and (max-width: 700px) {.innerContainer", shadowSelector, "{width: 100%;}}"].join('');
 }
 var stylesheet0 = [stylesheet$b];
 
@@ -8525,7 +8525,12 @@ function tmpl$6($api, $cmp, $slotset, $ctx) {
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.submitTop3))
     }
-  }, [api_text("Submit")])])])];
+  }, [api_text("Submit")])]), api_element("div", {
+    classMap: {
+      "submittedCountPane": true
+    },
+    key: 12
+  }, [api_text("Submitted Count: " + api_dynamic_text($cmp.playerssubmitted))])])];
 }
 var _tmpl$6 = registerTemplate(tmpl$6);
 tmpl$6.stylesheets = [];
@@ -8540,6 +8545,7 @@ class EnterTop3 extends LightningElement {
   constructor(...args) {
     super(...args);
     this.gametopic = 'tbc...';
+    this.playerssubmitted = void 0;
   }
 
   submitTop3() {
@@ -8563,6 +8569,9 @@ registerDecorators(EnterTop3, {
   publicProps: {
     gametopic: {
       config: 0
+    },
+    playerssubmitted: {
+      config: 0
     }
   }
 });
@@ -8578,7 +8587,7 @@ function stylesheet$4(token, useActualHostSelector, useNativeDirPseudoclass) {
 var _implicitStylesheets$4 = [stylesheet0, stylesheet$4];
 
 function tmpl$5($api, $cmp, $slotset, $ctx) {
-  const {t: api_text, h: api_element, b: api_bind} = $api;
+  const {t: api_text, h: api_element, b: api_bind, d: api_dynamic_text} = $api;
   const {_m0} = $ctx;
   return [api_element("waitingvote", {
     key: 0
@@ -8599,7 +8608,12 @@ function tmpl$5($api, $cmp, $slotset, $ctx) {
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.startVoting))
     }
-  }, [api_text("Start Voting")])]) : null])];
+  }, [api_text("Start Voting")])]) : null, api_element("div", {
+    classMap: {
+      "submittedCountPane": true
+    },
+    key: 5
+  }, [api_text("Submitted Count: " + api_dynamic_text($cmp.playerssubmitted))])])];
 }
 var _tmpl$5 = registerTemplate(tmpl$5);
 tmpl$5.stylesheets = [];
@@ -8611,6 +8625,11 @@ if (_implicitStylesheets$4) {
 tmpl$5.stylesheetToken = "ui-waitingvote_waitingvote";
 
 class WaitingVote extends LightningElement {
+  constructor(...args) {
+    super(...args);
+    this.playerssubmitted = void 0;
+  }
+
   startVoting(e) {
     //change game state, new lwc to load all players as cards and allow voting
     this.dispatchEvent(new CustomEvent('state_change', {
@@ -8627,13 +8646,21 @@ class WaitingVote extends LightningElement {
 
 }
 
+registerDecorators(WaitingVote, {
+  publicProps: {
+    playerssubmitted: {
+      config: 0
+    }
+  }
+});
+
 var _uiWaitingvote = registerComponent(WaitingVote, {
   tmpl: _tmpl$5
 });
 
 function stylesheet$3(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["voting", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, "{margin: 0 auto;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;width:350px;}.col1", shadowSelector, " {width: 30%;}.col2", shadowSelector, " {width: 70%;}.revealPane", shadowSelector, "{position: relative;top: 10px;width:300px;min-width: 300px;height:55px;left: 50%;margin-left: -150px;border-radius: 10px;border-style: solid;box-shadow: 0 0 20px white;text-align: center;white-space: pre-wrap;}.voteCountPane", shadowSelector, "{color:whitesmoke;}"].join('');
+  return ["voting", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, "{margin: 0 auto;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;width:350px;}.col1", shadowSelector, " {width: 30%;}.col2", shadowSelector, " {width: 70%;}.revealPane", shadowSelector, "{position: relative;top: 10px;width:300px;min-width: 300px;height:55px;left: 50%;margin-left: -150px;border-radius: 10px;border-style: solid;box-shadow: 0 0 20px white;text-align: center;white-space: pre-wrap;}.voteCountPane", shadowSelector, "{color:whitesmoke;bottom: 10%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}"].join('');
 }
 var _implicitStylesheets$3 = [stylesheet0, stylesheet$3];
 
@@ -8739,6 +8766,9 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
   }, [api_text("Vote")]), api_element("br", {
     key: 28
   }, []), $cmp.isHost ? api_element("button", {
+    attrs: {
+      "disabled": $cmp.disableRevealButton ? "" : null
+    },
     key: 29,
     on: {
       "click": _m2 || ($ctx._m2 = api_bind($cmp.hostRevealAnswer))
@@ -8748,7 +8778,8 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
   }, []) : null, $cmp.isHost ? api_element("input", {
     attrs: {
       "data-id": "nextButton",
-      "type": "button"
+      "type": "button",
+      "disabled": $cmp.disableNextButton ? "" : null
     },
     props: {
       "value": "Next"
@@ -8759,12 +8790,12 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     }
   }, []) : null, $cmp.isHost ? api_element("br", {
     key: 32
-  }, []) : null, api_element("div", {
+  }, []) : null]), api_element("div", {
     classMap: {
       "voteCountPane": true
     },
     key: 33
-  }, [api_text("Vote Count: " + api_dynamic_text($cmp.voteCount))])])])];
+  }, [api_text("Vote Count: " + api_dynamic_text($cmp.voteCount))])])];
 }
 var _tmpl$4 = registerTemplate(tmpl$4);
 tmpl$4.stylesheets = [];
@@ -8805,7 +8836,6 @@ class Voting extends LightningElement {
     this.top1 = void 0;
     this.top2 = void 0;
     this.top3 = void 0;
-    this.top3PlayerUsername = void 0;
     this.top3PlayerId = void 0;
     this.top3SelectedUsername = void 0;
     this.correctAnswer = void 0;
@@ -8814,6 +8844,8 @@ class Voting extends LightningElement {
     this.revealed = false;
     this.voteCount = 0;
     this.voteButtonDisabled = false;
+    this.revealButtonDisabled = true;
+    this.nextButtonDisabled = true;
   }
 
   updateVotedCount(e) {
@@ -8836,11 +8868,12 @@ class Voting extends LightningElement {
     this.currentlyViewedPlayer = this.playerArray[this.playerIndex];
     this.top1 = this.currentlyViewedPlayer.topone;
     this.top2 = this.currentlyViewedPlayer.toptwo;
-    this.top3 = this.currentlyViewedPlayer.topthree;
-    this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
+    this.top3 = this.currentlyViewedPlayer.topthree; // this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
 
     this.top3PlayerId = this.currentlyViewedPlayer.id;
     this.voteButtonDisabled = false;
+    this.revealButtonDisabled = true;
+    this.nextButtonDisabled = true;
   }
 
   connectedCallback() {
@@ -8905,6 +8938,7 @@ class Voting extends LightningElement {
           name: 'AnswerSubmitted'
         }
       }));
+      this.revealButtonDisabled = false;
     }).catch(e => console.error('client.voting.submitAnswer', e.stack));
   }
 
@@ -8916,6 +8950,8 @@ class Voting extends LightningElement {
         name: 'AnswerRevealed'
       }
     }));
+    this.nextButtonDisabled = false;
+    this.revealButtonDisabled = true;
   }
 
   hostNextVote(evt) {
@@ -8960,11 +8996,19 @@ class Voting extends LightningElement {
     return this.voteButtonDisabled;
   }
 
+  get disableRevealButton() {
+    return this.revealButtonDisabled;
+  }
+
+  get disableNextButton() {
+    return this.nextButtonDisabled;
+  }
+
 }
 
 registerDecorators(Voting, {
   publicMethods: ["updateVotedCount", "revealAnswerUI", "loadNextPlayer"],
-  fields: ["playerArray", "playerIndex", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerUsername", "top3PlayerId", "top3SelectedUsername", "correctAnswer", "answeredCorrectly", "answerMessage", "revealed", "voteCount", "voteButtonDisabled"]
+  fields: ["playerArray", "playerIndex", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerId", "top3SelectedUsername", "correctAnswer", "answeredCorrectly", "answerMessage", "revealed", "voteCount", "voteButtonDisabled", "revealButtonDisabled", "nextButtonDisabled"]
 });
 
 var _uiVoting = registerComponent(Voting, {
@@ -9140,9 +9184,9 @@ function tmpl$1($api, $cmp, $slotset, $ctx) {
     key: 1
   }, [api_element("div", {
     key: 2
-  }, [api_text("Players/Submitted: " + api_dynamic_text($cmp.playercount) + "/" + api_dynamic_text($cmp.playerssubmitted) + " ")]), api_element("div", {
+  }, [api_text("Players: " + api_dynamic_text($cmp.playercount))]), api_element("div", {
     key: 3
-  }, [api_text(" Score: " + api_dynamic_text($cmp.playerscore))])]), $cmp.isHost ? api_element("div", {
+  }, [api_text("Score: " + api_dynamic_text($cmp.playerscore))])]), $cmp.isHost ? api_element("div", {
     classMap: {
       "debugPane": true
     },
@@ -9173,7 +9217,6 @@ class Footer extends LightningElement {
     super(...args);
     this.playercount = void 0;
     this.playerscore = void 0;
-    this.playerssubmitted = void 0;
   }
 
   printSession(e) {
@@ -9198,9 +9241,6 @@ registerDecorators(Footer, {
       config: 0
     },
     playerscore: {
-      config: 0
-    },
-    playerssubmitted: {
       config: 0
     }
   }
@@ -9251,13 +9291,17 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     }
   }, []) : null, $cmp.isGameStartedState ? api_custom_element("ui-entertop3", _uiEntertop3, {
     props: {
-      "gametopic": $cmp.gameTopic
+      "gametopic": $cmp.gameTopic,
+      "playerssubmitted": $cmp.gamePlayersSubmitted
     },
     key: 6,
     on: {
       "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isTop3SubmittedState ? api_custom_element("ui-waitingvote", _uiWaitingvote, {
+    props: {
+      "playerssubmitted": $cmp.gamePlayersSubmitted
+    },
     key: 7,
     on: {
       "state_change": _m6 || ($ctx._m6 = api_bind($cmp.handleStateChange))
@@ -9280,8 +9324,7 @@ function tmpl($api, $cmp, $slotset, $ctx) {
   }, []) : null])]), api_custom_element("ui-footer", _uiFooter, {
     props: {
       "playerscore": $cmp.gamePlayerScore,
-      "playercount": $cmp.gamePlayerCount,
-      "playerssubmitted": $cmp.gamePlayersSubmitted
+      "playercount": $cmp.gamePlayerCount
     },
     key: 11
   }, [])];
@@ -13659,6 +13702,10 @@ class App extends LightningElement {
       this.template.querySelector('ui-header').updateHost('Player');
       this.sessionGameNum = '';
       PLAYERS.length = 0; //clear players array
+
+      this.gamePlayerCount = 0;
+      this.gamePlayerScore = 0;
+      this.gamePlayersSubmitted = 0;
     }
   } // UI expressions to dynamically render templates (return true or false)
 

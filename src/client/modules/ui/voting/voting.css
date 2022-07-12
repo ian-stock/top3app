@@ -43,4 +43,9 @@ table, th, td {
 
 .voteCountPane{
   color:whitesmoke;
+  bottom: 10%;
+  position: absolute;
+  min-width: 350px;
+  left: 50%;
+  margin-left: -175px;
 }

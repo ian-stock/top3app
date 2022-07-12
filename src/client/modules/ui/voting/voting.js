@@ -14,7 +14,7 @@ export default class Voting extends LightningElement {
     top1;
     top2;
     top3;
-    top3PlayerUsername;         //for testing only, remove
+    // top3PlayerUsername;         //for testing only, remove
     top3PlayerId;               //for submitting to server along with vote, to check true/false
     
     top3SelectedUsername;       //voted for player, submitted with top3PlayerId for server to check true/false
@@ -27,6 +27,8 @@ export default class Voting extends LightningElement {
     voteCount = 0;
 
     voteButtonDisabled = false;
+    revealButtonDisabled = true;
+    nextButtonDisabled = true;
 
     @api updateVotedCount(e){
         this.voteCount++;
@@ -49,9 +51,11 @@ export default class Voting extends LightningElement {
         this.top1 = this.currentlyViewedPlayer.topone;
         this.top2 = this.currentlyViewedPlayer.toptwo;
         this.top3 = this.currentlyViewedPlayer.topthree;
-        this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
+        // this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
         this.top3PlayerId = this.currentlyViewedPlayer.id;
         this.voteButtonDisabled = false;
+        this.revealButtonDisabled = true;
+        this.nextButtonDisabled = true;
     }
 
     connectedCallback(){
@@ -119,7 +123,8 @@ export default class Voting extends LightningElement {
                 detail: {
                     name: 'AnswerSubmitted'
                 }
-            }));    
+            }));
+            this.revealButtonDisabled = false;
         })
         .catch(e => console.error('client.voting.submitAnswer', e.stack))        
     }
@@ -132,7 +137,8 @@ export default class Voting extends LightningElement {
                 name: 'AnswerRevealed'
             }
         }));
-
+        this.nextButtonDisabled = false;
+        this.revealButtonDisabled = true;
     }
 
     hostNextVote(evt){
@@ -169,5 +175,11 @@ export default class Voting extends LightningElement {
     }
     get disableVoteButton() {
         return this.voteButtonDisabled;
+    }
+    get disableRevealButton() {
+        return this.revealButtonDisabled;
+    }
+    get disableNextButton() {
+        return this.nextButtonDisabled;
     }
 }

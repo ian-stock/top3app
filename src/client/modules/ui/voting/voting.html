@@ -28,11 +28,12 @@
             </select><br>
             <button onclick={vote} disabled={disableVoteButton}>Vote</button><br>
             <template if:true={isHost}>
-                <button onclick={hostRevealAnswer}>Reveal</button><br>
-                <input data-id="nextButton" type="button" onclick={hostNextVote} value="Next"><br>
+                <button onclick={hostRevealAnswer} disabled={disableRevealButton}>Reveal</button><br>
+                <!-- input type button to enable javascript to change value, can't use innerHTML with lwc -->
+                <input data-id="nextButton" type="button" onclick={hostNextVote} disabled={disableNextButton} value="Next"><br>
             </template>
-            <div class="voteCountPane">Vote Count: {voteCount}</div>
         </div>
+        <div class="voteCountPane">Vote Count: {voteCount}</div>
     </voting>
 </template>
 

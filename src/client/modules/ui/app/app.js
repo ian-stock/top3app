@@ -95,6 +95,9 @@ export default class App extends LightningElement {
             this.template.querySelector('ui-header').updateHost('Player');
             this.sessionGameNum = '';
             PLAYERS.length = 0; //clear players array
+            this.gamePlayerCount = 0;
+            this.gamePlayerScore = 0;
+            this.gamePlayersSubmitted = 0;
         }
     }
 

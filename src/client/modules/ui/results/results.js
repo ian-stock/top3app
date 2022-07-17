@@ -1,9 +1,13 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { SESSION, PLAYERS } from '../../services/session';
 import { getPlayerList } from '../../services/player';
+import { newGameLogic, joinGameLogic } from '../../services/gamelogic';
 import {log} from '../../utils/log';
 
-export default class NewGame extends LightningElement {
+import { createNewGame, getGame } from '../../services/game';
+import { playerJoinGame } from '../../services/player';
+
+export default class Results extends LightningElement {
     
     playerScoresList = [];
 
@@ -18,11 +22,23 @@ export default class NewGame extends LightningElement {
         .catch(e => console.error('client.results.getPlayerList', e.stack))        
     }
 
-    endGame(e){
+    endGame(){
         this.dispatchEvent(new CustomEvent('state_change', {
             detail: {
-                name: 'GameEnded'
+                name: 'GameEnded',
             }
         }));
     }
+
+    startAnotherGame(){
+        let existingGameNum = SESSION.gameNum;
+        newGameLogic.call(this, 'fromResults', existingGameNum);
+        // this.newGameLogicInside('fromResults', existingGameNum);
+        //above function then issues AnotherGame event
+    }
+
+    @api joinAnotherGame(gameNum, event){
+        joinGameLogic.call(this, gameNum, event);
+    }
+
 }

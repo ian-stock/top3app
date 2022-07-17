@@ -7887,10 +7887,8 @@ tmpl$9.stylesheetToken = "ui-lobby_lobby";
 
 function log(source, desc) {
   const filterOut = [// "client.app",
-  // "client.game",
-  "client.player", // "client.voting",
-  "client.results" // "client.lobby"
-  ]; //returns true if substring exists
+  "client.app.event-received", // "client.game",
+  "client.gameLogic", "client.player", "client.enterTop3", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
 
   if (!filterOut.some(v => source.includes(v))) {
     console.log(`${source}: ${desc}`);
@@ -7972,7 +7970,6 @@ function playerJoinGame(userid, gamenum, gameid36, host) {
     body: JSON.stringify(playerInfo)
   }).then(response => response.json()).then(data => {
     log('client.player.playerJoinGame.response', JSON.stringify(data));
-    log(JSON.stringify(data), null);
     return data;
   });
 }
@@ -8040,6 +8037,78 @@ const SESSION = {
 };
 const PLAYERS = [];
 
+function newGameLogic(context, existingGameNum) {
+  //pass in username, return game object with host:userid and gamenum
+  createNewGame(SESSION.userId).then(response => {
+    SESSION.gameNum = response.gamenum;
+    SESSION.gameId = response.id;
+    SESSION.gameState = response.gamestate;
+  }).catch(e => console.error('client.gameLogic.createNewGame', e.stack)).then(() => {
+    joinGameLogic.call(this, SESSION.gameNum, 'fromNewGame');
+  }).then(() => {
+    // lwc event - handled by app.js
+    this.dispatchEvent(new CustomEvent('state_change', {
+      detail: {
+        name: 'NewGame',
+        gamenum: SESSION.gameNum,
+        userid: SESSION.userId
+      }
+    }));
+  }).then(() => {
+    // lwc event - handled by app.js
+    if (context == 'fromResults') {
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'AnotherGame',
+          gamenum: SESSION.gameNum,
+          userid: SESSION.userId,
+          previousgamenum: existingGameNum
+        }
+      }));
+    }
+  });
+}
+function joinGameLogic(gameNum, event) {
+  //if join game get the game id, if not it's create game and set host = true
+  log('client.gameLogic.joinGameLogic', JSON.stringify(event));
+  SESSION.gameNum = gameNum; //if called from new game, set host
+
+  if (event == 'fromNewGame') {
+    SESSION.host = true;
+  }
+
+  log('client.gameLogic.preGetGame', SESSION.gameNum);
+  getGame(SESSION.gameNum).then(response => {
+    log('client.gameLogic.getGame.reponse', JSON.stringify(response));
+
+    if (response == null) {
+      this.dispatchEvent(new CustomEvent('error_message', {
+        detail: {
+          name: 'raiseUIError',
+          errormsg: 'GameID not found'
+        }
+      }));
+    } else {
+      SESSION.gameId = response.id;
+      SESSION.gameState = response.gamestate; // userid, gamenum, gameid36, host
+
+      log('client.gameLogic.joingame', 'pre-playerJoinGame');
+      playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host).then(response => {
+        SESSION.playerId = response.id; // this.gameNum = SESSION.gameNum; //update ui
+      }).catch(e => console.error('gameLogic.createNewGame', e.stack)).then(() => {
+        // lwc event - handled by app.js
+        this.dispatchEvent(new CustomEvent('state_change', {
+          detail: {
+            name: 'JoinedGame',
+            gamenum: SESSION.gameNum,
+            userid: SESSION.userId
+          }
+        }));
+      });
+    }
+  });
+}
+
 class Lobby extends LightningElement {
   constructor(...args) {
     super(...args);
@@ -8053,68 +8122,27 @@ class Lobby extends LightningElement {
         name: 'LoginRegister'
       }
     }));
-  }
+  } //moved most logic to gamelogic.js so could be called by ui-results at end for another game as well
+
 
   newGame() {
-    //pass in username, return game object with host:userid and gamenum
-    createNewGame(SESSION.userId).then(response => {
-      SESSION.gameNum = response.gamenum;
-      SESSION.gameId = response.id;
-      SESSION.gameState = response.gamestate;
-    }).catch(e => console.error('client.lobby.createNewGame', e.stack)).then(() => {
-      this.joinGame();
-    }).then(() => {
-      // lwc event - handled by app.js
-      this.dispatchEvent(new CustomEvent('state_change', {
-        detail: {
-          name: 'NewGame',
-          gamenum: SESSION.gameNum,
-          userid: SESSION.userId
-        }
-      }));
-    });
+    //.call and 'this' passes in the context of this component so dispatchEvent still works
+    newGameLogic.call(this, 'fromLobby');
   }
 
   joinGame(event) {
-    //if join game get the game id, if not it's create game and set host = true
-    if (event != null) {
-      if (event.target.dataset.id = 'joinGameBtn') {
-        SESSION.gameNum = this.template.querySelector('[data-id="gameNumInput"]').value;
-      }
+    let gameNum = this.template.querySelector('[data-id="gameNumInput"]').value;
+
+    if (gameNum == null || gameNum == '') {
+      this.dispatchEvent(new CustomEvent('error_message', {
+        detail: {
+          name: 'raiseUIError',
+          errormsg: 'Please enter a GameID'
+        }
+      }));
     } else {
-      SESSION.host = true;
+      joinGameLogic.call(this, gameNum, event);
     }
-
-    getGame(SESSION.gameNum).then(response => {
-      log('client.lobby.getGame.reponse', JSON.stringify(response));
-
-      if (response == null) {
-        this.dispatchEvent(new CustomEvent('error_message', {
-          detail: {
-            name: 'raiseUIError',
-            errormsg: 'GameID not found'
-          }
-        }));
-      } else {
-        SESSION.gameId = response.id;
-        SESSION.gameState = response.gamestate; // userid, gamenum, gameid36, host
-
-        log('client.lobby.joingame', 'pre-playerJoinGame');
-        playerJoinGame(SESSION.userId, SESSION.gameNum, SESSION.gameId, SESSION.host).then(response => {
-          SESSION.playerId = response.id;
-          this.gameNum = SESSION.gameNum; //update ui
-        }).catch(e => console.error('lobby.createNewGame', e.stack)).then(() => {
-          // lwc event - handled by app.js
-          this.dispatchEvent(new CustomEvent('state_change', {
-            detail: {
-              name: 'JoinedGame',
-              gamenum: SESSION.gameNum,
-              userid: SESSION.userId
-            }
-          }));
-        });
-      }
-    });
   } // UI expressions for template rendering and button controls
 
 
@@ -8425,7 +8453,7 @@ if (_implicitStylesheets$6) {
 }
 tmpl$7.stylesheetToken = "ui-newgame_newgame";
 
-class NewGame$1 extends LightningElement {
+class NewGame extends LightningElement {
   constructor(...args) {
     super(...args);
     this.playerlist = void 0;
@@ -8454,7 +8482,7 @@ class NewGame$1 extends LightningElement {
 
 }
 
-registerDecorators(NewGame$1, {
+registerDecorators(NewGame, {
   publicProps: {
     playerlist: {
       config: 0
@@ -8462,7 +8490,7 @@ registerDecorators(NewGame$1, {
   }
 });
 
-var _uiNewgame = registerComponent(NewGame$1, {
+var _uiNewgame = registerComponent(NewGame, {
   tmpl: _tmpl$7
 });
 
@@ -8862,6 +8890,7 @@ class Voting extends LightningElement {
       this.completeAnswerMessage = "Don't forget to vote! \n" + "No points for slow coaches 😀";
     }
 
+    this.voteButtonDisabled = true;
     this.revealed = true;
   }
 
@@ -9029,13 +9058,13 @@ var _uiVoting = registerComponent(Voting, {
 
 function stylesheet$2(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["results", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;}"].join('');
+  return ["results", shadowSelector, "{display: flex;justify-content: center;flex-direction: column;min-width: 350px;width: 350px;}table", shadowSelector, ", th", shadowSelector, ", td", shadowSelector, " {border: 1px solid grey;text-align:center;}.messagePane", shadowSelector, "{font-size: 18px;color:whitesmoke;bottom: 10%;position: absolute;min-width: 350px;left: 50%;margin-left: -175px;}"].join('');
 }
 var _implicitStylesheets$2 = [stylesheet0, stylesheet$2];
 
 function tmpl$3($api, $cmp, $slotset, $ctx) {
   const {t: api_text, h: api_element, k: api_key, d: api_dynamic_text, i: api_iterator, b: api_bind} = $api;
-  const {_m0} = $ctx;
+  const {_m0, _m1} = $ctx;
   return [api_element("results", {
     key: 0
   }, [api_element("div", {
@@ -9087,7 +9116,19 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.endGame))
     }
-  }, [api_text("End Game")])])])];
+  }, [api_text("End Game")]), api_element("br", {
+    key: 20
+  }, []), api_element("button", {
+    key: 21,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.startAnotherGame))
+    }
+  }, [api_text("Another Game")])]), api_element("div", {
+    classMap: {
+      "messagePane": true
+    },
+    key: 22
+  }, [api_text("(Another Game keeps the same players)")])])];
 }
 var _tmpl$3 = registerTemplate(tmpl$3);
 tmpl$3.stylesheets = [];
@@ -9098,7 +9139,7 @@ if (_implicitStylesheets$2) {
 }
 tmpl$3.stylesheetToken = "ui-results_results";
 
-class NewGame extends LightningElement {
+class Results extends LightningElement {
   constructor(...args) {
     super(...args);
     this.playerScoresList = [];
@@ -9112,7 +9153,7 @@ class NewGame extends LightningElement {
     }).catch(e => console.error('client.results.getPlayerList', e.stack));
   }
 
-  endGame(e) {
+  endGame() {
     this.dispatchEvent(new CustomEvent('state_change', {
       detail: {
         name: 'GameEnded'
@@ -9120,13 +9161,24 @@ class NewGame extends LightningElement {
     }));
   }
 
+  startAnotherGame() {
+    let existingGameNum = SESSION.gameNum;
+    newGameLogic.call(this, 'fromResults', existingGameNum); // this.newGameLogicInside('fromResults', existingGameNum);
+    //above function then issues AnotherGame event
+  }
+
+  joinAnotherGame(gameNum, event) {
+    joinGameLogic.call(this, gameNum, event);
+  }
+
 }
 
-registerDecorators(NewGame, {
+registerDecorators(Results, {
+  publicMethods: ["joinAnotherGame"],
   fields: ["playerScoresList"]
 });
 
-var _uiResults = registerComponent(NewGame, {
+var _uiResults = registerComponent(Results, {
   tmpl: _tmpl$3
 });
 
@@ -13647,14 +13699,14 @@ class App extends LightningElement {
     }
 
     if (evt.detail.name === 'LoggedIn') {
-      this.errorState = false; //if previous login error
+      this.errorState = false; //if previous login error, reset
 
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
       this.sessionUserName = SESSION.userName;
     }
 
     if (evt.detail.name === 'NewGame') {
-      this.errorState = false; //if previous error
+      this.errorState = false; //if previous error, reset
 
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_NEWGAME;
       this.sessionGameNum = SESSION.gameNum;
@@ -13663,7 +13715,7 @@ class App extends LightningElement {
     }
 
     if (evt.detail.name === 'JoinedGame') {
-      this.errorState = false; //if previous error
+      this.errorState = false; //if previous error, reset
 
       socket.emit('joinedgame', SESSION);
 
@@ -13708,16 +13760,13 @@ class App extends LightningElement {
     }
 
     if (evt.detail.name === 'GameEnded') {
-      SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
-      SESSION.gameId = SESSION.gameNum = SESSION.gameState = 'notset';
-      SESSION.host = false;
-      this.template.querySelector('ui-header').updateHost('Player');
-      this.sessionGameNum = '';
-      PLAYERS.length = 0; //clear players array
+      socket.emit('endgame', SESSION);
+    }
 
-      this.gamePlayerCount = 0;
-      this.gamePlayerScore = 0;
-      this.gamePlayersSubmitted = 0;
+    if (evt.detail.name === 'AnotherGame') {
+      //joins all existing players to another game
+      //passes old gameNum and newGameNum
+      socket.emit('anothergame', [SESSION, evt.detail]);
     }
   } // UI expressions to dynamically render templates (return true or false)
 
@@ -13780,7 +13829,7 @@ class App extends LightningElement {
       case 'voting-started':
         //set session.players array
         PLAYERS.push(data);
-        log('client.app.voting-started', PLAYERS);
+        log('client.app.voting-started', PLAYERS[0].length);
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_VOTING;
         break;
 
@@ -13805,6 +13854,31 @@ class App extends LightningElement {
         //show-results
         log('client.app.show-results', event);
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_GAME_RESULTS;
+        break;
+
+      case 'end-game':
+        //end-game
+        log('client.app.end-game', event);
+        SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
+        SESSION.gameId = SESSION.gameNum = SESSION.gameState = SESSION.gameTopic = 'notset';
+        SESSION.playerId = 'notset';
+        SESSION.host = false;
+        this.template.querySelector('ui-header').updateHost('Player');
+        this.sessionGameNum = '';
+        this.gameTopic = '';
+        PLAYERS.length = 0; //clear players array
+
+        this.gamePlayerCount = 0;
+        this.gamePlayerScore = 0;
+        this.gamePlayersSubmitted = 0;
+        break;
+
+      case 'another-game':
+        //another-game
+        log('client.app.another-game', data);
+        SESSION.gameTopic = 'notset';
+        this.gameTopic = '';
+        this.template.querySelector('ui-results').joinAnotherGame(data, event);
         break;
     }
   } //error handling

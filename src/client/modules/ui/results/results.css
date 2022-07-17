@@ -12,3 +12,13 @@ table, th, td {
     border: 1px solid grey;
     text-align:center;
 }
+
+.messagePane{
+    font-size: 18px;
+    color:whitesmoke;
+    bottom: 10%;
+    position: absolute;
+    min-width: 350px;
+    left: 50%;
+    margin-left: -175px;
+  }

@@ -3,7 +3,11 @@ export function log(source, desc){
     const filterOut = [
         // "client.app",
         // "client.game",
+
+        "client.app.event-received",
+        "client.gameLogic",
         "client.player",
+        "client.enterTop3",
         "client.voting",
         "client.results",
         "client.lobby"

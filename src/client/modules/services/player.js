@@ -31,7 +31,6 @@ export function playerJoinGame(userid, gamenum, gameid36, host) {
     .then(response=>response.json())
     .then(data=>{ 
         log('client.player.playerJoinGame.response', JSON.stringify(data));
-        log(JSON.stringify(data), null);
         return data;
     })
 

@@ -3,7 +3,9 @@ module.exports =  function log(source, desc){
     const filterOut = [
         // "server.server",
         // "server.sockets",
-        // "server.game",
+        
+        "server.sockets.getPlayerList",
+        "server.game",
         "server.database",
         "server.user",
         "server.player",

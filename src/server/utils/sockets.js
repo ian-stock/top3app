@@ -17,12 +17,11 @@ module.exports = function (io) {
 
             switch (event) {
             case 'newgame': 
-                //console.log('ws emit: newgame | ' + data);
                 log('server.sockets.newgame', event);
                 break;
             case 'joinedgame': 
                 socket.join(data.gameNum); //data: gameid, userid
-                log('server.sockets.joinedgame', socket.rooms);
+                log('server.sockets.joinedgame', JSON.stringify([data.gameNum, socket.rooms]));
 
                 db.getPlayerList(data.gameNum, event)
                     .then((players) => {
@@ -30,9 +29,6 @@ module.exports = function (io) {
                         io.to(data.gameNum).emit('player-joined', players.rows)
                     })
                 break;
-            // case 'topicselected': 
-            //     io.to(data.gameNum).emit('topic-selected')
-            //     break;
             case 'top3topic': 
                 io.to(data.gameNum).emit('top3-topic', data.gameTopic)
                 break;
@@ -58,7 +54,7 @@ module.exports = function (io) {
                 io.to(data.gameNum).emit('answer-revealed')
                 break;                    
             case 'leavegame': 
-                socket.leave(data); //data: gameid
+                socket.leave(data.gameNum); //data: gameid
                 break;
             case 'nextvote': 
                 io.to(data.gameNum).emit('next-vote')
@@ -66,17 +62,31 @@ module.exports = function (io) {
             case 'showresults': 
             log('server.sockets.showresults.updateUserScores', data.gameNum);    
             usr.updateUserScores(data.gameNum, event)
-                .then((users) => {
+                .then(() => {
                     log('server.sockets.showresults.emit', data.gameNum);
                     io.to(data.gameNum).emit('show-results')
                 })  
                 break;     
+            case 'endgame': 
+                io.to(data.gameNum).emit('end-game', data.gameNum)
+                log('server.sockets.endgame',  event + " | " + data);
+                //to-do: delete game, players and answers                
+                break;        
+            case 'anothergame': 
+                let newGameNum = data[0].gameNum;
+                let previousGameNum = data[1].previousgamenum;
+                log('server.sockets.anothergame.newGameNum', newGameNum);
+                log('server.sockets.anothergame.previousGameNum', previousGameNum);
+                //emit to old game room to add to new game and socket room
+                socket.broadcast.to(previousGameNum).emit('another-game', newGameNum); //to all, except sender (host)
+                // io.to(previousGameNum).emit('another-game', newGameNum); //to all, including sender (host)
+                break;        
             case 'disconnect': 
                 log('server.sockets.user-disconnected', socket.id);
                 break;
             default: 
                 io.to(data[0]).emit(event, data);
-                log('server.sockets.default',  + event + " | " + data);
+                log('server.sockets.default',  event + " | " + data);
             }
         });
       

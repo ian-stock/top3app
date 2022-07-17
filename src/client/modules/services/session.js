@@ -10,20 +10,21 @@ export const SESSIONSTATES = Object.freeze({
 });
 
 //session is single-user, game is multi-user
-const initUserId = 'anonymous-' + Math.floor(Math.random()*10000);
+// const initUserId = 'anonymous-' + Math.floor(Math.random()*10000);
 
 export const SESSION = {
     "userId": "notset",
-    "userName": initUserId,
+    "userName": "",
     "sessionState": SESSIONSTATES.IN_LOBBY, 
     "gameId": "notset",
-    "gameNum": "notset",
+    "gameNum": "",
     "gameState": "notset", 
     "gameTopic": "notset", 
     "playerId": "notset",
     "host": false,
     "authenticated": false,
-    "gameScore": 0
+    "gameScore": 0,
+    "initialised": false
 }
 
 export const PLAYERS = [];

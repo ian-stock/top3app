@@ -1,7 +1,7 @@
 import { LightningElement } from 'lwc';
 import { SESSIONSTATES, SESSION, PLAYERS } from '../../services/session';
 import { io } from "../../../../../node_modules/socket.io-client/dist/socket.io.js"; // whole path for client side
-import { joinGameLogic } from '../../services/gamelogic';
+import { setCookies, resetSessionFromCookies } from '../../utils/cookies';
 import {log} from '../../utils/log';
 
 const socket = io();
@@ -22,8 +22,15 @@ export default class App extends LightningElement {
     connectedCallback(){
         this.addEventListener('state_change', this.handleStateChange);
         this.addEventListener('error_message', this.handleErrorMessage);
-        this.sessionState = SESSION.sessionState;
+        //refresh safe
+        if (!SESSION.initialised){
+            resetSessionFromCookies();
+            this.sessionUserName = SESSION.userName;
+            this.sessionGameNum = SESSION.gameNum!='notset' ? SESSION.gameNum : '';
+        }
 
+        SESSION.initialised=true;
+        this.sessionState = SESSION.sessionState;
 
         socket.on("connect", () => {
           log('client.app.socketid', socket.id); 
@@ -100,6 +107,9 @@ export default class App extends LightningElement {
             //passes old gameNum and newGameNum
             socket.emit('anothergame', [SESSION, evt.detail]);
         }
+
+        //refresh safe 
+        setCookies();
     }
 
 
@@ -198,6 +208,8 @@ export default class App extends LightningElement {
                 this.template.querySelector('ui-results').joinAnotherGame(data, event);
                 break;
         }
+        //refresh safe 
+        setCookies();
     }
 
     //error handling

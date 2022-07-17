@@ -8020,20 +8020,21 @@ const SESSIONSTATES = Object.freeze({
   IN_VOTING: 'InVoting',
   IN_GAME_RESULTS: 'InGameResults'
 }); //session is single-user, game is multi-user
+// const initUserId = 'anonymous-' + Math.floor(Math.random()*10000);
 
-const initUserId = 'anonymous-' + Math.floor(Math.random() * 10000);
 const SESSION = {
   "userId": "notset",
-  "userName": initUserId,
+  "userName": "",
   "sessionState": SESSIONSTATES.IN_LOBBY,
   "gameId": "notset",
-  "gameNum": "notset",
+  "gameNum": "",
   "gameState": "notset",
   "gameTopic": "notset",
   "playerId": "notset",
   "host": false,
   "authenticated": false,
-  "gameScore": 0
+  "gameScore": 0,
+  "initialised": false
 };
 const PLAYERS = [];
 
@@ -13667,6 +13668,42 @@ var socket_io = {exports: {}};
 });
 }(socket_io));
 
+//use sessionStorage for in game
+
+function setCookies() {
+  document.cookie = "userName" + "=" + SESSION.userName;
+  document.cookie = "userId" + "=" + SESSION.userId;
+  document.cookie = "authenticated" + "=" + SESSION.authenticated;
+  sessionStorage.setItem('host', SESSION.host);
+  sessionStorage.setItem('sessionState', SESSION.sessionState);
+  sessionStorage.setItem('gameId', SESSION.gameId);
+  sessionStorage.setItem('gameNum', SESSION.gameNum);
+  sessionStorage.setItem('gameTopic', SESSION.gameTopic);
+  sessionStorage.setItem('playerId', SESSION.playerId);
+  sessionStorage.setItem('gameScore', SESSION.gameScore);
+}
+
+function getCookies() {
+  let allcookies = document.cookie;
+  let jsonCookies = {};
+  allcookies.split(/\s*;\s*/).forEach(function (pair) {
+    pair = pair.split(/\s*=\s*/);
+    jsonCookies[pair[0]] = pair.splice(1).join('=');
+  }); // add all sessionStorage items to jsonCookies
+
+  Object.keys(sessionStorage).forEach(key => {// bug with session state and refresh needs fixing...
+    // jsonCookies[key] = sessionStorage.getItem(key);
+  });
+  return jsonCookies;
+}
+
+function resetSessionFromCookies() {
+  let jsonCookies = getCookies();
+  Object.keys(jsonCookies).forEach(key => {
+    SESSION[key] = jsonCookies[key];
+  });
+}
+
 const socket = socket_io.exports.io();
 
 class App extends LightningElement {
@@ -13687,7 +13724,15 @@ class App extends LightningElement {
 
   connectedCallback() {
     this.addEventListener('state_change', this.handleStateChange);
-    this.addEventListener('error_message', this.handleErrorMessage);
+    this.addEventListener('error_message', this.handleErrorMessage); //refresh safe
+
+    if (!SESSION.initialised) {
+      resetSessionFromCookies();
+      this.sessionUserName = SESSION.userName;
+      this.sessionGameNum = SESSION.gameNum != 'notset' ? SESSION.gameNum : '';
+    }
+
+    SESSION.initialised = true;
     this.sessionState = SESSION.sessionState;
     socket.on("connect", () => {
       log('client.app.socketid', socket.id);
@@ -13777,7 +13822,10 @@ class App extends LightningElement {
       //joins all existing players to another game
       //passes old gameNum and newGameNum
       socket.emit('anothergame', [SESSION, evt.detail]);
-    }
+    } //refresh safe 
+
+
+    setCookies();
   } // UI expressions to dynamically render templates (return true or false)
 
 
@@ -13892,7 +13940,10 @@ class App extends LightningElement {
         this.gamePlayersSubmitted = 0;
         this.template.querySelector('ui-results').joinAnotherGame(data, event);
         break;
-    }
+    } //refresh safe 
+
+
+    setCookies();
   } //error handling
 
 

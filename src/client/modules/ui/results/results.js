@@ -10,9 +10,14 @@ import { playerJoinGame } from '../../services/player';
 export default class Results extends LightningElement {
     
     playerScoresList = [];
+    hostHint = '(Another Game keeps the same players)';
+    playerHint = '(Or wait for host to start another game)';
+    displayedHint = SESSION.host ? this.hostHint : this.playerHint;
+    endButtonText = '';
 
     connectedCallback(){
-        log('client.results.connectedCallback', PLAYERS[0]);
+        log('client.results.connectedCallback', PLAYERS[0].length);
+        this.endButtonText = SESSION.host ? 'End Game' : 'Leave Game';
 
         getPlayerList(SESSION.gameNum)
         .then((response) => {
@@ -33,12 +38,16 @@ export default class Results extends LightningElement {
     startAnotherGame(){
         let existingGameNum = SESSION.gameNum;
         newGameLogic.call(this, 'fromResults', existingGameNum);
-        // this.newGameLogicInside('fromResults', existingGameNum);
-        //above function then issues AnotherGame event
+        //above function then issues AnotherGame event to join all others
     }
 
     @api joinAnotherGame(gameNum, event){
         joinGameLogic.call(this, gameNum, event);
+    }
+
+    // UI expressions for template rendering and button controls
+    get isHost() {
+        return SESSION.host;
     }
 
 }

@@ -49,6 +49,7 @@ export default class App extends LightningElement {
         }
         if(evt.detail.name === 'NewGame'){
             this.errorState = false; //if previous error, reset
+            this.gamePlayerCount = 0; //reset if AnotherGame
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_NEWGAME;
             this.sessionGameNum = SESSION.gameNum;
             this.sessionUserName = SESSION.userName;
@@ -57,6 +58,7 @@ export default class App extends LightningElement {
         if(evt.detail.name === 'JoinedGame'){
             this.errorState = false; //if previous error, reset
             socket.emit('joinedgame', SESSION);
+            //if host, already set by newgame
             if(!SESSION.host){
                 SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
                 this.sessionGameNum = SESSION.gameNum;
@@ -191,6 +193,8 @@ export default class App extends LightningElement {
                 log('client.app.another-game', data);
                 SESSION.gameTopic = 'notset';
                 this.gameTopic = '';
+                this.gamePlayerScore = 0;
+                this.gamePlayersSubmitted = 0;
                 this.template.querySelector('ui-results').joinAnotherGame(data, event);
                 break;
         }

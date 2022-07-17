@@ -68,8 +68,12 @@ module.exports = function (io) {
                 })  
                 break;     
             case 'endgame': 
-                io.to(data.gameNum).emit('end-game', data.gameNum)
                 log('server.sockets.endgame',  event + " | " + data);
+                if(data.host){
+                    io.to(data.gameNum).emit('end-game', data.gameNum)
+                }else {
+                    socket.emit('end-game', data.gameNum)
+                }
                 //to-do: delete game, players and answers                
                 break;        
             case 'anothergame': 
@@ -79,7 +83,6 @@ module.exports = function (io) {
                 log('server.sockets.anothergame.previousGameNum', previousGameNum);
                 //emit to old game room to add to new game and socket room
                 socket.broadcast.to(previousGameNum).emit('another-game', newGameNum); //to all, except sender (host)
-                // io.to(previousGameNum).emit('another-game', newGameNum); //to all, including sender (host)
                 break;        
             case 'disconnect': 
                 log('server.sockets.user-disconnected', socket.id);

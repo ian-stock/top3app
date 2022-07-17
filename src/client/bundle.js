@@ -7887,8 +7887,8 @@ tmpl$9.stylesheetToken = "ui-lobby_lobby";
 
 function log(source, desc) {
   const filterOut = [// "client.app",
-  "client.app.event-received", // "client.game",
-  "client.gameLogic", "client.player", "client.enterTop3", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
+  // "client.game",
+  "client.app.event-received", "client.gameLogic", "client.player", "client.enterTop3", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
 
   if (!filterOut.some(v => source.includes(v))) {
     console.log(`${source}: ${desc}`);
@@ -8044,8 +8044,6 @@ function newGameLogic(context, existingGameNum) {
     SESSION.gameId = response.id;
     SESSION.gameState = response.gamestate;
   }).catch(e => console.error('client.gameLogic.createNewGame', e.stack)).then(() => {
-    joinGameLogic.call(this, SESSION.gameNum, 'fromNewGame');
-  }).then(() => {
     // lwc event - handled by app.js
     this.dispatchEvent(new CustomEvent('state_change', {
       detail: {
@@ -8054,6 +8052,8 @@ function newGameLogic(context, existingGameNum) {
         userid: SESSION.userId
       }
     }));
+  }).then(() => {
+    joinGameLogic.call(this, SESSION.gameNum, 'fromNewGame');
   }).then(() => {
     // lwc event - handled by app.js
     if (context == 'fromResults') {
@@ -8811,7 +8811,7 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
       "disabled": $cmp.disableNextButton ? "" : null
     },
     props: {
-      "value": "Next"
+      "value": $cmp.nextButtonText
     },
     key: 31,
     on: {
@@ -8877,6 +8877,7 @@ class Voting extends LightningElement {
     this.revealButtonDisabled = true;
     this.nextButtonDisabled = true;
     this.didTheyVote = false;
+    this.nextButtonText = 'Next';
   }
 
   updateVotedCount(e) {
@@ -8906,13 +8907,12 @@ class Voting extends LightningElement {
     this.currentlyViewedPlayer = this.playerArray[this.playerIndex];
     this.top1 = this.currentlyViewedPlayer.topone;
     this.top2 = this.currentlyViewedPlayer.toptwo;
-    this.top3 = this.currentlyViewedPlayer.topthree; // this.top3PlayerUsername = this.currentlyViewedPlayer.username; //for testing only, remove
-
+    this.top3 = this.currentlyViewedPlayer.topthree;
     this.top3PlayerId = this.currentlyViewedPlayer.id;
     this.voteButtonDisabled = false;
     this.revealButtonDisabled = true;
     this.nextButtonDisabled = true;
-    this.didTheyVote = false;
+    this.didTheyVote = false; //button texts
   }
 
   connectedCallback() {
@@ -8944,7 +8944,6 @@ class Voting extends LightningElement {
 
   vote(evt) {
     //submit vote, check server side, create/save answer & score, return result & score
-    //need client playerid, top3 question playerid (hidden) and selected username (or id) option
     log('client.voting.vote.user-SESSION.playerId', SESSION.playerId); //user        
 
     log('client.voting.vote.viewed-top3PlayerId', this.top3PlayerId); //being viewed
@@ -8993,6 +8992,10 @@ class Voting extends LightningElement {
     }));
     this.nextButtonDisabled = false;
     this.revealButtonDisabled = true;
+
+    if (this.playerArray.length - 1 == this.playerIndex) {
+      this.nextButtonText = 'Show Results';
+    }
   }
 
   hostNextVote(evt) {
@@ -9001,18 +9004,7 @@ class Voting extends LightningElement {
     let voteEventName = 'NextVote';
     log('client.voting.hostNextVote', `${this.playerArray.length} | ${this.playerIndex}`);
 
-    if (this.playerArray.length - 2 == this.playerIndex) {
-      log('client.voting.hostNextVote', 'length-2');
-      this.template.querySelector('[data-id="nextButton"]').value = 'Last Vote';
-    }
-
     if (this.playerArray.length - 1 == this.playerIndex) {
-      log('client.voting.hostNextVote', 'length-1');
-      this.template.querySelector('[data-id="nextButton"]').value = 'Show Results';
-    }
-
-    if (this.playerArray.length - 1 == this.playerIndex) {
-      log('client.voting.hostNextVote.lastPlayer', 'lastplayer');
       voteEventName = 'ShowResults';
     } // lwc event - handled by app.js 
 
@@ -9049,7 +9041,7 @@ class Voting extends LightningElement {
 
 registerDecorators(Voting, {
   publicMethods: ["updateVotedCount", "revealAnswerUI", "loadNextPlayer"],
-  fields: ["playerArray", "playerIndex", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerId", "top3SelectedUsername", "correctAnswer", "answeredCorrectly", "answerMessage", "completeAnswerMessage", "revealed", "voteCount", "voteButtonDisabled", "revealButtonDisabled", "nextButtonDisabled", "didTheyVote"]
+  fields: ["playerArray", "playerIndex", "playerSelectList", "currentlyViewedPlayer", "top1", "top2", "top3", "top3PlayerId", "top3SelectedUsername", "correctAnswer", "answeredCorrectly", "answerMessage", "completeAnswerMessage", "revealed", "voteCount", "voteButtonDisabled", "revealButtonDisabled", "nextButtonDisabled", "didTheyVote", "nextButtonText"]
 });
 
 var _uiVoting = registerComponent(Voting, {
@@ -9111,24 +9103,31 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
       "controlsPane": true
     },
     key: 18
-  }, [api_element("button", {
+  }, [api_element("input", {
+    attrs: {
+      "data-id": "endButton",
+      "type": "button"
+    },
+    props: {
+      "value": $cmp.endButtonText
+    },
     key: 19,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.endGame))
     }
-  }, [api_text("End Game")]), api_element("br", {
+  }, []), api_element("br", {
     key: 20
-  }, []), api_element("button", {
+  }, []), $cmp.isHost ? api_element("button", {
     key: 21,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.startAnotherGame))
     }
-  }, [api_text("Another Game")])]), api_element("div", {
+  }, [api_text("Another Game")]) : null]), api_element("div", {
     classMap: {
       "messagePane": true
     },
     key: 22
-  }, [api_text("(Another Game keeps the same players)")])])];
+  }, [api_text(api_dynamic_text($cmp.displayedHint))])])];
 }
 var _tmpl$3 = registerTemplate(tmpl$3);
 tmpl$3.stylesheets = [];
@@ -9143,10 +9142,15 @@ class Results extends LightningElement {
   constructor(...args) {
     super(...args);
     this.playerScoresList = [];
+    this.hostHint = '(Another Game keeps the same players)';
+    this.playerHint = '(Or wait for host to start another game)';
+    this.displayedHint = SESSION.host ? this.hostHint : this.playerHint;
+    this.endButtonText = '';
   }
 
   connectedCallback() {
-    log('client.results.connectedCallback', PLAYERS[0]);
+    log('client.results.connectedCallback', PLAYERS[0].length);
+    this.endButtonText = SESSION.host ? 'End Game' : 'Leave Game';
     getPlayerList(SESSION.gameNum).then(response => {
       log('client.results.getPlayerList.response', JSON.stringify(response));
       this.playerScoresList = response.sort((a, b) => b.gamescore - a.gamescore); // b - a for reverse sort
@@ -9163,19 +9167,23 @@ class Results extends LightningElement {
 
   startAnotherGame() {
     let existingGameNum = SESSION.gameNum;
-    newGameLogic.call(this, 'fromResults', existingGameNum); // this.newGameLogicInside('fromResults', existingGameNum);
-    //above function then issues AnotherGame event
+    newGameLogic.call(this, 'fromResults', existingGameNum); //above function then issues AnotherGame event to join all others
   }
 
   joinAnotherGame(gameNum, event) {
     joinGameLogic.call(this, gameNum, event);
+  } // UI expressions for template rendering and button controls
+
+
+  get isHost() {
+    return SESSION.host;
   }
 
 }
 
 registerDecorators(Results, {
   publicMethods: ["joinAnotherGame"],
-  fields: ["playerScoresList"]
+  fields: ["playerScoresList", "hostHint", "playerHint", "displayedHint", "endButtonText"]
 });
 
 var _uiResults = registerComponent(Results, {
@@ -13708,6 +13716,8 @@ class App extends LightningElement {
     if (evt.detail.name === 'NewGame') {
       this.errorState = false; //if previous error, reset
 
+      this.gamePlayerCount = 0; //reset if AnotherGame
+
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_NEWGAME;
       this.sessionGameNum = SESSION.gameNum;
       this.sessionUserName = SESSION.userName;
@@ -13717,7 +13727,7 @@ class App extends LightningElement {
     if (evt.detail.name === 'JoinedGame') {
       this.errorState = false; //if previous error, reset
 
-      socket.emit('joinedgame', SESSION);
+      socket.emit('joinedgame', SESSION); //if host, already set by newgame
 
       if (!SESSION.host) {
         SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_ENTER_TOP3;
@@ -13878,6 +13888,8 @@ class App extends LightningElement {
         log('client.app.another-game', data);
         SESSION.gameTopic = 'notset';
         this.gameTopic = '';
+        this.gamePlayerScore = 0;
+        this.gamePlayersSubmitted = 0;
         this.template.querySelector('ui-results').joinAnotherGame(data, event);
         break;
     }

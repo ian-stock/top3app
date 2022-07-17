@@ -15,9 +15,6 @@ export function newGameLogic(context, existingGameNum){
         })
         .catch(e => console.error('client.gameLogic.createNewGame', e.stack))
         .then(() => {
-            joinGameLogic.call(this, SESSION.gameNum, 'fromNewGame')
-        })
-        .then(() => {
             // lwc event - handled by app.js
             this.dispatchEvent(new CustomEvent('state_change', {
                 detail: {
@@ -26,6 +23,9 @@ export function newGameLogic(context, existingGameNum){
                     userid: SESSION.userId
                 }
             }));    
+        })
+        .then(() => {
+            joinGameLogic.call(this, SESSION.gameNum, 'fromNewGame')
         })
         .then(() => {
             // lwc event - handled by app.js

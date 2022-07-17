@@ -14,8 +14,6 @@
             </table>
             <template if:true={isRevealed}>
                 <div class="revealPane" data-id="revealPane">
-                    <!-- <div>{answerMessage} &#10;
-                    It was: {correctAnswer}</div> -->
                     <div>{completeAnswerMessage}</div>
                 </div>
             </template>
@@ -30,8 +28,7 @@
             <button onclick={vote} disabled={disableVoteButton}>Vote</button><br>
             <template if:true={isHost}>
                 <button onclick={hostRevealAnswer} disabled={disableRevealButton}>Reveal</button><br>
-                <!-- input type button to enable javascript to change value, can't use innerHTML with lwc -->
-                <input data-id="nextButton" type="button" onclick={hostNextVote} disabled={disableNextButton} value="Next"><br>
+                <input data-id="nextButton" type="button" onclick={hostNextVote} disabled={disableNextButton} value={nextButtonText}><br>
             </template>
         </div>
         <div class="voteCountPane">Vote Count: {voteCount}</div>

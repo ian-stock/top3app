@@ -24,10 +24,12 @@
             </table>
         </div>
         <div class="controlsPane">
-            <button onclick={endGame}>End Game</button><br>
-            <button onclick={startAnotherGame}>Another Game</button>
+            <input data-id="endButton" type="button" onclick={endGame} value={endButtonText}><br>
+            <template if:true={isHost}>
+                <button onclick={startAnotherGame}>Another Game</button>
+            </template>
         </div>
-        <div class="messagePane">(Another Game keeps the same players)</div>
+        <div class="messagePane">{displayedHint}</div>
     </results>
 </template>
 

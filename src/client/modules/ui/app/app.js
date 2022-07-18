@@ -1,7 +1,7 @@
 import { LightningElement } from 'lwc';
 import { SESSIONSTATES, SESSION, PLAYERS } from '../../services/session';
 import { io } from "../../../../../node_modules/socket.io-client/dist/socket.io.js"; // whole path for client side
-import { setCookies, resetSessionFromCookies } from '../../utils/cookies';
+import { setCookies, resetSessionFromCookies, deleteCookies } from '../../utils/cookies';
 import {log} from '../../utils/log';
 
 const socket = io();
@@ -21,6 +21,7 @@ export default class App extends LightningElement {
 
     connectedCallback(){
         this.addEventListener('state_change', this.handleStateChange);
+        this.addEventListener('menu_event', this.handleMenuEvent);
         this.addEventListener('error_message', this.handleErrorMessage);
         //refresh safe
         if (!SESSION.initialised){
@@ -53,6 +54,15 @@ export default class App extends LightningElement {
             this.errorState = false; //if previous login error, reset
             SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
             this.sessionUserName = SESSION.userName;
+        }
+        if(evt.detail.name === 'LoggedOut'){
+            this.errorState = false; //if previous login error, reset
+            deleteCookies();
+            this.sessionUserName = SESSION.userName = '';
+            SESSION.userId = '';
+            SESSION.authenticated = false;
+            SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
+            this.template.querySelector('ui-lobby').rerenderLobby();
         }
         if(evt.detail.name === 'NewGame'){
             this.errorState = false; //if previous error, reset
@@ -211,6 +221,14 @@ export default class App extends LightningElement {
         //refresh safe 
         setCookies();
     }
+
+    //menu clicks
+    handleMenuEvent(evt) {
+        log('client.app.handleMenuEvent: ', evt.detail.name);
+        //leaveGame, endGame, logOut, popAbout
+
+    }
+
 
     //error handling
     handleErrorMessage(evt) {

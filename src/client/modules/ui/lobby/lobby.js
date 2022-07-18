@@ -1,10 +1,15 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track} from 'lwc';
 import { newGameLogic, joinGameLogic } from '../../services/gamelogic';
 import { SESSION } from '../../services/session';
 import {log} from '../../utils/log';
 
 export default class Lobby extends LightningElement {
     gameNum; //for ui update
+    rrLobby =false; //to trigger rerendering after logout
+
+    @api rerenderLobby(){
+        this.rrLobby = this.rrLobby ? false : true;
+    }
 
     loginRegister(){
         this.dispatchEvent(new CustomEvent('state_change', {
@@ -39,7 +44,7 @@ export default class Lobby extends LightningElement {
         return SESSION.authenticated;
     }
     get disableGameControls() {
-        return !SESSION.authenticated;;
+        return !SESSION.authenticated;
     }
     
 }

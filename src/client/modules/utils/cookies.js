@@ -44,3 +44,9 @@ export function resetSessionFromCookies(){
     });
 
 }
+
+export function deleteCookies(){
+    document.cookie = "userName" + "=; Max-Age=0";
+    document.cookie = "userId" + "=; Max-Age=0";
+    document.cookie = "authenticated" + "=; Max-Age=0";
+}

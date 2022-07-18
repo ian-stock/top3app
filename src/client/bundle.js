@@ -7677,13 +7677,13 @@ var _implicitStylesheets$a = [stylesheet0, stylesheet$a];
 
 function stylesheet$9(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}a", shadowSelector, "{display:none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);}a:hover", shadowSelector, "{color: rgb(180, 180, 180);}"].join('');
+  return ["header", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}a", shadowSelector, "{display:none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);line-height: 30px;}a:hover", shadowSelector, "{color: rgb(180, 180, 180);}"].join('');
 }
 var _implicitStylesheets$9 = [stylesheet0, stylesheet$9];
 
 function tmpl$a($api, $cmp, $slotset, $ctx) {
   const {b: api_bind, h: api_element, d: api_dynamic_text, t: api_text} = $api;
-  const {_m0} = $ctx;
+  const {_m0, _m1, _m2, _m3, _m4} = $ctx;
   return [api_element("header", {
     key: 0
   }, [api_element("div", {
@@ -7717,26 +7717,42 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "data-id": "menuPanel"
     },
     key: 5
-  }, [api_element("a", {
+  }, [$cmp.isPlayer ? api_element("a", {
     attrs: {
-      "href": "#"
+      "href": "#",
+      "data-id": "leaveGameAnchor"
     },
-    key: 6
-  }, [api_text("Leave Game")]), api_element("a", {
+    key: 6,
+    on: {
+      "click": _m1 || ($ctx._m1 = api_bind($cmp.menuAction))
+    }
+  }, [api_text("Leave Game")]) : null, $cmp.isHost ? api_element("a", {
     attrs: {
-      "href": "#"
+      "href": "#",
+      "data-id": "endGameAnchor"
     },
-    key: 7
-  }, [api_text("End Game")]), api_element("a", {
+    key: 7,
+    on: {
+      "click": _m2 || ($ctx._m2 = api_bind($cmp.menuAction))
+    }
+  }, [api_text("End Game")]) : null, api_element("a", {
     attrs: {
-      "href": "#"
+      "href": "#",
+      "data-id": "logOutAnchor"
     },
-    key: 8
+    key: 8,
+    on: {
+      "click": _m3 || ($ctx._m3 = api_bind($cmp.menuAction))
+    }
   }, [api_text("Log Out")]), api_element("a", {
     attrs: {
-      "href": "#"
+      "href": "#",
+      "data-id": "popAboutAnchor"
     },
-    key: 9
+    key: 9,
+    on: {
+      "click": _m4 || ($ctx._m4 = api_bind($cmp.menuAction))
+    }
   }, [api_text("About")])])])])];
 }
 var _tmpl$a = registerTemplate(tmpl$a);
@@ -7747,6 +7763,44 @@ if (_implicitStylesheets$9) {
   tmpl$a.stylesheets.push.apply(tmpl$a.stylesheets, _implicitStylesheets$9);
 }
 tmpl$a.stylesheetToken = "ui-header_header";
+
+const SESSIONSTATES = Object.freeze({
+  IN_LOBBY: 'InLobby',
+  IN_LOGIN: 'InLogin',
+  IN_NEWGAME: 'InNewGame',
+  IN_JOIN_GAME: 'InJoinGame',
+  IN_ENTER_TOP3: 'InEnterTop3',
+  IN_WAITING_VOTE_START: 'InWaitingVoteStart',
+  IN_VOTING: 'InVoting',
+  IN_GAME_RESULTS: 'InGameResults'
+}); //session is single-user, game is multi-user
+// const initUserId = 'anonymous-' + Math.floor(Math.random()*10000);
+
+const SESSION = {
+  "userId": "notset",
+  "userName": "",
+  "sessionState": SESSIONSTATES.IN_LOBBY,
+  "gameId": "notset",
+  "gameNum": "",
+  "gameState": "notset",
+  "gameTopic": "notset",
+  "playerId": "notset",
+  "host": false,
+  "authenticated": false,
+  "gameScore": 0,
+  "initialised": false
+};
+const PLAYERS = [];
+
+function log(source, desc) {
+  const filterOut = [// "client.app",
+  // "client.game",
+  "client.app.event-received", "client.gameLogic", "client.player", "client.enterTop3", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
+
+  if (!filterOut.some(v => source.includes(v))) {
+    console.log(`${source}: ${desc}`);
+  }
+}
 
 class Header extends LightningElement {
   constructor(...args) {
@@ -7766,7 +7820,8 @@ class Header extends LightningElement {
     this.menuPanel = this.template.querySelector('[data-id="menuPanel"]');
 
     if (this.menuPanel.style.height == 0 || this.menuPanel.style.height == '0px') {
-      this.template.querySelector('[data-id="menuPanel"]').style.height = '170px';
+      let menuHeight = SESSION.sessionState == "InLobby" ? '90px' : '130px';
+      this.template.querySelector('[data-id="menuPanel"]').style.height = menuHeight;
       this.anchors = this.template.querySelectorAll('a');
       this.anchors.forEach(a => {
         a.style.display = 'block';
@@ -7782,6 +7837,48 @@ class Header extends LightningElement {
     this.anchors.forEach(a => {
       a.style.display = 'none';
     });
+  }
+
+  menuAction(evt) {
+    //leaveGame, endGame, logOut, popAbout
+    let clicked = evt.path[0].dataset.id;
+    let menuEvent = clicked.slice(0, -6);
+    log('client.header.menuAction: ', menuEvent);
+
+    if (menuEvent == 'endGame' || menuEvent == 'leaveGame') {
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'GameEnded'
+        }
+      }));
+    } else if (menuEvent == 'logOut') {
+      this.dispatchEvent(new CustomEvent('state_change', {
+        detail: {
+          name: 'LoggedOut'
+        }
+      }));
+    } else if (menuEvent == 'popAbout') {
+      console.log('popAbout');
+    }
+
+    this.closeMenu();
+  } // UI expressions for template rendering and button controls
+
+
+  get isHost() {
+    if (this.hostOrPlayer == 'Host' && SESSION.sessionState != "InLobby") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  get isPlayer() {
+    if (this.hostOrPlayer == 'Player' && SESSION.sessionState != "InLobby") {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
@@ -7805,12 +7902,12 @@ var _uiHeader = registerComponent(Header, {
 
 function stylesheet$8(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["lobby", shadowSelector, "{display: flex;justify-content: center;}.splashImg", shadowSelector, " {width: 90%;max-width: 400px;margin-top: 10%;}"].join('');
+  return ["lobby", shadowSelector, "{display: flex;justify-content: center;}.splashImg", shadowSelector, " {width: 90%;max-width: 400px;margin-top: 10%;}.rrLobby", shadowSelector, "{display: none}"].join('');
 }
 var _implicitStylesheets$8 = [stylesheet0, stylesheet$8];
 
 function tmpl$9($api, $cmp, $slotset, $ctx) {
-  const {h: api_element, b: api_bind, t: api_text} = $api;
+  const {h: api_element, b: api_bind, t: api_text, d: api_dynamic_text} = $api;
   const {_m0, _m1, _m2} = $ctx;
   return [api_element("lobby", {
     key: 0
@@ -7874,7 +7971,12 @@ function tmpl$9($api, $cmp, $slotset, $ctx) {
     key: 10
   }, []), api_element("br", {
     key: 11
-  }, [])])])];
+  }, [])]), api_element("div", {
+    classMap: {
+      "rrLobby": true
+    },
+    key: 12
+  }, [api_text(api_dynamic_text($cmp.rrLobby))])])];
 }
 var _tmpl$9 = registerTemplate(tmpl$9);
 tmpl$9.stylesheets = [];
@@ -7884,16 +7986,6 @@ if (_implicitStylesheets$8) {
   tmpl$9.stylesheets.push.apply(tmpl$9.stylesheets, _implicitStylesheets$8);
 }
 tmpl$9.stylesheetToken = "ui-lobby_lobby";
-
-function log(source, desc) {
-  const filterOut = [// "client.app",
-  // "client.game",
-  "client.app.event-received", "client.gameLogic", "client.player", "client.enterTop3", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
-
-  if (!filterOut.some(v => source.includes(v))) {
-    console.log(`${source}: ${desc}`);
-  }
-}
 
 function createNewGame(userid) {
   const gameInfo = {
@@ -8010,34 +8102,6 @@ function updatePlayerScore(playerid, gamescore) {
   });
 }
 
-const SESSIONSTATES = Object.freeze({
-  IN_LOBBY: 'InLobby',
-  IN_LOGIN: 'InLogin',
-  IN_NEWGAME: 'InNewGame',
-  IN_JOIN_GAME: 'InJoinGame',
-  IN_ENTER_TOP3: 'InEnterTop3',
-  IN_WAITING_VOTE_START: 'InWaitingVoteStart',
-  IN_VOTING: 'InVoting',
-  IN_GAME_RESULTS: 'InGameResults'
-}); //session is single-user, game is multi-user
-// const initUserId = 'anonymous-' + Math.floor(Math.random()*10000);
-
-const SESSION = {
-  "userId": "notset",
-  "userName": "",
-  "sessionState": SESSIONSTATES.IN_LOBBY,
-  "gameId": "notset",
-  "gameNum": "",
-  "gameState": "notset",
-  "gameTopic": "notset",
-  "playerId": "notset",
-  "host": false,
-  "authenticated": false,
-  "gameScore": 0,
-  "initialised": false
-};
-const PLAYERS = [];
-
 function newGameLogic(context, existingGameNum) {
   //pass in username, return game object with host:userid and gamenum
   createNewGame(SESSION.userId).then(response => {
@@ -8114,9 +8178,14 @@ class Lobby extends LightningElement {
   constructor(...args) {
     super(...args);
     this.gameNum = void 0;
+    this.rrLobby = false;
   }
 
-  //for ui update
+  //to trigger rerendering after logout
+  rerenderLobby() {
+    this.rrLobby = this.rrLobby ? false : true;
+  }
+
   loginRegister() {
     this.dispatchEvent(new CustomEvent('state_change', {
       detail: {
@@ -8158,7 +8227,8 @@ class Lobby extends LightningElement {
 }
 
 registerDecorators(Lobby, {
-  fields: ["gameNum"]
+  publicMethods: ["rerenderLobby"],
+  fields: ["gameNum", "rrLobby"]
 });
 
 var _uiLobby = registerComponent(Lobby, {
@@ -9324,14 +9394,18 @@ var _uiFooter = registerComponent(Footer, {
 });
 
 function tmpl($api, $cmp, $slotset, $ctx) {
-  const {c: api_custom_element, b: api_bind, h: api_element} = $api;
-  const {_m0, _m1, _m2, _m3, _m4, _m5, _m6, _m7, _m8} = $ctx;
+  const {b: api_bind, c: api_custom_element, h: api_element} = $api;
+  const {_m0, _m1, _m2, _m3, _m4, _m5, _m6, _m7, _m8, _m9, _m10} = $ctx;
   return [api_custom_element("ui-header", _uiHeader, {
     props: {
       "sessiongamenum": $cmp.sessionGameNum,
       "sessionusername": $cmp.sessionUserName
     },
-    key: 0
+    key: 0,
+    on: {
+      "menu_event": _m0 || ($ctx._m0 = api_bind($cmp.handleMenuEvent)),
+      "state_change": _m1 || ($ctx._m1 = api_bind($cmp.handleStateChange))
+    }
   }, []), api_element("div", {
     classMap: {
       "container": true
@@ -9345,14 +9419,14 @@ function tmpl($api, $cmp, $slotset, $ctx) {
   }, [$cmp.isInLobbyState ? api_custom_element("ui-lobby", _uiLobby, {
     key: 3,
     on: {
-      "state_change": _m0 || ($ctx._m0 = api_bind($cmp.handleStateChange)),
-      "error_message": _m1 || ($ctx._m1 = api_bind($cmp.handleErrorMessage))
+      "state_change": _m2 || ($ctx._m2 = api_bind($cmp.handleStateChange)),
+      "error_message": _m3 || ($ctx._m3 = api_bind($cmp.handleErrorMessage))
     }
   }, []) : null, $cmp.isLoginRegState ? api_custom_element("ui-login", _uiLogin, {
     key: 4,
     on: {
-      "state_change": _m2 || ($ctx._m2 = api_bind($cmp.handleStateChange)),
-      "error_message": _m3 || ($ctx._m3 = api_bind($cmp.handleErrorMessage))
+      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange)),
+      "error_message": _m5 || ($ctx._m5 = api_bind($cmp.handleErrorMessage))
     }
   }, []) : null, $cmp.isNewGameState ? api_custom_element("ui-newgame", _uiNewgame, {
     props: {
@@ -9360,7 +9434,7 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     },
     key: 5,
     on: {
-      "state_change": _m4 || ($ctx._m4 = api_bind($cmp.handleStateChange))
+      "state_change": _m6 || ($ctx._m6 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isGameStartedState ? api_custom_element("ui-entertop3", _uiEntertop3, {
     props: {
@@ -9369,7 +9443,7 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     },
     key: 6,
     on: {
-      "state_change": _m5 || ($ctx._m5 = api_bind($cmp.handleStateChange))
+      "state_change": _m7 || ($ctx._m7 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isTop3SubmittedState ? api_custom_element("ui-waitingvote", _uiWaitingvote, {
     props: {
@@ -9377,17 +9451,17 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     },
     key: 7,
     on: {
-      "state_change": _m6 || ($ctx._m6 = api_bind($cmp.handleStateChange))
+      "state_change": _m8 || ($ctx._m8 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isVotingStartedState ? api_custom_element("ui-voting", _uiVoting, {
     key: 8,
     on: {
-      "state_change": _m7 || ($ctx._m7 = api_bind($cmp.handleStateChange))
+      "state_change": _m9 || ($ctx._m9 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isGameResultsState ? api_custom_element("ui-results", _uiResults, {
     key: 9,
     on: {
-      "state_change": _m8 || ($ctx._m8 = api_bind($cmp.handleStateChange))
+      "state_change": _m10 || ($ctx._m10 = api_bind($cmp.handleStateChange))
     }
   }, []) : null, $cmp.isErrorMessage ? api_custom_element("ui-errormsg", _uiErrormsg, {
     props: {
@@ -13703,6 +13777,11 @@ function resetSessionFromCookies() {
     SESSION[key] = jsonCookies[key];
   });
 }
+function deleteCookies() {
+  document.cookie = "userName" + "=; Max-Age=0";
+  document.cookie = "userId" + "=; Max-Age=0";
+  document.cookie = "authenticated" + "=; Max-Age=0";
+}
 
 const socket = socket_io.exports.io();
 
@@ -13724,6 +13803,7 @@ class App extends LightningElement {
 
   connectedCallback() {
     this.addEventListener('state_change', this.handleStateChange);
+    this.addEventListener('menu_event', this.handleMenuEvent);
     this.addEventListener('error_message', this.handleErrorMessage); //refresh safe
 
     if (!SESSION.initialised) {
@@ -13756,6 +13836,17 @@ class App extends LightningElement {
 
       SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
       this.sessionUserName = SESSION.userName;
+    }
+
+    if (evt.detail.name === 'LoggedOut') {
+      this.errorState = false; //if previous login error, reset
+
+      deleteCookies();
+      this.sessionUserName = SESSION.userName = '';
+      SESSION.userId = '';
+      SESSION.authenticated = false;
+      SESSION.sessionState = this.sessionState = SESSIONSTATES.IN_LOBBY;
+      this.template.querySelector('ui-lobby').rerenderLobby();
     }
 
     if (evt.detail.name === 'NewGame') {
@@ -13944,6 +14035,11 @@ class App extends LightningElement {
 
 
     setCookies();
+  } //menu clicks
+
+
+  handleMenuEvent(evt) {
+    log('client.app.handleMenuEvent: ', evt.detail.name); //leaveGame, endGame, logOut, popAbout
   } //error handling
 
 

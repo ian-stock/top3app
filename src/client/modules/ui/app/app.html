@@ -1,5 +1,5 @@
 <template>
-    <ui-header sessiongamenum={sessionGameNum} sessionusername={sessionUserName}></ui-header>
+    <ui-header onmenu_event={handleMenuEvent} onstate_change={handleStateChange} sessiongamenum={sessionGameNum} sessionusername={sessionUserName}></ui-header>
         <div class="container">
             <div class="innerContainer">
                 <template if:true={isInLobbyState}>

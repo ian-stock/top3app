@@ -19,16 +19,16 @@
             </template>
         </div>
         <div class="controlsPane">
-            <select data-id="playerSelect" onchange={handleVoteSelectChange} tabindex=1>
+            <select data-id="playerSelect" onchange={handleVoteSelectChange} tabindex=0>
                 <option disabled selected value>-- choose one --</option>
                 <option for:each={playerSelectList} key={option.id} for:item="option" value={option.username}>
                     {option.username}
                 </option>
             </select><br>
-            <button onclick={vote} disabled={disableVoteButton} tabindex=2>Vote</button><br>
+            <button onclick={vote} disabled={disableVoteButton} tabindex=0>Vote</button><br>
             <template if:true={isHost}>
-                <button onclick={hostRevealAnswer} disabled={disableRevealButton} tabindex=3>Reveal</button><br>
-                <input data-id="nextButton" type="button" onclick={hostNextVote} disabled={disableNextButton} tabindex=4 value={nextButtonText}><br>
+                <button onclick={hostRevealAnswer} disabled={disableRevealButton} tabindex=0>Reveal</button><br>
+                <input data-id="nextButton" type="button" onclick={hostNextVote} disabled={disableNextButton} tabindex=0 value={nextButtonText}><br>
             </template>
         </div>
         <div class="voteCountPane">Vote Count: {voteCount}</div>

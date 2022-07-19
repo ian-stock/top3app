@@ -8381,6 +8381,7 @@ function tmpl$8($api, $cmp, $slotset, $ctx) {
       "type": "text",
       "data-id": "userIdInput",
       "id": api_scoped_id("userIdInput"),
+      "tabindex": "0",
       "placeholder": "User ID"
     },
     key: 3
@@ -8391,6 +8392,7 @@ function tmpl$8($api, $cmp, $slotset, $ctx) {
       "type": "password",
       "data-id": "pwdInput",
       "id": api_scoped_id("pwdInput"),
+      "tabindex": "0",
       "placeholder": "Password"
     },
     key: 5
@@ -8402,11 +8404,17 @@ function tmpl$8($api, $cmp, $slotset, $ctx) {
     },
     key: 7
   }, [api_element("button", {
+    attrs: {
+      "tabindex": "0"
+    },
     key: 8,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.login))
     }
   }, [api_text("Login")]), api_element("button", {
+    attrs: {
+      "tabindex": "0"
+    },
     key: 9,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.register))
@@ -8586,6 +8594,7 @@ function tmpl$7($api, $cmp, $slotset, $ctx) {
       "name": "topic",
       "id": api_scoped_id("topic"),
       "data-id": "topic",
+      "tabindex": "0",
       "placeholder": "choose/enter topic"
     },
     key: 9
@@ -8622,6 +8631,9 @@ function tmpl$7($api, $cmp, $slotset, $ctx) {
     },
     key: 16
   }, [api_text("Places")])]), api_element("button", {
+    attrs: {
+      "tabindex": "0"
+    },
     key: 17,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.top3Topic))
@@ -8702,6 +8714,7 @@ function tmpl$6($api, $cmp, $slotset, $ctx) {
       "type": "text",
       "data-id": "oneInput",
       "id": api_scoped_id("oneInput"),
+      "tabindex": "0",
       "placeholder": "One"
     },
     key: 5
@@ -8712,6 +8725,7 @@ function tmpl$6($api, $cmp, $slotset, $ctx) {
       "type": "text",
       "data-id": "twoInput",
       "id": api_scoped_id("twoInput"),
+      "tabindex": "0",
       "placeholder": "Two"
     },
     key: 7
@@ -8722,12 +8736,16 @@ function tmpl$6($api, $cmp, $slotset, $ctx) {
       "type": "text",
       "data-id": "threeInput",
       "id": api_scoped_id("threeInput"),
+      "tabindex": "0",
       "placeholder": "Three"
     },
     key: 9
   }, []), api_element("br", {
     key: 10
   }, []), api_element("button", {
+    attrs: {
+      "tabindex": "0"
+    },
     key: 11,
     on: {
       "click": _m0 || ($ctx._m0 = api_bind($cmp.submitTop3))
@@ -8940,7 +8958,8 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     key: 22
   }, [api_element("select", {
     attrs: {
-      "data-id": "playerSelect"
+      "data-id": "playerSelect",
+      "tabindex": "0"
     },
     key: 23,
     on: {
@@ -8964,7 +8983,8 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     key: 26
   }, []), api_element("button", {
     attrs: {
-      "disabled": $cmp.disableVoteButton ? "" : null
+      "disabled": $cmp.disableVoteButton ? "" : null,
+      "tabindex": "0"
     },
     key: 27,
     on: {
@@ -8974,7 +8994,8 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     key: 28
   }, []), $cmp.isHost ? api_element("button", {
     attrs: {
-      "disabled": $cmp.disableRevealButton ? "" : null
+      "disabled": $cmp.disableRevealButton ? "" : null,
+      "tabindex": "0"
     },
     key: 29,
     on: {
@@ -8986,7 +9007,8 @@ function tmpl$4($api, $cmp, $slotset, $ctx) {
     attrs: {
       "data-id": "nextButton",
       "type": "button",
-      "disabled": $cmp.disableNextButton ? "" : null
+      "disabled": $cmp.disableNextButton ? "" : null,
+      "tabindex": "0"
     },
     props: {
       "value": $cmp.nextButtonText
@@ -9284,7 +9306,8 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
   }, [api_element("input", {
     attrs: {
       "data-id": "endButton",
-      "type": "button"
+      "type": "button",
+      "tabindex": "0"
     },
     props: {
       "value": $cmp.endButtonText
@@ -9296,6 +9319,9 @@ function tmpl$3($api, $cmp, $slotset, $ctx) {
   }, []), api_element("br", {
     key: 20
   }, []), $cmp.isHost ? api_element("button", {
+    attrs: {
+      "tabindex": "0"
+    },
     key: 21,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.startAnotherGame))
@@ -9480,6 +9506,7 @@ class Footer extends LightningElement {
 
   get isDebugDisplayed() {
     // return SESSION.host;
+    //  /?debug=true
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     return urlParams.get('debug') === "true";

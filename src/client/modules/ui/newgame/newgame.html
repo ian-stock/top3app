@@ -8,7 +8,7 @@
         </div>
         <div class="controlsPane">
             <!-- <label for="topics">Choose a Top3 topic:</label><br> -->
-            <input list="topics" name="topic" id="topic" data-id="topic" tabindex=1 placeholder="choose/enter topic"><br>
+            <input list="topics" name="topic" id="topic" data-id="topic" tabindex=0 placeholder="choose/enter topic"><br>
                 <datalist id="topics">
                     <option value="Movies">Movies</option>
                     <option value="Albums">Albums</option>
@@ -16,7 +16,7 @@
                     <option value="Foods">Foods</option>
                     <option value="Places">Places</option>
                 </datalist>
-            <button onclick={top3Topic} tabindex=2 >Choose</button><br>
+            <button onclick={top3Topic} tabindex=0 >Choose</button><br>
         </div>
     </newgame>
 </template>

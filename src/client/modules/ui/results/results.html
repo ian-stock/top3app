@@ -24,9 +24,9 @@
             </table>
         </div>
         <div class="controlsPane">
-            <input data-id="endButton" type="button" onclick={endGame} tabindex=1 value={endButtonText}><br>
+            <input data-id="endButton" type="button" onclick={endGame} tabindex=0 value={endButtonText}><br>
             <template if:true={isHost}>
-                <button onclick={startAnotherGame} tabindex=2>Another Game</button>
+                <button onclick={startAnotherGame} tabindex=0>Another Game</button>
             </template>
         </div>
         <div class="messagePane">{displayedHint}</div>

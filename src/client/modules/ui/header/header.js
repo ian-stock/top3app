@@ -8,10 +8,15 @@ export default class Header extends LightningElement {
     hostOrPlayer = 'Player';
     menuPanel;
     anchors;
+    aboutModal;
 
     @api 
     updateHost(playerType) {
         this.hostOrPlayer = playerType;
+    }
+    
+    connectedCallback(){
+        this.aboutModal = this.template.querySelector('[data-id="aboutModal"]');
     }
 
     openMenu(){
@@ -47,15 +52,27 @@ export default class Header extends LightningElement {
                     name: 'GameEnded'
                 }
             }));
+            this.closeMenu();
         } else if (menuEvent == 'logOut'){
             this.dispatchEvent(new CustomEvent('state_change', {
                 detail: {
                     name: 'LoggedOut'
                 }
             }));
+            this.closeMenu();
         } else if (menuEvent == 'popAbout'){
             console.log('popAbout')
+            this.template.querySelector('[data-id="aboutModal"]').style.display = "block";
+            this.template.querySelectorAll('.aboutA').forEach(element => {
+                element.style.display = "contents";
+            });
+
         }
+
+    }
+
+    closeModal(){
+        this.template.querySelector('[data-id="aboutModal"]').style.display = "none";
         this.closeMenu();
     }
 

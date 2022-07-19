@@ -36,14 +36,86 @@ header {
     background-color: grey;
 }
 
-a{
-    display:none;
+.menuA{
+    display: none;
     margin-top: 10px;
     text-decoration: none;
     color:rgb(50, 50, 50);
     line-height: 30px;
 }
 
-a:hover{
+.menuA:hover{
     color: rgb(180, 180, 180);
 }
+
+.aboutModal{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    top: 100px;
+    width: 80%; /* Full width */
+    height: 75%; /* Full height */
+    overflow: hidden; /* no scroll*/
+    background-color: rgb(100,100,100); /* Fallback color */
+    line-height: 40px;
+}
+
+.aboutContent{
+    padding-top: 100px; 
+}
+
+/* The Close Button */
+.closeButton {
+    color: #aaaaaa;
+    float: right;
+    float: top;
+    font-weight: bold;
+    width: 45px;
+}
+  
+.closeButton:hover,
+.closeButton:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.aboutP{
+    display: contents;
+}
+
+.aboutA{
+    display: contents;
+    color:  rgb(150,150,150);
+}
+
+.aboutA:hover{
+    color: rgb(180, 180, 180);
+    text-decoration: underline;
+}
+
+.qrcode{
+    width: 70%;
+    height: 70%;
+    max-width: 200px ;
+}
+
+.aboutC{
+    display: contents;
+}
+
+.aboutQR{
+    padding-top: 30px;
+}
+
+@media only screen and (max-height: 700px) {
+    .aboutQR{
+        padding-top: 0px;
+    }
+    .qrcode{
+        max-width: 150px ;
+    }
+    .aboutContent{
+        padding-top: 75px; 
+    }
+  }

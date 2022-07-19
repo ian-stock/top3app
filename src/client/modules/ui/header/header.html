@@ -7,13 +7,28 @@
             <div class="userid">{hostOrPlayer}: {sessionusername}</div>
             <div class="menuPanel" data-id="menuPanel">
                 <template if:true={isPlayer}>
-                    <a href="#" data-id="leaveGameAnchor" onclick={menuAction}>Leave Game</a>
+                    <a href="#" class='menuA' data-id="leaveGameAnchor" onclick={menuAction}>Leave Game</a>
                 </template>
                 <template if:true={isHost}>
-                    <a href="#" data-id="endGameAnchor" onclick={menuAction}>End Game</a>
+                    <a href="#" class='menuA' data-id="endGameAnchor" onclick={menuAction}>End Game</a>
                 </template>
-                <a href="#" data-id="logOutAnchor" onclick={menuAction}>Log Out</a>
-                <a href="#" data-id="popAboutAnchor" onclick={menuAction}>About</a>
+                <a href="#" class='menuA' data-id="logOutAnchor" onclick={menuAction}>Log Out</a>
+                <a href="#" class='menuA' data-id="popAboutAnchor" onclick={menuAction}>About</a>
+            </div>
+            <div class="aboutModal" data-id="aboutModal">
+                <button class="closeButton" onclick={closeModal}>&times;</button>
+                <div class="aboutContent">
+                    <div class='aboutC'>Creator: </div>
+                        <a class='aboutA' data-id="aboutA" href='https://twitter.com/IanStock2' target="_blank">@ianstock2</a>
+                    <div>Released: July 2022</div>
+                    <div class='aboutC'>Repo: </div>
+                        <a class='aboutA' data-id="aboutA" href='https://github.com/ian-stock/top3app' target="_blank">ian-stock/top3app</a><br>
+                    <a class='aboutA' data-id="aboutA" href='https://top3app.herokuapp.com' target="_blank">top3app.herokuapp.com</a>
+                    <div class='aboutQR'>
+                        <div>Scan QR Code to share with friends</div>
+                        <img class="qrcode" src="../../../resources/img/top3_qrcode.png" alt="">
+                    </div>
+                </div>
             </div>
         </div>
     </header>

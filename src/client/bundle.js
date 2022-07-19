@@ -7677,13 +7677,13 @@ var _implicitStylesheets$a = [stylesheet0, stylesheet$a];
 
 function stylesheet$9(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}a", shadowSelector, "{display:none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);line-height: 30px;}a:hover", shadowSelector, "{color: rgb(180, 180, 180);}"].join('');
+  return ["header", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}.menuA", shadowSelector, "{display: none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);line-height: 30px;}.menuA:hover", shadowSelector, "{color: rgb(180, 180, 180);}.aboutModal", shadowSelector, "{display: none;position: fixed;z-index: 1;top: 100px;width: 80%;height: 75%;overflow: hidden;background-color: rgb(100,100,100);line-height: 40px;}.aboutContent", shadowSelector, "{padding-top: 100px;}.closeButton", shadowSelector, " {color: #aaaaaa;float: right;float: top;font-weight: bold;width: 45px;}.closeButton:hover", shadowSelector, ",.closeButton:focus", shadowSelector, " {color: #000;text-decoration: none;cursor: pointer;}.aboutP", shadowSelector, "{display: contents;}.aboutA", shadowSelector, "{display: contents;color: rgb(150,150,150);}.aboutA:hover", shadowSelector, "{color: rgb(180, 180, 180);text-decoration: underline;}.qrcode", shadowSelector, "{width: 70%;height: 70%;max-width: 200px ;}.aboutC", shadowSelector, "{display: contents;}.aboutQR", shadowSelector, "{padding-top: 30px;}@media only screen and (max-height: 700px) {.aboutQR", shadowSelector, "{padding-top: 0px;}.qrcode", shadowSelector, "{max-width: 150px ;}.aboutContent", shadowSelector, "{padding-top: 75px;}}"].join('');
 }
 var _implicitStylesheets$9 = [stylesheet0, stylesheet$9];
 
 function tmpl$a($api, $cmp, $slotset, $ctx) {
   const {b: api_bind, h: api_element, d: api_dynamic_text, t: api_text} = $api;
-  const {_m0, _m1, _m2, _m3, _m4} = $ctx;
+  const {_m0, _m1, _m2, _m3, _m4, _m5} = $ctx;
   return [api_element("header", {
     key: 0
   }, [api_element("div", {
@@ -7718,6 +7718,9 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
     },
     key: 5
   }, [$cmp.isPlayer ? api_element("a", {
+    classMap: {
+      "menuA": true
+    },
     attrs: {
       "href": "#",
       "data-id": "leaveGameAnchor"
@@ -7727,6 +7730,9 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.menuAction))
     }
   }, [api_text("Leave Game")]) : null, $cmp.isHost ? api_element("a", {
+    classMap: {
+      "menuA": true
+    },
     attrs: {
       "href": "#",
       "data-id": "endGameAnchor"
@@ -7736,6 +7742,9 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "click": _m2 || ($ctx._m2 = api_bind($cmp.menuAction))
     }
   }, [api_text("End Game")]) : null, api_element("a", {
+    classMap: {
+      "menuA": true
+    },
     attrs: {
       "href": "#",
       "data-id": "logOutAnchor"
@@ -7745,6 +7754,9 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "click": _m3 || ($ctx._m3 = api_bind($cmp.menuAction))
     }
   }, [api_text("Log Out")]), api_element("a", {
+    classMap: {
+      "menuA": true
+    },
     attrs: {
       "href": "#",
       "data-id": "popAboutAnchor"
@@ -7753,7 +7765,88 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
     on: {
       "click": _m4 || ($ctx._m4 = api_bind($cmp.menuAction))
     }
-  }, [api_text("About")])])])])];
+  }, [api_text("About")])]), api_element("div", {
+    classMap: {
+      "aboutModal": true
+    },
+    attrs: {
+      "data-id": "aboutModal"
+    },
+    key: 10
+  }, [api_element("button", {
+    classMap: {
+      "closeButton": true
+    },
+    key: 11,
+    on: {
+      "click": _m5 || ($ctx._m5 = api_bind($cmp.closeModal))
+    }
+  }, [api_text("×")]), api_element("div", {
+    classMap: {
+      "aboutContent": true
+    },
+    key: 12
+  }, [api_element("div", {
+    classMap: {
+      "aboutC": true
+    },
+    key: 13
+  }, [api_text("Creator: ")]), api_element("a", {
+    classMap: {
+      "aboutA": true
+    },
+    attrs: {
+      "data-id": "aboutA",
+      "href": "https://twitter.com/IanStock2",
+      "target": "_blank"
+    },
+    key: 14
+  }, [api_text("@ianstock2")]), api_element("div", {
+    key: 15
+  }, [api_text("Released: July 2022")]), api_element("div", {
+    classMap: {
+      "aboutC": true
+    },
+    key: 16
+  }, [api_text("Repo: ")]), api_element("a", {
+    classMap: {
+      "aboutA": true
+    },
+    attrs: {
+      "data-id": "aboutA",
+      "href": "https://github.com/ian-stock/top3app",
+      "target": "_blank"
+    },
+    key: 17
+  }, [api_text("ian-stock/top3app")]), api_element("br", {
+    key: 18
+  }, []), api_element("a", {
+    classMap: {
+      "aboutA": true
+    },
+    attrs: {
+      "data-id": "aboutA",
+      "href": "https://top3app.herokuapp.com",
+      "target": "_blank"
+    },
+    key: 19
+  }, [api_text("top3app.herokuapp.com")]), api_element("div", {
+    classMap: {
+      "aboutQR": true
+    },
+    key: 20
+  }, [api_element("div", {
+    key: 21
+  }, [api_text("Scan QR Code to share with friends")]), api_element("img", {
+    classMap: {
+      "qrcode": true
+    },
+    attrs: {
+      "src": "../../../resources/img/top3_qrcode.png",
+      "alt": ""
+    },
+    key: 22
+  }, [])])])])])])];
 }
 var _tmpl$a = registerTemplate(tmpl$a);
 tmpl$a.stylesheets = [];
@@ -7810,10 +7903,15 @@ class Header extends LightningElement {
     this.hostOrPlayer = 'Player';
     this.menuPanel = void 0;
     this.anchors = void 0;
+    this.aboutModal = void 0;
   }
 
   updateHost(playerType) {
     this.hostOrPlayer = playerType;
+  }
+
+  connectedCallback() {
+    this.aboutModal = this.template.querySelector('[data-id="aboutModal"]');
   }
 
   openMenu() {
@@ -7851,16 +7949,25 @@ class Header extends LightningElement {
           name: 'GameEnded'
         }
       }));
+      this.closeMenu();
     } else if (menuEvent == 'logOut') {
       this.dispatchEvent(new CustomEvent('state_change', {
         detail: {
           name: 'LoggedOut'
         }
       }));
+      this.closeMenu();
     } else if (menuEvent == 'popAbout') {
       console.log('popAbout');
+      this.template.querySelector('[data-id="aboutModal"]').style.display = "block";
+      this.template.querySelectorAll('.aboutA').forEach(element => {
+        element.style.display = "contents";
+      });
     }
+  }
 
+  closeModal() {
+    this.template.querySelector('[data-id="aboutModal"]').style.display = "none";
     this.closeMenu();
   } // UI expressions for template rendering and button controls
 
@@ -7893,7 +8000,7 @@ registerDecorators(Header, {
     }
   },
   publicMethods: ["updateHost"],
-  fields: ["hostOrPlayer", "menuPanel", "anchors"]
+  fields: ["hostOrPlayer", "menuPanel", "anchors", "aboutModal"]
 });
 
 var _uiHeader = registerComponent(Header, {
@@ -13803,7 +13910,6 @@ class App extends LightningElement {
 
   connectedCallback() {
     this.addEventListener('state_change', this.handleStateChange);
-    this.addEventListener('menu_event', this.handleMenuEvent);
     this.addEventListener('error_message', this.handleErrorMessage); //refresh safe
 
     if (!SESSION.initialised) {
@@ -14035,11 +14141,6 @@ class App extends LightningElement {
 
 
     setCookies();
-  } //menu clicks
-
-
-  handleMenuEvent(evt) {
-    log('client.app.handleMenuEvent: ', evt.detail.name); //leaveGame, endGame, logOut, popAbout
   } //error handling
 
 

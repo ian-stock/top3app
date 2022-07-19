@@ -21,7 +21,6 @@ export default class App extends LightningElement {
 
     connectedCallback(){
         this.addEventListener('state_change', this.handleStateChange);
-        this.addEventListener('menu_event', this.handleMenuEvent);
         this.addEventListener('error_message', this.handleErrorMessage);
         //refresh safe
         if (!SESSION.initialised){
@@ -221,14 +220,6 @@ export default class App extends LightningElement {
         //refresh safe 
         setCookies();
     }
-
-    //menu clicks
-    handleMenuEvent(evt) {
-        log('client.app.handleMenuEvent: ', evt.detail.name);
-        //leaveGame, endGame, logOut, popAbout
-
-    }
-
 
     //error handling
     handleErrorMessage(evt) {

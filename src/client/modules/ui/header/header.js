@@ -22,7 +22,7 @@ export default class Header extends LightningElement {
     openMenu(){
         this.menuPanel = this.template.querySelector('[data-id="menuPanel"]');
         if(this.menuPanel.style.height == 0 || this.menuPanel.style.height == '0px'){
-            let menuHeight = SESSION.sessionState == "InLobby" ? '90px': '130px';
+            let menuHeight = SESSION.sessionState == "InLobby" && !SESSION.authenticated ? '55px' : '90px';
             this.template.querySelector('[data-id="menuPanel"]').style.height = menuHeight;
             this.anchors = this.template.querySelectorAll('a');
             this.anchors.forEach(a => {
@@ -86,6 +86,13 @@ export default class Header extends LightningElement {
     }
     get isPlayer() {
         if(this.hostOrPlayer == 'Player' && SESSION.sessionState != "InLobby"){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    get isLoggedInLobby() {
+        if(SESSION.sessionState == "InLobby" && SESSION.authenticated){
             return true;
         } else {
             return false;

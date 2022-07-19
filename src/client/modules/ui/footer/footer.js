@@ -13,9 +13,12 @@ export default class Footer extends LightningElement {
     }
 
     // UI expressions to dynamically render templates (return true or false)
-    get isHost() {
+    get isDebugDisplayed() {
         // return SESSION.host;
-        return true;
+        //  /?debug=true
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        return urlParams.get('debug') === "true";
     }
 
 }

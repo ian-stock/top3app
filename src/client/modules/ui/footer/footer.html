@@ -4,7 +4,7 @@
             <div>Players: {playercount}</div>
             <div>Score: {playerscore}</div>
         </div>
-        <template if:true={isHost}>
+        <template if:true={isDebugDisplayed}>
             <div class="debugPane">
                 <button onclick={printSession}>s</button>
                 <button onclick={printPlayers}>p</button>

@@ -40,7 +40,13 @@ export function resetSessionFromCookies(){
 
     let jsonCookies = getCookies();
     Object.keys(jsonCookies).forEach((key) => {
-        SESSION[key] = jsonCookies[key];
+        if(jsonCookies[key] == 'true' ){
+            SESSION[key] = true;
+        } else if (jsonCookies[key] == 'false' ){
+            SESSION[key] = false;
+        } else {
+            SESSION[key] = jsonCookies[key];
+        }
     });
 
 }

@@ -5,10 +5,10 @@
             <div>Topic: {gametopic}</div>
         </div>
         <div class="controlsPane">
-            <input type="text" data-id="oneInput" id="oneInput" placeholder="One"><br>
-            <input type="text" data-id="twoInput" id="twoInput" placeholder="Two"><br>
-            <input type="text" data-id="threeInput" id="threeInput" placeholder="Three"><br>
-            <button onclick={submitTop3}>Submit</button>
+            <input type="text" data-id="oneInput" id="oneInput" tabindex=1 placeholder="One"><br>
+            <input type="text" data-id="twoInput" id="twoInput" tabindex=2 placeholder="Two"><br>
+            <input type="text" data-id="threeInput" id="threeInput" tabindex=3 placeholder="Three"><br>
+            <button onclick={submitTop3} tabindex=4>Submit</button>
         </div>
         <div class="submittedCountPane">Submitted Count: {playerssubmitted}</div>
     </entertop3>

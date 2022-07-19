@@ -3,8 +3,10 @@
         <div class="innerContainer">
             <!-- onblur={closeMenu} - executes before anchor links are clicked -->
             <button class="menuButton" onclick={openMenu}></button>
-            <div class="gamenum">GameID: {sessiongamenum}</div>
-            <div class="userid">{hostOrPlayer}: {sessionusername}</div>
+            <div class="headerPane">
+                <div class="gamenum">GameID: {sessiongamenum}</div>
+                <div class="userid">{hostOrPlayer}: {sessionusername}</div>
+            </div>
             <div class="menuPanel" data-id="menuPanel">
                 <template if:true={isPlayer}>
                     <a href="#" class='menuA' data-id="leaveGameAnchor" onclick={menuAction}>Leave Game</a>
@@ -12,7 +14,9 @@
                 <template if:true={isHost}>
                     <a href="#" class='menuA' data-id="endGameAnchor" onclick={menuAction}>End Game</a>
                 </template>
-                <a href="#" class='menuA' data-id="logOutAnchor" onclick={menuAction}>Log Out</a>
+                <template if:true={isLoggedInLobby}>
+                    <a href="#" class='menuA' data-id="logOutAnchor" onclick={menuAction}>Log Out</a>
+                </template>
                 <a href="#" class='menuA' data-id="popAboutAnchor" onclick={menuAction}>About</a>
             </div>
             <div class="aboutModal" data-id="aboutModal">

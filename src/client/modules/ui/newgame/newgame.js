@@ -20,11 +20,4 @@ export default class NewGame extends LightningElement {
             .catch(e => console.error('newgame.updateGameTopic', e.stack))
     }
 
-    endGame(e){
-        this.dispatchEvent(new CustomEvent('state_change', {
-            detail: {
-                name: 'GameEnded'
-            }
-        }));
-    }
 }

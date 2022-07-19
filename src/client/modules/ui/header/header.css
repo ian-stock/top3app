@@ -13,6 +13,14 @@ header {
     color: whitesmoke;
 }
 
+.headerPane{
+    justify-content: space-between;
+    display: flex;
+    width: calc(100% - 55px);
+    left: 50px;
+    position: absolute;
+}
+
 .menuButton{
     height: 40px;
     width: 40px;
@@ -98,6 +106,7 @@ header {
     width: 70%;
     height: 70%;
     max-width: 200px ;
+    padding-top: 10px;
 }
 
 .aboutC{

@@ -16,7 +16,7 @@ header {
 .menuButton{
     height: 40px;
     width: 40px;
-    left: 25%;
+    left: 0px;
     top: 0px;
     position: absolute;
     background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;
@@ -122,8 +122,3 @@ header {
     }
 }
 
-@media only screen and (max-width: 700px) {
-      .menuButton{
-          left: 0px;
-      }
-  }

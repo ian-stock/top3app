@@ -7677,7 +7677,7 @@ var _implicitStylesheets$a = [stylesheet0, stylesheet$a];
 
 function stylesheet$9(token, useActualHostSelector, useNativeDirPseudoclass) {
   var shadowSelector = token ? ("[" + token + "]") : "";
-  return ["header", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}.headerPane", shadowSelector, "{justify-content: space-between;display: flex;width: calc(100% - 55px);left: 50px;position: absolute;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 0px;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}.menuA", shadowSelector, "{display: none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);line-height: 30px;}.menuA:hover", shadowSelector, "{color: rgb(180, 180, 180);}.aboutModal", shadowSelector, "{display: none;position: fixed;z-index: 1;top: 100px;width: 80%;height: 75%;overflow: hidden;background-color: rgb(100,100,100);line-height: 40px;}.aboutContent", shadowSelector, "{padding-top: 100px;}.closeButton", shadowSelector, " {color: #aaaaaa;float: right;float: top;font-weight: bold;width: 45px;}.closeButton:hover", shadowSelector, ",.closeButton:focus", shadowSelector, " {color: #000;text-decoration: none;cursor: pointer;}.aboutP", shadowSelector, "{display: contents;}.aboutA", shadowSelector, "{display: contents;color: rgb(150,150,150);}.aboutA:hover", shadowSelector, "{color: rgb(180, 180, 180);text-decoration: underline;}.qrcode", shadowSelector, "{width: 70%;height: 70%;max-width: 200px ;padding-top: 10px;}.aboutC", shadowSelector, "{display: contents;}.aboutQR", shadowSelector, "{padding-top: 30px;}@media only screen and (max-height: 700px) {.aboutQR", shadowSelector, "{padding-top: 0px;}.qrcode", shadowSelector, "{max-width: 150px ;}.aboutContent", shadowSelector, "{padding-top: 75px;}}"].join('');
+  return ["header", shadowSelector, " {background-color: rgb(100,100,100);height: 50px;line-height: 50px;}.innerContainer", shadowSelector, "{justify-content: space-evenly;color: whitesmoke;}.menuButton", shadowSelector, "{height: 40px;width: 40px;left: 25%;top: 0px;position: absolute;background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;background-size: contain;background-position: center;background-color: rgb(230, 230, 230);}.menuPanel", shadowSelector, "{position: fixed;z-index: 1;height: 0;width: 175px;top: 45px;left: 0px;background-color: grey;}.menuA", shadowSelector, "{display: none;margin-top: 10px;text-decoration: none;color:rgb(50, 50, 50);line-height: 30px;}.menuA:hover", shadowSelector, "{color: rgb(180, 180, 180);}.aboutModal", shadowSelector, "{display: none;position: fixed;z-index: 1;top: 100px;width: 80%;height: 75%;overflow: hidden;background-color: rgb(100,100,100);line-height: 40px;}.aboutContent", shadowSelector, "{padding-top: 100px;}.closeButton", shadowSelector, " {color: #aaaaaa;float: right;float: top;font-weight: bold;width: 45px;}.closeButton:hover", shadowSelector, ",.closeButton:focus", shadowSelector, " {color: #000;text-decoration: none;cursor: pointer;}.aboutP", shadowSelector, "{display: contents;}.aboutA", shadowSelector, "{display: contents;color: rgb(150,150,150);}.aboutA:hover", shadowSelector, "{color: rgb(180, 180, 180);text-decoration: underline;}.qrcode", shadowSelector, "{width: 70%;height: 70%;max-width: 200px ;padding-top: 10px;}.aboutC", shadowSelector, "{display: contents;}.aboutQR", shadowSelector, "{padding-top: 30px;}@media only screen and (max-height: 700px) {.aboutQR", shadowSelector, "{padding-top: 0px;}.qrcode", shadowSelector, "{max-width: 150px ;}.aboutContent", shadowSelector, "{padding-top: 75px;}}@media only screen and (max-width: 700px) {.menuButton", shadowSelector, "{left: 0px;}}"].join('');
 }
 var _implicitStylesheets$9 = [stylesheet0, stylesheet$9];
 
@@ -7701,27 +7701,22 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
     }
   }, []), api_element("div", {
     classMap: {
-      "headerPane": true
-    },
-    key: 3
-  }, [api_element("div", {
-    classMap: {
       "gamenum": true
     },
-    key: 4
+    key: 3
   }, [api_text("GameID: " + api_dynamic_text($cmp.sessiongamenum))]), api_element("div", {
     classMap: {
       "userid": true
     },
-    key: 5
-  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))])]), api_element("div", {
+    key: 4
+  }, [api_text(api_dynamic_text($cmp.hostOrPlayer) + ": " + api_dynamic_text($cmp.sessionusername))]), api_element("div", {
     classMap: {
       "menuPanel": true
     },
     attrs: {
       "data-id": "menuPanel"
     },
-    key: 6
+    key: 5
   }, [$cmp.isPlayer ? api_element("a", {
     classMap: {
       "menuA": true
@@ -7730,7 +7725,7 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "href": "#",
       "data-id": "leaveGameAnchor"
     },
-    key: 7,
+    key: 6,
     on: {
       "click": _m1 || ($ctx._m1 = api_bind($cmp.menuAction))
     }
@@ -7742,7 +7737,7 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "href": "#",
       "data-id": "endGameAnchor"
     },
-    key: 8,
+    key: 7,
     on: {
       "click": _m2 || ($ctx._m2 = api_bind($cmp.menuAction))
     }
@@ -7754,7 +7749,7 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "href": "#",
       "data-id": "logOutAnchor"
     },
-    key: 9,
+    key: 8,
     on: {
       "click": _m3 || ($ctx._m3 = api_bind($cmp.menuAction))
     }
@@ -7766,7 +7761,7 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "href": "#",
       "data-id": "popAboutAnchor"
     },
-    key: 10,
+    key: 9,
     on: {
       "click": _m4 || ($ctx._m4 = api_bind($cmp.menuAction))
     }
@@ -7777,12 +7772,12 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
     attrs: {
       "data-id": "aboutModal"
     },
-    key: 11
+    key: 10
   }, [api_element("button", {
     classMap: {
       "closeButton": true
     },
-    key: 12,
+    key: 11,
     on: {
       "click": _m5 || ($ctx._m5 = api_bind($cmp.closeModal))
     }
@@ -7790,12 +7785,12 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
     classMap: {
       "aboutContent": true
     },
-    key: 13
+    key: 12
   }, [api_element("div", {
     classMap: {
       "aboutC": true
     },
-    key: 14
+    key: 13
   }, [api_text("Creator: ")]), api_element("a", {
     classMap: {
       "aboutA": true
@@ -7805,14 +7800,14 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "href": "https://twitter.com/IanStock2",
       "target": "_blank"
     },
-    key: 15
+    key: 14
   }, [api_text("@ianstock2")]), api_element("div", {
-    key: 16
+    key: 15
   }, [api_text("Released: July 2022")]), api_element("div", {
     classMap: {
       "aboutC": true
     },
-    key: 17
+    key: 16
   }, [api_text("Repo: ")]), api_element("a", {
     classMap: {
       "aboutA": true
@@ -7822,9 +7817,9 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "href": "https://github.com/ian-stock/top3app",
       "target": "_blank"
     },
-    key: 18
+    key: 17
   }, [api_text("ian-stock/top3app")]), api_element("br", {
-    key: 19
+    key: 18
   }, []), api_element("a", {
     classMap: {
       "aboutA": true
@@ -7834,14 +7829,14 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "href": "https://top3app.herokuapp.com",
       "target": "_blank"
     },
-    key: 20
+    key: 19
   }, [api_text("top3app.herokuapp.com")]), api_element("div", {
     classMap: {
       "aboutQR": true
     },
-    key: 21
+    key: 20
   }, [api_element("div", {
-    key: 22
+    key: 21
   }, [api_text("Scan QR Code to share with friends")]), api_element("img", {
     classMap: {
       "qrcode": true
@@ -7850,7 +7845,7 @@ function tmpl$a($api, $cmp, $slotset, $ctx) {
       "src": "../../../resources/img/top3_qrcode.png",
       "alt": ""
     },
-    key: 23
+    key: 22
   }, [])])])])])])];
 }
 var _tmpl$a = registerTemplate(tmpl$a);

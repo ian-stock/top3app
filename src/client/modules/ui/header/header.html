@@ -1,12 +1,9 @@
 <template>
     <header>
         <div class="innerContainer">
-            <!-- onblur={closeMenu} - executes before anchor links are clicked -->
             <button class="menuButton" onclick={openMenu}></button>
-            <div class="headerPane">
-                <div class="gamenum">GameID: {sessiongamenum}</div>
-                <div class="userid">{hostOrPlayer}: {sessionusername}</div>
-            </div>
+            <div class="gamenum">GameID: {sessiongamenum}</div>
+            <div class="userid">{hostOrPlayer}: {sessionusername}</div>
             <div class="menuPanel" data-id="menuPanel">
                 <template if:true={isPlayer}>
                     <a href="#" class='menuA' data-id="leaveGameAnchor" onclick={menuAction}>Leave Game</a>

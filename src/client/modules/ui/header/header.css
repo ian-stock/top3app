@@ -13,18 +13,10 @@ header {
     color: whitesmoke;
 }
 
-.headerPane{
-    justify-content: space-between;
-    display: flex;
-    width: calc(100% - 55px);
-    left: 50px;
-    position: absolute;
-}
-
 .menuButton{
     height: 40px;
     width: 40px;
-    left: 0px;
+    left: 25%;
     top: 0px;
     position: absolute;
     background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;
@@ -118,6 +110,7 @@ header {
 }
 
 @media only screen and (max-height: 700px) {
+
     .aboutQR{
         padding-top: 0px;
     }
@@ -127,4 +120,10 @@ header {
     .aboutContent{
         padding-top: 75px; 
     }
+}
+
+@media only screen and (max-width: 700px) {
+      .menuButton{
+          left: 0px;
+      }
   }

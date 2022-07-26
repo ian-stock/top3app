@@ -21,6 +21,7 @@ export default class Header extends LightningElement {
 
     openMenu(){
         this.menuPanel = this.template.querySelector('[data-id="menuPanel"]');
+        log('client.header.openMenu: ', this.menuPanel);
         if(this.menuPanel.style.height == 0 || this.menuPanel.style.height == '0px'){
             let menuHeight = SESSION.sessionState == "InLobby" && !SESSION.authenticated ? '55px' : '90px';
             this.template.querySelector('[data-id="menuPanel"]').style.height = menuHeight;
@@ -42,7 +43,7 @@ export default class Header extends LightningElement {
 
     menuAction(evt){
         //leaveGame, endGame, logOut, popAbout
-        let clicked = evt.path[0].dataset.id;
+        let clicked = evt.target.dataset.id;
         let menuEvent = clicked.slice(0, -6)
         log('client.header.menuAction: ', menuEvent);
 

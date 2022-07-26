@@ -7888,7 +7888,7 @@ const PLAYERS = [];
 function log(source, desc) {
   const filterOut = [// "client.app",
   // "client.game",
-  "client.app.event-received", "client.gameLogic", "client.player", "client.enterTop3", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
+  "client.header", "client.app.event-received", "client.gameLogic", "client.player", "client.enterTop3", "client.voting", "client.results", "client.lobby"]; //returns true if substring exists
 
   if (!filterOut.some(v => source.includes(v))) {
     console.log(`${source}: ${desc}`);
@@ -7916,6 +7916,7 @@ class Header extends LightningElement {
 
   openMenu() {
     this.menuPanel = this.template.querySelector('[data-id="menuPanel"]');
+    log('client.header.openMenu: ', this.menuPanel);
 
     if (this.menuPanel.style.height == 0 || this.menuPanel.style.height == '0px') {
       let menuHeight = SESSION.sessionState == "InLobby" && !SESSION.authenticated ? '55px' : '90px';
@@ -7939,7 +7940,7 @@ class Header extends LightningElement {
 
   menuAction(evt) {
     //leaveGame, endGame, logOut, popAbout
-    let clicked = evt.path[0].dataset.id;
+    let clicked = evt.target.dataset.id;
     let menuEvent = clicked.slice(0, -6);
     log('client.header.menuAction: ', menuEvent);
 

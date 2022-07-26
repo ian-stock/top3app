@@ -1,0 +1,14 @@
+<template>
+    <waitingvote>
+        <div class="topPane">
+            <h2>Waiting for players to submit, and voting to start...</h2>
+        </div>
+        <template if:true={isHost}>
+            <div class="controlsPane">
+                <button onclick={startVoting}>Start Voting</button>
+            </div>
+        </template>
+        <div class="submittedCountPane">Submitted Count: {playerssubmitted}</div>
+    </waitingvote>
+</template>
+

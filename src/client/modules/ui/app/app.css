@@ -1,0 +1,16 @@
+@import '../../../resources/css/style.css';
+
+.container {
+    /* background-color: #3ABBC9 ; /*light blue */
+    /* background-color: #FFF7A2; light yellow */
+    /* background-color: rgb(100, 100, 100); grey */
+    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet, red);
+    filter: brightness(0.90);
+    top: 50px;
+    /* height: calc(100vh - 100px); */
+    /* height: 100%; */
+        position: absolute;
+        left: 0;
+        height: calc(100% - 50px);
+        width: 100%;
+}

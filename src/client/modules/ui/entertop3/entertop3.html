@@ -1,0 +1,16 @@
+<template>
+    <entertop3>
+        <div class="topPane">
+            <h2>Enter your Top3</h2>
+            <div>Topic: {gametopic}</div>
+        </div>
+        <div class="controlsPane">
+            <input type="text" data-id="oneInput" id="oneInput" tabindex=0 placeholder="One"><br>
+            <input type="text" data-id="twoInput" id="twoInput" tabindex=0 placeholder="Two"><br>
+            <input type="text" data-id="threeInput" id="threeInput" tabindex=0 placeholder="Three"><br>
+            <button onclick={submitTop3} tabindex=0>Submit</button>
+        </div>
+        <div class="submittedCountPane">Submitted Count: {playerssubmitted}</div>
+    </entertop3>
+</template>
+

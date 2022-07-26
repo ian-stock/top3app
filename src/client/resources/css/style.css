@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+}
+
+div{
+  text-align: center;
+  /* border-color: red;
+  border-style: solid; */
+}
+
+.topPane{
+  top: 20px;
+  position: relative;
+}
+
+.controlsPane {
+  bottom: 15%;
+  position: absolute;
+  min-width: 350px;
+  left: 50%;
+  margin-left: -175px;
+}
+
+.submittedCountPane{
+  color:whitesmoke;
+  bottom: 10%;
+  position: absolute;
+  min-width: 350px;
+  left: 50%;
+  margin-left: -175px;
+}
+
+input{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button, input[type=button]{
+  /* font-size: 2vw; */
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 5px;
+  color:rgb(50, 50, 50);
+  background-color: rgb(200, 200, 200);
+  margin: 5px;
+  width: 220px;
+}
+
+button:enabled, input[type=button]:enabled{
+  cursor: pointer;
+}
+
+button:disabled, input[type=button]:disabled {
+  color: whitesmoke;
+  background-color: lightgray;
+}
+
+button:hover:enabled{
+  background-color: rgb(180, 180, 180);
+}
+.innerContainer{
+  display: flex;
+  /* justify-content: space-between; */
+  justify-content: center;
+  width: 60%;
+  height: 100%;
+  min-height: 100%;
+  margin: auto auto;
+}
+
+@media only screen and (max-width: 700px) {
+  .innerContainer{ 
+      width: 100%;
+  }
+
+}

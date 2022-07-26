@@ -1,0 +1,10 @@
+@import '../../../resources/css/style.css';
+
+entertop3{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 350px;
+}
+
+

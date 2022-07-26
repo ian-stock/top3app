@@ -1,0 +1,35 @@
+<template>
+    <results>
+        <div class="topPane">
+            <h2>Final Scores</h2><br>
+        </div>
+        <div>
+            <table>
+                <thead><tr>
+                    <th>Username</th>
+                    <th>Game Score</th>
+                    <th>Total Score</th>
+                    <th>No. of Games</th>
+                </tr></thead>
+                <tbody>
+                    <template for:each={playerScoresList} for:item="player">
+                        <tr key={player.id}>
+                            <td>{player.username}</td>
+                            <td>{player.gamescore}</td>
+                            <td>{player.totalscore}</td>
+                            <td>{player.noofgames}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+        <div class="controlsPane">
+            <input data-id="endButton" type="button" onclick={endGame} tabindex=0 value={endButtonText}><br>
+            <template if:true={isHost}>
+                <button onclick={startAnotherGame} tabindex=0>Another Game</button>
+            </template>
+        </div>
+        <div class="messagePane">{displayedHint}</div>
+    </results>
+</template>
+

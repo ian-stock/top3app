@@ -1,0 +1,27 @@
+game
+    - id, gamenum, gamestate, hostid
+    players: 
+        - id, userid, username, gameid, host, score
+        questions
+            - id, userid, gameid, top3 
+            answers 
+                - id, userid, playerid, ...?????
+
+
+example
+
+{
+    "game": {"id":"guid36","gamenum":"12345"},
+    "players":[
+        {"id":"guid36","username":"istock","host":true},
+        {"id":"guid36","username":"istock2","host":false}
+        ], 
+    "questions":[
+        {"id":"guid36","userid":"userid36","gameid":"gameid36", "top1":"top1", "top2":"top2", "top3":"top3"},
+        {"id":"guid36","userid":"userid36","gameid":"gameid36", "top1":"top1", "top2":"top2", "top3":"top3"}
+        ],
+    "answers":[
+        {"id":"guid36","userid":"userid36","gameid":"gameid36", "qid":"qid36", "playerid":"playerid36", "answerid":"answerid36"},
+        {"id":"guid36","userid":"userid36","gameid":"gameid36", "qid":"qid36", "playerid":"playerid36", "answerid":"answerid36"}
+        ]
+}

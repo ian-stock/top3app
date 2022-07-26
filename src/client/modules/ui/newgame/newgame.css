@@ -1,0 +1,9 @@
+@import '../../../resources/css/style.css';
+
+newgame{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 350px;
+}
+

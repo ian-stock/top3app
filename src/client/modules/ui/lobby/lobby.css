@@ -1,0 +1,19 @@
+@import '../../../resources/css/style.css';
+
+lobby{
+    display: flex;
+    justify-content: center;
+}
+
+.splashImg {
+    width: 90%;
+    max-width: 400px;
+    margin-top: 10%;
+
+}
+
+.rrLobby{
+    display: none
+}
+
+

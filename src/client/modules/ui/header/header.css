@@ -1,0 +1,124 @@
+@import '../../../resources/css/style.css';
+
+header {
+    /* background: #ED5314 ; dark orange*/
+    /* background: #ff9100; light orange */
+    background-color: rgb(100,100,100);
+    height: 50px;
+    line-height: 50px;
+}
+
+.innerContainer{
+    justify-content: space-evenly;
+    color: whitesmoke;
+}
+
+.menuButton{
+    height: 40px;
+    width: 40px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: url(../../../resources/img/top3-transparent-thumb.png) no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: rgb(230, 230, 230);
+    /* box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19); */
+}
+
+.menuPanel{
+    position: fixed;
+    z-index: 1; /* overlay */
+    height: 0;
+    width: 175px;
+    top: 45px;
+    left: 0px;
+    background-color: grey;
+}
+
+.menuA{
+    display: none;
+    margin-top: 10px;
+    text-decoration: none;
+    color:rgb(50, 50, 50);
+    line-height: 30px;
+}
+
+.menuA:hover{
+    color: rgb(180, 180, 180);
+}
+
+.aboutModal{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    top: 100px;
+    width: 80%; /* Full width */
+    height: 75%; /* Full height */
+    overflow: hidden; /* no scroll*/
+    background-color: rgb(100,100,100); /* Fallback color */
+    line-height: 40px;
+}
+
+.aboutContent{
+    padding-top: 100px; 
+}
+
+/* The Close Button */
+.closeButton {
+    color: #aaaaaa;
+    float: right;
+    float: top;
+    font-weight: bold;
+    width: 45px;
+}
+  
+.closeButton:hover,
+.closeButton:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.aboutP{
+    display: contents;
+}
+
+.aboutA{
+    display: contents;
+    color:  rgb(150,150,150);
+}
+
+.aboutA:hover{
+    color: rgb(180, 180, 180);
+    text-decoration: underline;
+}
+
+.qrcode{
+    width: 70%;
+    height: 70%;
+    max-width: 200px ;
+    padding-top: 10px;
+}
+
+.aboutC{
+    display: contents;
+}
+
+.aboutQR{
+    padding-top: 30px;
+}
+
+@media only screen and (max-height: 700px) {
+
+    .aboutQR{
+        padding-top: 0px;
+    }
+    .qrcode{
+        max-width: 150px ;
+    }
+    .aboutContent{
+        padding-top: 75px; 
+    }
+}
+

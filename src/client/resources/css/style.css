@@ -46,6 +46,7 @@ button, input[type=button]{
   background-color: rgb(200, 200, 200);
   margin: 5px;
   width: 220px;
+  -webkit-appearance: none;
 }
 
 button:enabled, input[type=button]:enabled{

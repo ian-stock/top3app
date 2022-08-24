@@ -4,9 +4,6 @@ import { getPlayerList } from '../../services/player';
 import { newGameLogic, joinGameLogic } from '../../services/gamelogic';
 import {log} from '../../utils/log';
 
-import { createNewGame, getGame } from '../../services/game';
-import { playerJoinGame } from '../../services/player';
-
 export default class Results extends LightningElement {
     
     playerScoresList = [];

@@ -14164,9 +14164,14 @@ class App extends LightningElement {
         log('client.app.another-game', data);
         SESSION.gameTopic = 'notset';
         this.gameTopic = '';
-        this.gamePlayerScore = 0;
+        this.gamePlayerScore = SESSION.gameScore = 0;
         this.gamePlayersSubmitted = 0;
-        this.template.querySelector('ui-results').joinAnotherGame(data, event);
+        PLAYERS.length = 0; //clear players array
+
+        if (!SESSION.host) {
+          this.template.querySelector('ui-results').joinAnotherGame(data, event);
+        }
+
         break;
     } //refresh safe 
 

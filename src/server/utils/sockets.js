@@ -82,7 +82,8 @@ module.exports = function (io) {
                 log('server.sockets.anothergame.newGameNum', newGameNum);
                 log('server.sockets.anothergame.previousGameNum', previousGameNum);
                 //emit to old game room to add to new game and socket room
-                socket.broadcast.to(previousGameNum).emit('another-game', newGameNum); //to all, except sender (host)
+                //socket.broadcast.to(previousGameNum).emit('another-game', newGameNum); //to all, except sender (host)
+                io.to(previousGameNum).emit('another-game', newGameNum); //to all
                 break;        
             case 'disconnect': 
                 log('server.sockets.user-disconnected', socket.id);
